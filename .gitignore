@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 .env
+.env.local
+roleStructure.png
 dist
 dist-ssr
 *.local
