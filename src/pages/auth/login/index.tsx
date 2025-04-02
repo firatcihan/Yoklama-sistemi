@@ -97,6 +97,8 @@ export default function Login() {
             <SubmitButton
               text={isPending ? <BeatLoader color={"#fff"} /> : "Log In"}
               onClick={handleSubmit}
+              bgColor="#1e376d"
+              onHoverColor="#2e4d8f"
             />
           </div>
           <div className="w-[290px] h-9 pt-3">

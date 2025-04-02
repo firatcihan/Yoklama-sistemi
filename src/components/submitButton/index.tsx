@@ -5,6 +5,7 @@ interface SubmitButtonProps
   color?: string;
   onHoverColor?: string;
   textIcon?: React.ReactNode | JSX.Element;
+  textIconPosition?: "left" | "right";
 }
 
 export default function SubmitButton({
@@ -13,6 +14,7 @@ export default function SubmitButton({
   textIcon,
   color = "#fff",
   onHoverColor = "#333",
+  textIconPosition = "right",
   ...props
 }: SubmitButtonProps) {
   return (
@@ -25,8 +27,14 @@ export default function SubmitButton({
       }
       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = bgColor)}
     >
-      <p className="flex leading-[22.5px] font-semibold text-[20px]">
-        {text} {textIcon && <span className="ml-3">{textIcon}</span>}
+      <p className="text-[15px] sm:text-[18px] flex leading-[22.5px] font-semibold text-center">
+        {textIcon && textIconPosition === "left" && (
+          <span className="mr-2 sm:mr-3">{textIcon}</span>
+        )}
+        {text}
+        {textIcon && textIconPosition === "right" && (
+          <span className="ml-2 sm:ml-3">{textIcon}</span>
+        )}
       </p>
     </button>
   );

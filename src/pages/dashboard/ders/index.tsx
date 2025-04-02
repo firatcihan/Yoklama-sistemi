@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useGetClasses from "@/api/dashboard/lectures/getClasses";
+import useGetClassesByUserId from "@/api/dashboard/lectures/getClassesByUserId.ts";
 import useAuthStore from "../../../stores/auth";
 
 export default function ManageLectures() {
-  const { data, isLoading, isError } = useGetClasses();
+  const { data, isLoading, isError } = useGetClassesByUserId();
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { id } = useParams<{ id: string }>();

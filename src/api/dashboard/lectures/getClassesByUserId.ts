@@ -9,7 +9,7 @@ interface Lecture {
   instructor: string;
 }
 
-const useGetClasses = () => {
+const useGetClassesByUserId = () => {
   const { user } = useAuthStore();
   const getClasses = async (): Promise<Lecture[]> => {
     const response = await axios.get(`${API_URL}/api/lectures/${user?.id}`);
@@ -22,4 +22,4 @@ const useGetClasses = () => {
   });
 };
 
-export default useGetClasses;
+export default useGetClassesByUserId;

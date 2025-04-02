@@ -72,6 +72,14 @@ h1 {
   line-height: 1.1;
 }
 
+.bg-primary {
+  background-color: #1e376d;
+}
+
+.bg-primary-hover {
+    background-color: #2e4d8f;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
