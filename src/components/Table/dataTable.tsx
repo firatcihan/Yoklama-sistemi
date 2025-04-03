@@ -36,11 +36,13 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  variant: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  variant,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -49,7 +51,8 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({ id: false, assignedClasses: false });
 
-  const [filter, setFilter] = React.useState<string>("email");
+  const startingFilter = variant === "lecture" ? "name" : "email";
+  const [filter, setFilter] = React.useState<string>(startingFilter);
 
   const table = useReactTable({
     data,
@@ -90,16 +93,44 @@ export function DataTable<TData, TValue>({
               <DropdownMenuLabel>Select Filter</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
-                <DropdownMenuRadioItem value="email">
-                  Email
+                {variant !== "lecture" && (
+                  <DropdownMenuRadioItem value="email">
+                    Email
+                  </DropdownMenuRadioItem>
+                )}
+                <DropdownMenuRadioItem value="name">
+                  {variant === "lecture" ? "Lecture Name" : "Name"}
                 </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="name">Name</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="studentNumber">
-                  Student Number
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="assignedClasses">
-                  Assigned Classes
-                </DropdownMenuRadioItem>
+                {variant === "student" && (
+                  <DropdownMenuRadioItem value="studentNumber">
+                    Student Number
+                  </DropdownMenuRadioItem>
+                )}
+                {variant === "student" && (
+                  <DropdownMenuRadioItem value="assignedClasses">
+                    Assigned Classes
+                  </DropdownMenuRadioItem>
+                )}
+                {variant === "teacher" && (
+                  <DropdownMenuRadioItem value="classes">
+                    Classes
+                  </DropdownMenuRadioItem>
+                )}
+                {variant === "lecture" && (
+                  <DropdownMenuRadioItem value="instructor">
+                    Instructor
+                  </DropdownMenuRadioItem>
+                )}
+                {variant === "lecture" && (
+                  <DropdownMenuRadioItem value="lectureCode">
+                    Lecture Code
+                  </DropdownMenuRadioItem>
+                )}
+                {variant === "lecture" && (
+                  <DropdownMenuRadioItem value="participantsCount">
+                    Participants Count
+                  </DropdownMenuRadioItem>
+                )}
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>

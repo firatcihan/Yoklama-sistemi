@@ -1,12 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "../../getBackendUrl";
-
-interface Lecture {
-    id: string;
-    name: string;
-    instructor: string;
-}
+import {Lecture} from "@/components/Table/LectureColumns.tsx";
 
 const useGetAllClasses = () => {
     const getClasses = async (): Promise<Lecture[]> => {
@@ -15,7 +10,7 @@ const useGetAllClasses = () => {
     };
 
     return useQuery<Lecture[]>({
-        queryKey: ["classes"],
+        queryKey: ["lectures"],
         queryFn: getClasses,
     });
 };

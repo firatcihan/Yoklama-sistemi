@@ -7,7 +7,12 @@ export default function CreateHeader({ close }: { close: () => void }) {
   return (
     <div className="flex flex-col justify-center items-center">
       <p className="text-xl font-semibold mt-2">
-        Create New {modal && modal.data === "student" ? "Student" : "Teacher"}
+        Create New{" "}
+        {modal && modal.data === "student"
+          ? "Student"
+          : modal && modal.data === "teacher"
+            ? "Teacher"
+            : "Lecture"}
       </p>
       <XSeparator />
       <div className="absolute top-1 right-1">

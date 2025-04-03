@@ -6,7 +6,7 @@ import MainLayout from "../components/MainLayout";
 import DashboardLayout from "../pages/dashboard/DashboardLayout";
 import Home from "../pages/Home";
 import Dashboard from "../pages/dashboard";
-import ManageLectures from "../pages/dashboard/ders";
+import ManageLectures from "../pages/dashboard/lectures";
 import ManageStudents from "@/pages/dashboard/students";
 import ManageTeachers from "@/pages/dashboard/teachers";
 import TeacherRoute from "@/components/TeacherRoute";

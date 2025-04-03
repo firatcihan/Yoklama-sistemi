@@ -11,8 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Student = {
   id: string;
   name: string;
@@ -21,7 +19,7 @@ export type Student = {
   studentNumber: string;
 };
 
-export const columns: ColumnDef<Student>[] = [
+export const studentColumns: ColumnDef<Student>[] = [
   {
     accessorKey: "id",
     header: "ID",

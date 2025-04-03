@@ -2,12 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "../../getBackendUrl";
 import useAuthStore from "../../../stores/auth";
+import {Lecture} from "@/components/Table/LectureColumns.tsx";
 
-interface Lecture {
-  id: string;
-  name: string;
-  instructor: string;
-}
 
 const useGetClassesByUserId = () => {
   const { user } = useAuthStore();
@@ -17,7 +13,7 @@ const useGetClassesByUserId = () => {
   };
 
   return useQuery<Lecture[]>({
-    queryKey: ["classes"],
+    queryKey: ["lectures"],
     queryFn: getClasses,
   });
 };

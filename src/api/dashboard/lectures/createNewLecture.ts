@@ -5,30 +5,29 @@ import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
 
-interface Student {
-  studentNumber: string;
+interface Lecture {
   name: string;
-  email: string;
-  password: string;
-  assignedClasses: string[];
+  lectureCode: string;
+  participants?: string[];
+  instructor?: string;
 }
 
-const useCreateStudent = () => {
+const useCreateLecture = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-  const createStudent = async (studentData: Student) => {
+  const createLecture = async (lectureData: Lecture) => {
     const response = await axios.post(
-      `${API_URL}/api/users/students`,
-      studentData,
+      `${API_URL}/api/users/lectures`,
+      lectureData,
     );
     return response.data;
   };
 
   return useMutation({
-    mutationFn: createStudent,
+    mutationFn: createLecture,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] });
-      toast.success("Öğrenci başarıyla oluşturuldu.");
+      queryClient.invalidateQueries({ queryKey: ["lectures"] });
+      toast.success("Ders başarıyla oluşturuldu.");
       closeModal();
     },
     onError: (error) => {
@@ -41,4 +40,4 @@ const useCreateStudent = () => {
   });
 };
 
-export default useCreateStudent;
+export default useCreateLecture;
