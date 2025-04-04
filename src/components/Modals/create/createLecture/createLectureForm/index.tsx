@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useGetStudents from "@/api/dashboard/students/getStudents.ts";
+import useGetTeachers from "@/api/dashboard/teachers/GetTeachers.ts";
 import useCreateLecture from "@/api/dashboard/lectures/createNewLecture.ts";
 import { z } from "zod";
 import { createLectureSchema } from "@/schemas/createLectureSchema";
@@ -9,7 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover.tsx";
-
+import XSeparator from "@/components/XSeparator";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Form,
@@ -24,12 +25,30 @@ import { Input } from "@/components/ui/input.tsx";
 import { Check, UserPlus } from "lucide-react";
 import React from "react";
 import { PulseLoader } from "react-spinners";
+import { ModalProps } from "@/components/Modals/allModals.ts";
 
-export default function CreateLectureForm({ close }: { close: () => void }) {
+export default function CreateLectureForm({ close }: ModalProps) {
   const { data: students } = useGetStudents();
+  const { data: teachers } = useGetTeachers();
   const { mutate: createLecture, isPending } = useCreateLecture();
   const popoverRef = React.useRef<HTMLDivElement>(null);
-  const [selectedStudents, setSelectedStudents] = React.useState<string[]>([]);
+  const popoverRef2 = React.useRef<HTMLDivElement>(null);
+
+  interface selectedTeacher {
+    id: string;
+    name: string;
+    email: string;
+  }
+  interface selectedStudent {
+    name: string;
+    studentNumber: string;
+  }
+  const [selectedStudents, setSelectedStudents] = React.useState<
+    selectedStudent[]
+  >([]);
+  const [selectedTeacher, setSelectedTeacher] = React.useState<selectedTeacher>(
+    { id: "", name: "", email: "" },
+  );
 
   function onSubmit(values: z.infer<typeof createLectureSchema>) {
     createLecture(values);
@@ -40,7 +59,7 @@ export default function CreateLectureForm({ close }: { close: () => void }) {
     defaultValues: {
       name: "",
       lectureCode: "",
-      instructor: "",
+      instructor: {},
       participants: [],
     },
   });
@@ -89,13 +108,70 @@ export default function CreateLectureForm({ close }: { close: () => void }) {
             control={createLectureForm.control}
             name="instructor"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="!dontClose">
                 <FormLabel className="text-[16px] font-semibold">
                   Dersi bir öğretmene atayın.
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="***********" {...field} />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Öğretmen seçiniz</Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      ref={popoverRef2}
+                      className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
+                    >
+                      {teachers?.map((teacher) => (
+                        <div key={teacher.id}>
+                          <div
+                            onClick={() => {
+                              if (selectedTeacher.id === teacher.id) {
+                                setSelectedTeacher({
+                                  id: "",
+                                  name: "",
+                                  email: "",
+                                });
+                                field.onChange({ id: "", name: "", email: "" });
+                              } else {
+                                setSelectedTeacher({
+                                  id: teacher.id,
+                                  name: teacher.name,
+                                  email: teacher.email,
+                                });
+                                field.onChange({
+                                  id: teacher.id,
+                                  name: teacher.name,
+                                  email: teacher.email,
+                                });
+                              }
+                            }}
+                            className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
+                          >
+                            <div className="w-[15%] flex items-center justify-center">
+                              {selectedTeacher.id === teacher.id && <Check />}
+                            </div>
+                            <div className="flex flex-col space-x-2">
+                              <div className="text-sm font-medium">
+                                {teacher.name}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {teacher.email}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-center">
+                            <XSeparator extraClasses="!mt-0" />
+                          </div>
+                        </div>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
                 </FormControl>
+                <FormDescription>
+                  Seçtiğiniz öğretmen:{" "}
+                  {selectedTeacher.name || "Derse atanamış öğretmen yok."}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -115,45 +191,65 @@ export default function CreateLectureForm({ close }: { close: () => void }) {
                     </PopoverTrigger>
                     <PopoverContent
                       ref={popoverRef}
-                      className="dontClose w-80 flex flex-col !p-1"
+                      className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
                     >
                       {students?.map((student) => (
-                        <div
-                          onClick={() => {
-                            let updatedClasses;
-                            if (selectedStudents.includes(student.name)) {
-                              updatedClasses = selectedStudents.filter(
-                                (item) => item !== student.name,
-                              );
-                            } else {
-                              updatedClasses = [...selectedStudents, student.name];
-                            }
-                            setSelectedStudents(updatedClasses);
-                            field.onChange(updatedClasses);
-                          }}
-                          key={student.id}
-                          className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
-                        >
-                          <span className="mr-3">
-                            <Check
-                              color={
-                                selectedStudents.includes(student.name)
-                                  ? "black"
-                                  : "white"
-                              }
-                            />
-                          </span>
-                          <p className="truncate">{student.name}</p>
+                        <div>
+                          <div
+                            onClick={() => {
+                              setSelectedStudents((prev) => {
+                                const isSelected = prev.some(
+                                  (s) =>
+                                    s.studentNumber === student.studentNumber,
+                                );
+                                const updatedStudents = isSelected
+                                  ? prev.filter(
+                                      (s) =>
+                                        s.studentNumber !==
+                                        student.studentNumber,
+                                    )
+                                  : [
+                                      ...prev,
+                                      {
+                                        name: student.name,
+                                        studentNumber: student.studentNumber,
+                                      },
+                                    ];
+                                field.onChange(updatedStudents);
+                                return updatedStudents;
+                              });
+                            }}
+                            key={student.id}
+                            className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
+                          >
+                            <div className="w-[15%] flex items-center justify-center">
+                              {selectedStudents.some(
+                                (s) =>
+                                  s.studentNumber === student.studentNumber,
+                              ) && <Check size={21} />}
+                            </div>
+                            <div className="w-[40%] truncate">
+                              {student.name}
+                            </div>
+                            <div className="w-[40%]">
+                              {student.studentNumber}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-center">
+                            <XSeparator />
+                          </div>
                         </div>
                       ))}
                     </PopoverContent>
                   </Popover>
                 </FormControl>
-                <div className="flex gap-2">
+                <FormDescription>
+                  Seçtiğiniz öğrenciler:{" "}
                   {selectedStudents.length > 0
-                    ? selectedStudents.map((lec) => <div key={lec}>{lec}</div>)
-                    : ""}
-                </div>
+                    ? selectedStudents.map((s) => s.name).join(", ")
+                    : "Derse kayıtlı öğrenci yok."}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

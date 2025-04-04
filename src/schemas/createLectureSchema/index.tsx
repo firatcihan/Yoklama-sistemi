@@ -8,11 +8,17 @@ export const createLectureSchema = z.object({
     .nonempty("İsim alanı boş bırakılamaz."),
   lectureCode: z
     .string()
-    .min(3, "Ders Kodu en az 3 karakter olmalıdır.")
-    .max(30, "Ders Kodu en fazla 50 karakter olabilir.")
+    .regex(
+      /^[A-Za-z]{3}\d{4}$/,
+      "Ders Kodu ilk 3 karakter harf ve son 4 karakter rakam olmalıdır.",
+    )
     .nonempty("Ders kodu alanı boş bırakılamaz."),
-  participants: z.array(z.string()).optional(),
-  instructor: z.string().optional(),
+  participants: z
+    .array(z.object({ studentNumber: z.string(), name: z.string() }))
+    .optional(),
+  instructor: z
+    .object({ id: z.string(), name: z.string(), email: z.string() })
+    .optional(),
 });
 
 export type createLectureFormData = z.infer<typeof createLectureSchema>;

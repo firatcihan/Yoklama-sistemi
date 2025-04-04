@@ -15,7 +15,10 @@ export type Lecture = {
   id: string;
   name: string;
   lectureCode: string;
-  participants: string[];
+  participants: {
+    studentNumber: string;
+    name: string;
+  }[];
   instructor: {
     id: string;
     name: string;
@@ -124,7 +127,7 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(lecture.id)}
+              onClick={() => console.log("Lecture ID copied:", lecture.id)}
             >
               Copy lecture id
             </DropdownMenuItem>
