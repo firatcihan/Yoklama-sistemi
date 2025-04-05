@@ -194,7 +194,7 @@ export default function CreateLectureForm({ close }: ModalProps) {
                       className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
                     >
                       {students?.map((student) => (
-                        <div>
+                        <div key={student.id}>
                           <div
                             onClick={() => {
                               setSelectedStudents((prev) => {

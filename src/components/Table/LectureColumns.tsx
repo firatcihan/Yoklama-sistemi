@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
+import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -82,7 +83,9 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
       const instructor = row.original.instructor;
       return (
         <div className="flex flex-col items-center space-x-2">
-          <div className="text-sm font-medium">{instructor.name || "Ders Atanmamış"}</div>
+          <div className="text-sm font-medium">
+            {instructor.name || "Ders Atanmamış"}
+          </div>
           <div className="text-xs text-muted-foreground">
             {instructor.email}
           </div>
@@ -114,8 +117,7 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const lecture = row.original;
-
+      const { setModal } = useModalStore();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,9 +129,9 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => console.log("Lecture ID copied:", lecture.id)}
+              onClick={() => setModal("viewLecture", row.original.id)}
             >
-              Copy lecture id
+              View lecture details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Student</DropdownMenuItem>

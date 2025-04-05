@@ -8,7 +8,7 @@ import {Lecture} from "@/components/Table/LectureColumns.tsx";
 const useGetClassesByUserId = () => {
   const { user } = useAuthStore();
   const getClasses = async (): Promise<Lecture[]> => {
-    const response = await axios.get(`${API_URL}/api/lectures/${user?.id}`);
+    const response = await axios.get(`${API_URL}/api/lectures/userClasses/${user?.id}`);
     return response.data;
   };
 

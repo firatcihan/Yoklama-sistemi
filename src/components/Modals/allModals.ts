@@ -1,6 +1,7 @@
 import CreateStudentModal from "@/components/Modals/create/createStudent";
 import CreateTeacherModal from "@/components/Modals/create/createTeacher";
 import CreateLectureModal from "@/components/Modals/create/createLecture";
+import ViewLecture from "@/components/Modals/viewLecture";
 
 export interface ModalProps {
   close: () => void;
@@ -19,6 +20,22 @@ const Modals = [
   {
     name: "createLecture",
     element: CreateLectureModal,
+  },
+  {
+    name: "editStudent",
+    element: CreateStudentModal,
+  },
+  {
+    name: "editTeacher",
+    element: CreateTeacherModal,
+  },
+  {
+    name: "editLecture",
+    element: CreateLectureModal,
+  },
+  {
+    name: "viewLecture",
+    element: ViewLecture,
   },
 ];
 

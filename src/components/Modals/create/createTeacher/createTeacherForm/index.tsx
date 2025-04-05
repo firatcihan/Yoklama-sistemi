@@ -117,12 +117,15 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                         <div
                           onClick={() => {
                             let updatedClasses;
-                            if (selectedClasses.includes(lecture.id)) {
+                            if (selectedClasses.includes(lecture.lectureCode)) {
                               updatedClasses = selectedClasses.filter(
-                                (item) => item !== lecture.id,
+                                (item) => item !== lecture.lectureCode,
                               );
                             } else {
-                              updatedClasses = [...selectedClasses, lecture.id];
+                              updatedClasses = [
+                                ...selectedClasses,
+                                lecture.lectureCode,
+                              ];
                             }
                             setSelectedClasses(updatedClasses);
                             field.onChange(updatedClasses);
@@ -130,17 +133,15 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                           key={lecture.id}
                           className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
                         >
-                          <span className="mr-3">
-                            <Check
-                              color={
-                                selectedClasses.includes(lecture.id)
-                                  ? "black"
-                                  : "white"
-                              }
-                            />
-                          </span>
-                          <span className="mr-3">{lecture.id}</span>
-                          <p className="truncate">{lecture.name}</p>
+                          <div className="w-[15%] flex items-center justify-center">
+                            {selectedClasses.includes(lecture.lectureCode) && (
+                              <Check size={21} />
+                            )}
+                          </div>
+                          <div className="w-[60%] truncate">{lecture.name}</div>
+                          <div className="w-[15%] ml-2">
+                            {lecture.lectureCode}
+                          </div>
                         </div>
                       ))}
                     </PopoverContent>

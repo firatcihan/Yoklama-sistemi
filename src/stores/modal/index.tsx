@@ -1,7 +1,7 @@
 import { create } from "zustand";
 type Store = {
-  modal: { name: string; data?: string | undefined } | false;
-  setModal: (name: string, data?: string) => void;
+  modal: { name: string; data?: any} | false;
+  setModal: (name: string, data?: any) => void;
   closeModal: () => void;
 };
 
