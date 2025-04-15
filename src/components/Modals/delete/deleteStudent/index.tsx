@@ -16,7 +16,7 @@ export default function DeleteStudentModal({ close }: { close: () => void }) {
         data: studentToDelete,
         isPending,
         isSuccess,
-    } = useGetStudentById({ id: !modal ? "" : modal.data ? modal.data : "" });
+    } = useGetStudentById({ id: !modal[0] ? "" : modal[0].data ? modal[0].data : "" });
 
     return (
         <div className="w-[350px] sm:w-[450px] bg-white rounded-lg shadow-lg p-4 flex flex-col">

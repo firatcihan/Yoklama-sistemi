@@ -45,7 +45,7 @@ export default function ManageStudents() {
               onHoverColor="#2e4d8f"
               textIconPosition="left"
               textIcon={<UserPlus className="w-5 h-5" />}
-              onClick={() => setModal("createTeacher", "teacher")}
+              onClick={() => setModal({ name: "createTeacher", data: "teacher" })}
             />
           </div>
         </div>

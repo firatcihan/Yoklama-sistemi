@@ -1,19 +1,27 @@
 import useGetLectureById from "@/api/dashboard/lectures/getLectureById.ts";
 import useModalStore from "@/stores/modal";
 import { ModalProps } from "@/components/Modals/allModals.ts";
-import { X, Hash, Users, Clock, CalendarDays, UserPen, History } from "lucide-react";
+import {
+  X,
+  Hash,
+  Users,
+  Clock,
+  CalendarDays,
+  UserPen,
+  History,
+} from "lucide-react";
 import XSeparator from "@/components/XSeparator";
 
 export default function ViewLecture({ close }: ModalProps) {
-  const { modal } = useModalStore();
+  const { modal, setModal } = useModalStore();
   const { data: lectureData } = useGetLectureById({
-    id: modal && modal.data ? modal.data : "",
+    id: modal[0] && modal[0].data ? modal[0].data : "",
   });
 
   if (!lectureData) return <div>Ders ile ilgili veri bulunamadı...</div>;
 
   return (
-    <div className="w-[380px] sm:w-[500px] md:w-[620px] bg-white shadow-lg flex flex-col relative">
+    <div className="w-[380px] sm:w-[500px] md:w-[620px] bg-white flex flex-col relative">
       <div className="flex items-center justify-between p-4">
         <p className="font-semibold leading-7 text-[20px]">Lecture Details</p>
         <div
@@ -26,13 +34,15 @@ export default function ViewLecture({ close }: ModalProps) {
       <XSeparator extraClasses="!w-[100%] !mt-0" />
       <div className="p-6">
         <p className="font-bold leading-8 text-[24px] mb-2">
-          Introduction to Computer Science
+          {lectureData.name}
         </p>
         <div className="text-[#4b5563] flex items-center mb-4">
           <div className="mr-1.5">
             <Hash size={16} />
           </div>
-          <p className="text-[14px] font-normal leading-5">CS101</p>
+          <p className="text-[14px] font-normal leading-5">
+            {lectureData.lectureCode}
+          </p>
         </div>
         <XSeparator extraClasses="!w-[100%] !mt-0 !mb-6" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6.5">
@@ -67,9 +77,16 @@ export default function ViewLecture({ close }: ModalProps) {
                 <span className="mr-2">
                   {lectureData.participants.length} students
                 </span>
-                <button className="!py-0 text-[14px] text-blue-500 !bg-white hover:!bg-gray-100 !transition-colors hover:!border-[#f9f9f9] !outline-none ">
-                  view list
-                </button>
+                {lectureData.participants.length > 0 && (
+                  <button
+                    onClick={() =>
+                      setModal({ name: "viewAssignedStudents", data: "" })
+                    }
+                    className="!py-0 text-[14px] text-blue-500 !bg-white hover:!bg-gray-100 !transition-colors hover:!border-[#f9f9f9] !outline-none "
+                  >
+                    view list
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -90,7 +107,7 @@ export default function ViewLecture({ close }: ModalProps) {
         </div>
         <div className="rounded-lg bg-gray-50 p-4 space-y-3">
           <h4 className="text-md font-medium text-gray-500 flex items-center">
-              <History className="mr-2" />
+            <History className="mr-2" />
             Timeline
           </h4>
           <div className="space-y-2">

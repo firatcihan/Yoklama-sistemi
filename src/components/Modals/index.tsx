@@ -1,27 +1,29 @@
 import Modals from "./allModals";
 import useModalStore from "@/stores/modal";
-import { useClickAway } from "react-use";
-import { useRef } from "react";
+import ModalWrapper from "@/components/Modals/modalWrapper.tsx";
 
 export default function Modal() {
-  const { modal, closeModal } = useModalStore();
-  const modalRef = useRef<HTMLDivElement>(null);
+  const { modal: modalStack } = useModalStore();
 
-  useClickAway(modalRef, (event) => {
-    if ((event.target as Element)?.closest(".dontClose")) return;
-    closeModal();
-  });
-
-  if (!modal) return null;
-  const currentModal = modal.name
-    ? Modals.find((m) => m.name === modal.name)
-    : false;
+  if (modalStack.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center bg-[#000000a6] justify-center z-20">
-      <div ref={modalRef} className="overflow-auto rounded-md">
-        {currentModal && <currentModal.element close={closeModal} />}
-      </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000a6]">
+      {modalStack.map((modal, index) => {
+        const modalComponent = Modals.find((m) => m.name === modal.name);
+        if (!modalComponent) return null;
+
+        const isTop = index === modalStack.length - 1;
+
+        return (
+          <ModalWrapper
+            key={index}
+            element={modalComponent.element}
+            data={modal.data}
+            isTop={isTop}
+          />
+        );
+      })}
     </div>
   );
 }

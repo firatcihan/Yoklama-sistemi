@@ -18,12 +18,12 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
   const handleDelete = () => {
     if (teacherId) {
-      setModal("deleteTeacher", teacherId);
+      setModal({ name: "deleteTeacher", data: teacherId });
     } else if (studentId) {
-      setModal("deleteStudent", studentId);
+      setModal({ name: "deleteStudent", data: studentId });
     } else if (lectureId) {
-      console.log(lectureId)
-      setModal("deleteLecture", lectureId);
+      console.log(lectureId);
+      setModal({ name: "deleteLecture", data: lectureId });
     }
   };
 

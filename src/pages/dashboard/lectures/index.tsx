@@ -42,7 +42,7 @@ export default function ManageLectures() {
               onHoverColor="#2e4d8f"
               textIconPosition="left"
               textIcon={<ClipboardPlus className="w-5 h-5" />}
-              onClick={() => setModal("createLecture", "lecture")}
+              onClick={() => setModal({name: "createLecture", data: "lecture"})}
             />
           </div>
         </div>

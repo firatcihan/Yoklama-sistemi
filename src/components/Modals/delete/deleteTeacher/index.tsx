@@ -16,7 +16,9 @@ export default function DeleteTeacherModal({ close }: { close: () => void }) {
     data: teacherToDelete,
     isPending,
     isSuccess,
-  } = useGetTeacherById({ id: !modal ? "" : modal.data ? modal.data : "" });
+  } = useGetTeacherById({
+    id: !modal[0] ? "" : modal[0].data ? modal[0].data : "",
+  });
 
   return (
     <div className="w-[350px] sm:w-[450px] bg-white rounded-lg shadow-lg p-4 flex flex-col">

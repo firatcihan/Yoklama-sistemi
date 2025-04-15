@@ -130,7 +130,9 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => setModal("viewLecture", row.original.id)}
+              onClick={() =>
+                setModal({ name: "viewLecture", data: row.original.id })
+              }
             >
               View lecture details
             </DropdownMenuItem>
