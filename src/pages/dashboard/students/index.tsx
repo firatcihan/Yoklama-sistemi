@@ -9,14 +9,17 @@ export default function ManageStudents() {
   const { setModal } = useModalStore();
   const { data, isLoading, isError } = useGetStudents();
   const students: Student[] =
-    data?.map((student) => ({
-      id: student.id,
-      name: student.name,
-      email: student.email,
-      assignedClasses: student.assignedClasses.join(", "),
-      studentNumber: student.studentNumber,
-    })) || [];
+    data && data.length > 0
+      ? data?.map((student) => ({
+          id: student.id,
+          name: student.name,
+          email: student.email,
+          assignedClasses: student.assignedClasses.join(", "),
+          studentNumber: student.studentNumber,
+        }))
+      : [];
 
+  console.log(students);
   if (isLoading) {
     return <div>loading...</div>;
   }
@@ -24,8 +27,6 @@ export default function ManageStudents() {
   if (isError) {
     return <div>error...</div>;
   }
-
-  console.log(students[2].assignedClasses);
 
   return (
     <>

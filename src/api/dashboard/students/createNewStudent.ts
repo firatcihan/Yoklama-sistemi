@@ -4,19 +4,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
-
-interface Student {
-  studentNumber: string;
-  name: string;
-  email: string;
-  password: string;
-  assignedClasses: string[];
-}
+import { CreateStudentInterface } from "@/api/dashboard/students/studentInterface.ts";
 
 const useCreateStudent = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-  const createStudent = async (studentData: Student) => {
+  const createStudent = async (studentData: CreateStudentInterface) => {
     const response = await axios.post(
       `${API_URL}/api/users/students`,
       studentData,

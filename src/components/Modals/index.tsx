@@ -19,7 +19,7 @@ export default function Modal() {
 
   return (
     <div className="fixed inset-0 flex items-center bg-[#000000a6] justify-center z-20">
-      <div ref={modalRef} className="overflow-auto rounded-2xl">
+      <div ref={modalRef} className="overflow-auto rounded-md">
         {currentModal && <currentModal.element close={closeModal} />}
       </div>
     </div>

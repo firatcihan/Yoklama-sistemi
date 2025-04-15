@@ -17,8 +17,12 @@ export const createLectureSchema = z.object({
     .array(z.object({ studentNumber: z.string(), name: z.string() }))
     .optional(),
   instructor: z
-    .object({ id: z.string(), name: z.string(), email: z.string() })
-    .optional(),
+      .object({
+        id: z.string(),
+        name: z.string(),
+        email: z.string(),
+      })
+      .optional(),
 });
 
 export type createLectureFormData = z.infer<typeof createLectureSchema>;

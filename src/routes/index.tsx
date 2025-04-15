@@ -33,7 +33,7 @@ const baseRoutes = [
         element: <Dashboard />,
       },
       {
-        //hala daha lecturesda id ye gönderiyorsun bunu düzelt admin ise lectureste herşeyi görecek teacher ise sadece kendi derslerini görebilecek
+        //hala daha lecturesda id ye gönderiyorsun bunu düzelt admin ise lectureste herşeyi görecek deleteTeacher ise sadece kendi derslerini görebilecek
         path: "lectures/:id",
         element: <ManageLectures />,
       },

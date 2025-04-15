@@ -59,7 +59,7 @@ export default function CreateLectureForm({ close }: ModalProps) {
     defaultValues: {
       name: "",
       lectureCode: "",
-      instructor: {},
+      instructor: undefined,
       participants: [],
     },
   });
@@ -121,56 +121,64 @@ export default function CreateLectureForm({ close }: ModalProps) {
                       ref={popoverRef2}
                       className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
                     >
-                      {teachers?.map((teacher) => (
-                        <div key={teacher.id}>
-                          <div
-                            onClick={() => {
-                              if (selectedTeacher.id === teacher.id) {
-                                setSelectedTeacher({
-                                  id: "",
-                                  name: "",
-                                  email: "",
-                                });
-                                field.onChange({ id: "", name: "", email: "" });
-                              } else {
-                                setSelectedTeacher({
-                                  id: teacher.id,
-                                  name: teacher.name,
-                                  email: teacher.email,
-                                });
-                                field.onChange({
-                                  id: teacher.id,
-                                  name: teacher.name,
-                                  email: teacher.email,
-                                });
-                              }
-                            }}
-                            className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
-                          >
-                            <div className="w-[15%] flex items-center justify-center">
-                              {selectedTeacher.id === teacher.id && <Check />}
-                            </div>
-                            <div className="flex flex-col space-x-2">
-                              <div className="text-sm font-medium">
-                                {teacher.name}
+                      {teachers && teachers.length > 0
+                        ? teachers?.map((teacher) => (
+                            <div key={teacher.id}>
+                              <div
+                                onClick={() => {
+                                  if (selectedTeacher.id === teacher.id) {
+                                    setSelectedTeacher({
+                                      id: "",
+                                      name: "",
+                                      email: "",
+                                    });
+                                    field.onChange({
+                                      id: "",
+                                      name: "",
+                                      email: "",
+                                    });
+                                  } else {
+                                    setSelectedTeacher({
+                                      id: teacher.id,
+                                      name: teacher.name,
+                                      email: teacher.email,
+                                    });
+                                    field.onChange({
+                                      id: teacher.id,
+                                      name: teacher.name,
+                                      email: teacher.email,
+                                    });
+                                  }
+                                }}
+                                className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
+                              >
+                                <div className="w-[15%] flex items-center justify-center">
+                                  {selectedTeacher.id === teacher.id && (
+                                    <Check />
+                                  )}
+                                </div>
+                                <div className="flex flex-col space-x-2">
+                                  <div className="text-sm font-medium">
+                                    {teacher.name}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground">
+                                    {teacher.email}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                {teacher.email}
-                              </div>
-                            </div>
-                          </div>
 
-                          <div className="flex items-center justify-center">
-                            <XSeparator extraClasses="!mt-0" />
-                          </div>
-                        </div>
-                      ))}
+                              <div className="flex items-center justify-center">
+                                <XSeparator extraClasses="!mt-0" />
+                              </div>
+                            </div>
+                          ))
+                        : "Öğretmen bulunamadı."}
                     </PopoverContent>
                   </Popover>
                 </FormControl>
                 <FormDescription>
                   Seçtiğiniz öğretmen:{" "}
-                  {selectedTeacher.name || "Derse atanamış öğretmen yok."}
+                  {selectedTeacher.name || "Derse atanmış öğretmen yok."}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -193,54 +201,58 @@ export default function CreateLectureForm({ close }: ModalProps) {
                       ref={popoverRef}
                       className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
                     >
-                      {students?.map((student) => (
-                        <div key={student.id}>
-                          <div
-                            onClick={() => {
-                              setSelectedStudents((prev) => {
-                                const isSelected = prev.some(
-                                  (s) =>
-                                    s.studentNumber === student.studentNumber,
-                                );
-                                const updatedStudents = isSelected
-                                  ? prev.filter(
+                      {students && students.length > 0
+                        ? students?.map((student) => (
+                            <div key={student.id}>
+                              <div
+                                onClick={() => {
+                                  setSelectedStudents((prev) => {
+                                    const isSelected = prev.some(
                                       (s) =>
-                                        s.studentNumber !==
+                                        s.studentNumber ===
                                         student.studentNumber,
-                                    )
-                                  : [
-                                      ...prev,
-                                      {
-                                        name: student.name,
-                                        studentNumber: student.studentNumber,
-                                      },
-                                    ];
-                                field.onChange(updatedStudents);
-                                return updatedStudents;
-                              });
-                            }}
-                            key={student.id}
-                            className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
-                          >
-                            <div className="w-[15%] flex items-center justify-center">
-                              {selectedStudents.some(
-                                (s) =>
-                                  s.studentNumber === student.studentNumber,
-                              ) && <Check size={21} />}
-                            </div>
-                            <div className="w-[40%] truncate">
-                              {student.name}
-                            </div>
-                            <div className="w-[40%]">
-                              {student.studentNumber}
-                            </div>
-                          </div>
+                                    );
+                                    const updatedStudents = isSelected
+                                      ? prev.filter(
+                                          (s) =>
+                                            s.studentNumber !==
+                                            student.studentNumber,
+                                        )
+                                      : [
+                                          ...prev,
+                                          {
+                                            name: student.name,
+                                            studentNumber:
+                                              student.studentNumber,
+                                          },
+                                        ];
+                                    field.onChange(updatedStudents);
+                                    return updatedStudents;
+                                  });
+                                }}
+                                key={student.id}
+                                className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
+                              >
+                                <div className="w-[15%] flex items-center justify-center">
+                                  {selectedStudents.some(
+                                    (s) =>
+                                      s.studentNumber === student.studentNumber,
+                                  ) && <Check size={21} />}
+                                </div>
+                                <div className="w-[40%] truncate mr-3">
+                                  {student.name}
+                                </div>
+                                <div className="w-[40%]">
+                                  {student.studentNumber}
+                                </div>
+                              </div>
 
-                          <div className="flex items-center justify-center">
-                            <XSeparator />
-                          </div>
-                        </div>
-                      ))}
+                              <div className="flex items-center justify-center">
+                                <XSeparator />
+                              </div>
+                            </div>
+                          ))
+                        : "Öğrenci bulunamadı."}
                     </PopoverContent>
                   </Popover>
                 </FormControl>

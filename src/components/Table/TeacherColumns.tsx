@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
+import DeleteButton from "@/components/Table/components/deleteButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu.tsx";
 
 export type Teacher = {
   id: string;
@@ -48,8 +49,6 @@ export const teacherColumns: ColumnDef<Teacher>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const student = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -60,14 +59,10 @@ export const teacherColumns: ColumnDef<Teacher>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(student.email)}
-            >
-              Copy Student Email
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Student</DropdownMenuItem>
-            <DropdownMenuItem>View Student Details</DropdownMenuItem>
+            <DropdownMenuItem>View Teacher</DropdownMenuItem>
+            <DropdownMenuItem>Edit Teacher</DropdownMenuItem>
+            <DeleteButton teacherId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

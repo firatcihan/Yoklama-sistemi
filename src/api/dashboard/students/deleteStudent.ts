@@ -4,24 +4,23 @@ import { useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
-import { CreateTeacherInterface } from "@/api/dashboard/teachers/teacherInterface.ts";
+import { DeleteStudentInterface } from "@/api/dashboard/students/studentInterface.ts";
 
-const useCreateTeacher = () => {
+const useDeleteStudent = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-  const createTeacher = async (teacherData: CreateTeacherInterface) => {
-    const response = await axios.post(
-      `${API_URL}/api/users/teachers`,
-      teacherData,
-    );
+  const deleteStudent = async (studentId: DeleteStudentInterface) => {
+    const response = await axios.delete(`${API_URL}/api/users`, {
+      data: studentId,
+    });
     return response.data;
   };
 
   return useMutation({
-    mutationFn: createTeacher,
+    mutationFn: deleteStudent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachers"] });
-      toast.success("Öğretmen başarıyla oluşturuldu.");
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+      toast.success("Öğrenci başarıyla silindi.");
       closeModal();
     },
     onError: (error) => {
@@ -34,4 +33,4 @@ const useCreateTeacher = () => {
   });
 };
 
-export default useCreateTeacher;
+export default useDeleteStudent;

@@ -52,6 +52,9 @@ export default function Dashboard() {
           />
         </div>
       )}
+        <div>
+            delete student delete lecture modallarını yap, backendde fonksiyonlara ayır derse ata, dersten çıkar vb...
+        </div>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import DeleteButton from "@/components/Table/components/deleteButton";
 
 export type Student = {
   id: string;
@@ -85,7 +86,7 @@ export const studentColumns: ColumnDef<Student>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Student</DropdownMenuItem>
-            <DropdownMenuItem>View Student Details</DropdownMenuItem>
+            <DeleteButton studentId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

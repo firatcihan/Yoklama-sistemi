@@ -2,6 +2,9 @@ import CreateStudentModal from "@/components/Modals/create/createStudent";
 import CreateTeacherModal from "@/components/Modals/create/createTeacher";
 import CreateLectureModal from "@/components/Modals/create/createLecture";
 import ViewLecture from "@/components/Modals/viewLecture";
+import DeleteTeacherModal from "@/components/Modals/delete/deleteTeacher";
+import DeleteStudentModal from "@/components/Modals/delete/deleteStudent";
+import DeleteLectureModal from "@/components/Modals/delete/deleteLecture";
 
 export interface ModalProps {
   close: () => void;
@@ -22,16 +25,16 @@ const Modals = [
     element: CreateLectureModal,
   },
   {
-    name: "editStudent",
-    element: CreateStudentModal,
+    name: "deleteTeacher",
+    element: DeleteTeacherModal,
   },
   {
-    name: "editTeacher",
-    element: CreateTeacherModal,
+    name: "deleteStudent",
+    element: DeleteStudentModal,
   },
   {
-    name: "editLecture",
-    element: CreateLectureModal,
+    name: "deleteLecture",
+    element: DeleteLectureModal,
   },
   {
     name: "viewLecture",

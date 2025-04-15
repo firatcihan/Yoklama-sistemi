@@ -9,14 +9,16 @@ export default function ManageLectures() {
   const { setModal } = useModalStore();
   const { data, isLoading, isError } = useGetAllClasses();
   const lectures: Lecture[] =
-    data?.map((lecture) => ({
-      id: lecture.id,
-      name: lecture.name,
-      instructor: lecture.instructor,
-      participants: lecture.participants,
-      lectureCode: lecture.lectureCode,
-      participantsCount: lecture.participants.length.toString(),
-    })) || [];
+    data && data.length > 0
+      ? data?.map((lecture) => ({
+          id: lecture.id,
+          name: lecture.name,
+          instructor: lecture.instructor,
+          participants: lecture.participants,
+          lectureCode: lecture.lectureCode,
+          participantsCount: lecture.participants.length.toString(),
+        }))
+      : [];
 
   if (isLoading) {
     return <div>loading...</div>;

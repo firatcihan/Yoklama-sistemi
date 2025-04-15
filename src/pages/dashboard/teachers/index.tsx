@@ -10,12 +10,14 @@ export default function ManageStudents() {
   const { setModal, modal } = useModalStore();
   const { data, isLoading, isError } = useGetTeachers();
   const teachers: Teacher[] =
-    data?.map((teacher) => ({
-      id: teacher.id,
-      name: teacher.name,
-      email: teacher.email,
-      classes: teacher.classes.join(", "),
-    })) || [];
+    data && data.length > 0
+      ? data?.map((teacher) => ({
+          id: teacher.id,
+          name: teacher.name,
+          email: teacher.email,
+          classes: teacher.classes.join(", "),
+        }))
+      : [];
 
   useEffect(() => {
     console.log(modal);

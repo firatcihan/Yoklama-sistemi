@@ -4,25 +4,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
-
-interface LectureProps {
-  name: string;
-  lectureCode: string;
-  participants?: {
-    studentNumber: string;
-    name: string;
-  }[];
-  instructor?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-}
+import { CreateLectureInterface } from "@/api/dashboard/lectures/lectureInterface.ts";
 
 const useCreateLecture = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-  const createLecture = async (lectureData: LectureProps) => {
+  const createLecture = async (lectureData: CreateLectureInterface) => {
     const response = await axios.post(`${API_URL}/api/lectures`, lectureData);
     return response.data;
   };
