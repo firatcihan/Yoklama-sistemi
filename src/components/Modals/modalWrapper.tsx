@@ -33,8 +33,8 @@ export default function ModalWrapper({
     >
       <div
         ref={modalRef}
-        className={`rounded-md bg-white p-4 ${
-          !isTop ? "opacity-80 scale-[0.97]" : ""
+        className={`rounded-md bg-white p-1.5 ${
+          !isTop ? "opacity-10 scale-[0.97]" : ""
         } transition-all duration-200`}
       >
         <Component close={closeModal} {...data} />

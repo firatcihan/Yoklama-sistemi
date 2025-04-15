@@ -1,4 +1,7 @@
 import useGetLectureById from "@/api/dashboard/lectures/getLectureById.ts";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 import useModalStore from "@/stores/modal";
 import { ModalProps } from "@/components/Modals/allModals.ts";
 import {
@@ -18,10 +21,14 @@ export default function ViewLecture({ close }: ModalProps) {
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
 
+  function formatUTCDate(dateString: string): string {
+    return dayjs.utc(dateString).format("MMMM D, YYYY [at] h:mm A");
+  }
+
   if (!lectureData) return <div>Ders ile ilgili veri bulunamadı...</div>;
 
   return (
-    <div className="w-[380px] sm:w-[500px] md:w-[620px] bg-white flex flex-col relative">
+    <div className="w-[350px] sm:w-[500px] md:w-[620px] bg-white flex flex-col relative">
       <div className="flex items-center justify-between p-4">
         <p className="font-semibold leading-7 text-[20px]">Lecture Details</p>
         <div
@@ -113,11 +120,15 @@ export default function ViewLecture({ close }: ModalProps) {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Created</span>
-              <span className="text-gray-900">March 1, 2024 at 12:00 PM</span>
+              <span className="text-gray-900">
+                {formatUTCDate(lectureData.createTime)}
+              </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Last Updated</span>
-              <span className="text-gray-900">March 15, 2024 at 05:30 PM</span>
+              <span className="text-gray-900">
+                {formatUTCDate(lectureData.lastUpdateTime)}
+              </span>
             </div>
           </div>
         </div>

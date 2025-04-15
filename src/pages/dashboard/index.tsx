@@ -5,7 +5,7 @@ import useAuthStore from "../../stores/auth";
 
 export default function Dashboard() {
   const { user } = useAuthStore();
-  console.log(user)
+  console.log(user);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col px-2">
@@ -52,9 +52,11 @@ export default function Dashboard() {
           />
         </div>
       )}
-        <div>
-            delete student delete lecture modallarını yap, backendde fonksiyonlara ayır derse ata, dersten çıkar vb...
-        </div>
+      <div>
+        view lectureyi view teacher, viewstudent olarak çoğalt, edit formlarını
+        hazırla, dersler hangi günlerde işlencek veritabanını ayarla, backendde
+        fonksiyonlara ayır derse ata, dersten çıkar vb...
+      </div>
     </div>
   );
 }
