@@ -6,10 +6,12 @@ interface SubmitButtonProps
   onHoverColor?: string;
   textIcon?: React.ReactNode | JSX.Element;
   textIconPosition?: "left" | "right";
+  extraClasses?: string;
 }
 
 export default function SubmitButton({
   text,
+  extraClasses,
   bgColor = "#57b846",
   textIcon,
   color = "#fff",
@@ -20,7 +22,7 @@ export default function SubmitButton({
   return (
     <button
       {...props}
-      className="w-full h-full !rounded-full flex items-center justify-center !transition-colors !duration-200"
+      className={`w-full h-full !rounded-full flex items-center justify-center !transition-colors !duration-200 ${extraClasses}`}
       style={{ backgroundColor: bgColor, color: color }}
       onMouseEnter={(e) =>
         (e.currentTarget.style.backgroundColor = onHoverColor)

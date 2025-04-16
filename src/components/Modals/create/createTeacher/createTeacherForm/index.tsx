@@ -28,9 +28,17 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
   const { data: classes } = useGetAllClasses();
   const { mutate: createTeacher, isPending } = useCreateTeacher();
   const popoverRef = React.useRef<HTMLDivElement>(null);
-  const [selectedClasses, setSelectedClasses] = React.useState<string[]>([]);
+
+  interface selectedClassesInterface {
+    lectureCode: string;
+    id: string;
+  }
+  const [selectedClasses, setSelectedClasses] = React.useState<
+    selectedClassesInterface[]
+  >([]);
 
   function onSubmit(values: z.infer<typeof createTeacherSchema>) {
+      console.log(values)
     createTeacher(values);
   }
 
@@ -117,14 +125,23 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                         <div
                           onClick={() => {
                             let updatedClasses;
-                            if (selectedClasses.includes(lecture.lectureCode)) {
+                            if (
+                              selectedClasses.some(
+                                (item) =>
+                                  item.lectureCode === lecture.lectureCode,
+                              )
+                            ) {
                               updatedClasses = selectedClasses.filter(
-                                (item) => item !== lecture.lectureCode,
+                                (item) =>
+                                  item.lectureCode !== lecture.lectureCode,
                               );
                             } else {
                               updatedClasses = [
                                 ...selectedClasses,
-                                lecture.lectureCode,
+                                {
+                                  lectureCode: lecture.lectureCode,
+                                  id: lecture.id,
+                                },
                               ];
                             }
                             setSelectedClasses(updatedClasses);
@@ -134,9 +151,10 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                           className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
                         >
                           <div className="w-[15%] flex items-center justify-center">
-                            {selectedClasses.includes(lecture.lectureCode) && (
-                              <Check size={21} />
-                            )}
+                            {selectedClasses.some(
+                              (item) =>
+                                item.lectureCode === lecture.lectureCode,
+                            ) && <Check size={21} />}
                           </div>
                           <div className="w-[60%] truncate">{lecture.name}</div>
                           <div className="w-[15%] ml-2">
@@ -149,7 +167,9 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                 </FormControl>
                 <div className="flex gap-2">
                   {selectedClasses.length > 0
-                    ? selectedClasses.map((lec) => <div key={lec}>{lec}</div>)
+                    ? selectedClasses.map((lec) => (
+                        <div key={lec.lectureCode}>{lec.lectureCode}</div>
+                      ))
                     : ""}
                 </div>
                 <FormMessage />

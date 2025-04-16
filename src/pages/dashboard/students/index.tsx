@@ -14,7 +14,9 @@ export default function ManageStudents() {
           id: student.id,
           name: student.name,
           email: student.email,
-          assignedClasses: student.assignedClasses.join(", "),
+          assignedClasses:
+            student.assignedClasses?.map((cls) => cls.lectureCode).join(", ") ||
+            "",
           studentNumber: student.studentNumber,
         }))
       : [];
@@ -32,7 +34,7 @@ export default function ManageStudents() {
     <>
       <div className="container mx-auto py-10 px-3 rounded-xl bg-[#f7f8f9]">
         <div className="mb-4 flex justify-between items-center">
-          <p className="text-xl sm:text-2xl font-semibold">
+          <p className="text-xl sm:text-2xl font-semibold w-[50%]">
             Students Information
           </p>
           <div className="flex justify-center items-center">
@@ -42,7 +44,9 @@ export default function ManageStudents() {
               onHoverColor="#2e4d8f"
               textIconPosition="left"
               textIcon={<UserPlus className="w-5 h-5" />}
-              onClick={() => setModal({name: "createStudent", data: "student"})}
+              onClick={() =>
+                setModal({ name: "createStudent", data: "student" })
+              }
             />
           </div>
         </div>

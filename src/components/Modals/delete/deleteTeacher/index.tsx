@@ -46,8 +46,8 @@ export default function DeleteTeacherModal({ close }: { close: () => void }) {
               Öğretmen Derslerden silinecektir.
               <div className="flex items-center">
                 {teacherToDelete.classes.map((item) => (
-                  <div key={item} className="text-[15px] mr-2 tex-red-500">
-                    {item}
+                  <div key={item.id} className="text-[15px] mr-2 tex-red-500">
+                    {item.lectureCode}
                   </div>
                 ))}
               </div>

@@ -20,7 +20,9 @@ export const createStudentSchema = z.object({
     .length(7, "Öğrenci numarası 7 karakter olmalıdır.")
     .regex(/^\d+$/, "Öğrenci numarası sadece rakamlardan oluşmalıdır.")
     .nonempty("Öğrenci Numarası alanı boş bırakılamaz."),
-  assignedClasses: z.array(z.string()),
+  assignedClasses: z.array(
+    z.object({ lectureCode: z.string(), id: z.string() })
+  ),
 });
 
 export type createStudentFormData = z.infer<typeof createStudentSchema>;

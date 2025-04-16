@@ -1,21 +1,26 @@
-
 export interface TeacherInterface {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  createTime: string;
+  lastUpdateTime: string;
+  classes: {
     id: string;
-    name: string;
-    email: string;
-    role: string;
-    createTime: string;
-    lastUpdateTime: string;
-    classes: string[];
+    lectureCode: string;
+  }[];
 }
 
 export interface DeleteTeacherInterface {
-    id: string;
+  id: string;
 }
 
 export interface CreateTeacherInterface {
   name: string;
   email: string;
   password: string;
-  classes: string[];
+  classes: {
+    id: string;
+    lectureCode: string;
+  }[];
 }

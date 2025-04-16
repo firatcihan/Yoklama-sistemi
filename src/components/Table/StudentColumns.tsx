@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
+import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -65,6 +66,7 @@ export const studentColumns: ColumnDef<Student>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const { setModal } = useModalStore();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -75,9 +77,15 @@ export const studentColumns: ColumnDef<Student>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit Student</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                setModal({ name: "viewStudent", data: row.original.id })
+              }
+            >
+              View Student
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Student</DropdownMenuItem>
+            <DropdownMenuItem>Edit Student</DropdownMenuItem>
             <DeleteButton studentId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>

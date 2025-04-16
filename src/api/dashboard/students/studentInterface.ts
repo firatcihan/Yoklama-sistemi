@@ -6,7 +6,10 @@ export interface GetStudentInterface {
   role: string;
   createTime: string;
   lastUpdateTime: string;
-  assignedClasses: string[];
+  assignedClasses?: {
+    id: string;
+    lectureCode: string;
+  }[];
 }
 
 export interface CreateStudentInterface {
@@ -14,9 +17,12 @@ export interface CreateStudentInterface {
   name: string;
   email: string;
   password: string;
-  assignedClasses: string[];
+  assignedClasses?: {
+    id: string;
+    lectureCode: string;
+  }[];
 }
 
 export interface DeleteStudentInterface {
-    id: string;
+  id: string;
 }

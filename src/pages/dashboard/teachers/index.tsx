@@ -15,7 +15,8 @@ export default function ManageStudents() {
           id: teacher.id,
           name: teacher.name,
           email: teacher.email,
-          classes: teacher.classes.join(", "),
+          classes:
+            teacher.classes?.map((cls) => cls.lectureCode).join(", ") || "",
         }))
       : [];
 
@@ -35,7 +36,7 @@ export default function ManageStudents() {
     <>
       <div className="container mx-auto py-10 px-3 rounded-xl bg-[#f7f8f9]">
         <div className="mb-4 flex justify-between items-center">
-          <p className="text-xl sm:text-2xl font-semibold">
+          <p className="text-xl sm:text-2xl font-semibold w-[50%]">
             Teachers Information
           </p>
           <div className="flex justify-center items-center mr-2">
@@ -45,7 +46,9 @@ export default function ManageStudents() {
               onHoverColor="#2e4d8f"
               textIconPosition="left"
               textIcon={<UserPlus className="w-5 h-5" />}
-              onClick={() => setModal({ name: "createTeacher", data: "teacher" })}
+              onClick={() =>
+                setModal({ name: "createTeacher", data: "teacher" })
+              }
             />
           </div>
         </div>

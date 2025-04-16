@@ -32,7 +32,7 @@ export default function ManageLectures() {
     <>
       <div className="container mx-auto py-10 px-3 rounded-xl bg-[#f7f8f9]">
         <div className="mb-4 flex justify-between items-center">
-          <p className="text-xl sm:text-2xl font-semibold">
+          <p className="text-xl sm:text-2xl font-semibold w-[50%]">
             Lectures Information
           </p>
           <div className="flex justify-center items-center">
