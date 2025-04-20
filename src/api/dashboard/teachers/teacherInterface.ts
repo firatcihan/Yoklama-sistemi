@@ -24,3 +24,8 @@ export interface CreateTeacherInterface {
     lectureCode: string;
   }[];
 }
+export interface EditTeacherInterface {
+  id?: string;
+  name?: string;
+  email?: string;
+}

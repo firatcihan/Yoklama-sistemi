@@ -4,8 +4,12 @@ import CreateLectureModal from "@/components/Modals/create/createLecture";
 import DeleteTeacherModal from "@/components/Modals/delete/deleteTeacher";
 import DeleteStudentModal from "@/components/Modals/delete/deleteStudent";
 import DeleteLectureModal from "@/components/Modals/delete/deleteLecture";
+import EditLectureModal from "@/components/Modals/edit/editLecture";
+import EditTeacherModal from "@/components/Modals/edit/editTeacher";
+import EditStudentModal from "@/components/Modals/edit/editStudent";
 import ViewLecture from "@/components/Modals/view/viewLecture";
 import ViewStudent from "@/components/Modals/view/viewStudent";
+import ViewTeacher from "@/components/Modals/view/viewTeacher";
 import ViewAssignedStudentsSubModal from "@/components/Modals/view/viewLecture/viewAssignedStudents";
 
 export interface ModalProps {
@@ -27,6 +31,18 @@ const Modals = [
     element: CreateLectureModal,
   },
   {
+    name: "editStudent",
+    element: EditStudentModal,
+  },
+  {
+    name: "editTeacher",
+    element: EditTeacherModal,
+  },
+  {
+    name: "editLecture",
+    element: EditLectureModal,
+  },
+  {
     name: "deleteTeacher",
     element: DeleteTeacherModal,
   },
@@ -45,6 +61,10 @@ const Modals = [
   {
     name: "viewStudent",
     element: ViewStudent,
+  },
+  {
+    name: "viewTeacher",
+    element: ViewTeacher,
   },
   {
     name: "viewAssignedStudents",

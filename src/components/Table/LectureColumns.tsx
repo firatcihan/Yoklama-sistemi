@@ -1,17 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
-import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteButton from "@/components/Table/components/deleteButton";
+import ViewButton from "@/components/Table/components/viewButton";
+import EditButton from "@/components/Table/components/editButton";
 
 export type Lecture = {
   id: string;
@@ -118,7 +118,6 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { setModal } = useModalStore();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -129,15 +128,9 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                setModal({ name: "viewLecture", data: row.original.id })
-              }
-            >
-              View lecture details
-            </DropdownMenuItem>
+            <ViewButton lectureId={row.original.id} />
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Student</DropdownMenuItem>
+            <EditButton lectureId={row.original.id} />
             <DeleteButton lectureId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>

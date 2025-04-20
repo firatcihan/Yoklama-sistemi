@@ -28,7 +28,7 @@ export default function ViewAssignedStudentsSubModal({ close }: ModalProps) {
         <div className="flex items-center px-2 justify-between mb-4">
           <div className="w-[62%]">
             <h3 className="text-[12px] font-semibold text-gray-900">
-              YAZILIM TEKNOLOJİLERİ GELİŞTİRME
+              {lectureStudentsData.name}
             </h3>
             <p className="text-[9px] text-gray-500">
               {lectureStudentsData.lectureCode}

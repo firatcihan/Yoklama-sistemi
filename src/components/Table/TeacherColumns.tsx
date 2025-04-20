@@ -6,11 +6,12 @@ import DeleteButton from "@/components/Table/components/deleteButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
+import ViewButton from "@/components/Table/components/viewButton";
+import EditButton from "@/components/Table/components/editButton";
 
 export type Teacher = {
   id: string;
@@ -59,9 +60,9 @@ export const teacherColumns: ColumnDef<Teacher>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <ViewButton teacherId={row.original.id} />
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Teacher</DropdownMenuItem>
-            <DropdownMenuItem>Edit Teacher</DropdownMenuItem>
+            <EditButton teacherId={row.original.id} />
             <DeleteButton teacherId={row.original.id} />
           </DropdownMenuContent>
         </DropdownMenu>

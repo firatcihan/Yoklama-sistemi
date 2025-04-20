@@ -11,19 +11,15 @@ import {
   Clock,
   CalendarDays,
   UserPen,
-  History,
 } from "lucide-react";
 import XSeparator from "@/components/XSeparator";
+import TimeLine from "@/components/Modals/view/components/timeLine";
 
 export default function ViewLecture({ close }: ModalProps) {
   const { modal, setModal } = useModalStore();
   const { data: lectureData } = useGetLectureById({
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
-
-  function formatUTCDate(dateString: string): string {
-    return dayjs.utc(dateString).format("MMMM D, YYYY [at] h:mm A");
-  }
 
   if (!lectureData) return <div>Ders ile ilgili veri bulunamadı...</div>;
 
@@ -112,26 +108,10 @@ export default function ViewLecture({ close }: ModalProps) {
             </div>
           </div>
         </div>
-        <div className="rounded-lg bg-gray-50 p-4 space-y-3">
-          <h4 className="text-md font-medium text-gray-500 flex items-center">
-            <History className="mr-2" />
-            Timeline
-          </h4>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Created</span>
-              <span className="text-gray-900">
-                {formatUTCDate(lectureData.createTime)}
-              </span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Last Updated</span>
-              <span className="text-gray-900">
-                {formatUTCDate(lectureData.lastUpdateTime)}
-              </span>
-            </div>
-          </div>
-        </div>
+        <TimeLine
+          createTime={lectureData.createTime}
+          lastUpdateTime={lectureData.lastUpdateTime}
+        />
       </div>
     </div>
   );

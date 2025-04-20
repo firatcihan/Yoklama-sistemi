@@ -33,3 +33,14 @@ export interface CreateLectureInterface {
     email: string;
   };
 }
+
+export interface EditLectureInterface {
+  id: string;
+  name: string;
+  lectureCode: string;
+  instructor?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}

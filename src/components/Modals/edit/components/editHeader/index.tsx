@@ -2,15 +2,15 @@ import XSeparator from "@/components/XSeparator";
 import { X } from "lucide-react";
 import useModalStore from "@/stores/modal";
 
-export default function CreateHeader({ close }: { close: () => void }) {
+export default function EditHeader({ close }: { close: () => void }) {
   const { modal } = useModalStore();
   return (
     <div className="flex flex-col justify-center items-center">
       <p className="text-xl font-semibold mt-2">
-        Create New{" "}
-        {modal[0] && modal[0].data === "student"
+        Edit{" "}
+        {modal[0] && modal[0].name === "editStudent"
           ? "Student"
-          : modal[0] && modal[0].data === "teacher"
+          : modal[0] && modal[0].name === "editTeacher"
             ? "Teacher"
             : "Lecture"}
       </p>

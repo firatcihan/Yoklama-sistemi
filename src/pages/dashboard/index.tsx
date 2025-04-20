@@ -53,9 +53,11 @@ export default function Dashboard() {
         </div>
       )}
       <div>
-        view lectureyi view teacher, viewstudent olarak çoğalt, edit formlarını
-        hazırla, dersler hangi günlerde işlencek veritabanını ayarla, backendde
-        fonksiyonlara ayır derse ata, dersten çıkar vb...
+        edit formlarında öğrenci ismi değişince tüm katıldığı derslerden
+        değiştir vesaire, lecture edit formunda öğretmen atanmadığı zaman
+        göndermeye izin vermiyor onu çöz dersler hangi günlerde işlencek
+        veritabanını ayarla, backendde fonksiyonlara ayır derse ata, dersten
+        çıkar vb...
       </div>
     </div>
   );

@@ -1,24 +1,24 @@
 import { ModalProps } from "@/components/Modals/allModals.ts";
 import CloseButton from "@/components/closeButton";
 import useModalStore from "@/stores/modal";
-import useGetStudentById from "@/api/dashboard/students/getStudentById.ts";
+import useGetTeacherById from "@/api/dashboard/teachers/GetTeacherById.ts";
 import XSeparator from "@/components/XSeparator";
 import TimeLine from "@/components/Modals/view/components/timeLine";
 
-export default function ViewStudent({ close }: ModalProps) {
+export default function ViewTeacher({ close }: ModalProps) {
   const { modal } = useModalStore();
-  const { data: studentData } = useGetStudentById({
+  const { data: teacherData } = useGetTeacherById({
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
 
-  if (!studentData) return null;
+  if (!teacherData) return null;
 
   return (
     <div className="w-[320px] bg-white rounded-sm">
       <div className="flex items-center justify-between px-4 py-6">
         <div>
           <p className="text-[24px] font-semibold leading-6">
-            {studentData.name}
+            {teacherData.name}
           </p>
         </div>
         <CloseButton close={close} />
@@ -32,18 +32,10 @@ export default function ViewStudent({ close }: ModalProps) {
           <div className="grid grid-cols-1 gap-4 mb-6">
             <div>
               <p className="font-normal text-[16px] text-[#6b7280] leading-5">
-                Student Number
-              </p>
-              <p className="font-normal text-[16px] text-black leading-5">
-                {studentData.studentNumber}
-              </p>
-            </div>
-            <div>
-              <p className="font-normal text-[16px] text-[#6b7280] leading-5">
                 Email
               </p>
               <p className="font-normal text-[16px] text-black leading-5">
-                {studentData.email}
+                {teacherData.email}
               </p>
             </div>
           </div>
@@ -52,9 +44,9 @@ export default function ViewStudent({ close }: ModalProps) {
               Assigned Classes
             </p>
             <div className="flex flex-wrap gap-2">
-              {studentData.assignedClasses &&
-                studentData.assignedClasses.length > 0 &&
-                studentData.assignedClasses.map((lecture) => (
+              {teacherData.classes &&
+                teacherData.classes.length > 0 &&
+                teacherData.classes.map((lecture) => (
                   <div
                     key={lecture.id}
                     className="flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
@@ -62,18 +54,17 @@ export default function ViewStudent({ close }: ModalProps) {
                     {lecture.lectureCode}
                   </div>
                 ))}
-              {studentData.assignedClasses &&
-                studentData.assignedClasses.length === 0 && (
-                  <div className="flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                    No assigned classes
-                  </div>
-                )}
+              {teacherData.classes.length === 0 && (
+                <div className="flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                  No assigned classes
+                </div>
+              )}
             </div>
           </div>
         </div>
         <TimeLine
-          createTime={studentData.createTime}
-          lastUpdateTime={studentData.lastUpdateTime}
+          createTime={teacherData.createTime}
+          lastUpdateTime={teacherData.lastUpdateTime}
         />
       </div>
     </div>

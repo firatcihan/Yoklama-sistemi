@@ -26,3 +26,10 @@ export interface CreateStudentInterface {
 export interface DeleteStudentInterface {
   id: string;
 }
+
+export interface EditStudentInterface {
+  id?: string;
+  studentNumber?: string;
+  name?: string;
+  email?: string;
+}
