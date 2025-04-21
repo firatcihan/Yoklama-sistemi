@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, UserPlus } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
 import DeleteButton from "@/components/Table/components/deleteButton";
 import ViewButton from "@/components/Table/components/viewButton";
 import EditButton from "@/components/Table/components/editButton";
+import ActionsButton from "@/components/Table/components/actionsButton";
 
 export type Lecture = {
   id: string;
@@ -129,6 +130,19 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <ViewButton lectureId={row.original.id} />
+            <DropdownMenuSeparator />
+            <ActionsButton
+              icon={<UserPlus />}
+              text="Assign Student"
+              lectureId={row.original.id}
+              modalName="lectureAssignStudent"
+            />
+            <ActionsButton
+              icon={<UserPlus />}
+              text="Assign Teacher"
+              lectureId={row.original.id}
+              modalName="lectureAssignTeacher"
+            />
             <DropdownMenuSeparator />
             <EditButton lectureId={row.original.id} />
             <DeleteButton lectureId={row.original.id} />

@@ -33,3 +33,8 @@ export interface EditStudentInterface {
   name?: string;
   email?: string;
 }
+
+export interface AssignStudentToLectureInterface {
+  studentId: string;
+  lectureCode: string;
+}

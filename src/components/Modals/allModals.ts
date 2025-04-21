@@ -11,6 +11,10 @@ import ViewLecture from "@/components/Modals/view/viewLecture";
 import ViewStudent from "@/components/Modals/view/viewStudent";
 import ViewTeacher from "@/components/Modals/view/viewTeacher";
 import ViewAssignedStudentsSubModal from "@/components/Modals/view/viewLecture/viewAssignedStudents";
+import LectureAssignStudentModal from "@/components/Modals/assign/lecture/assignStudent";
+import LectureAssignTeacherModal from "@/components/Modals/assign/lecture/assignTeacher";
+import StudentAssignLectureModal from "@/components/Modals/assign/student/assignLecture";
+import TeacherAssignLectureModal from "@/components/Modals/assign/teacher/assignLecture";
 
 export interface ModalProps {
   close: () => void;
@@ -69,6 +73,22 @@ const Modals = [
   {
     name: "viewAssignedStudents",
     element: ViewAssignedStudentsSubModal,
+  },
+  {
+    name: "lectureAssignStudent",
+    element: LectureAssignStudentModal,
+  },
+  {
+    name: "lectureAssignTeacher",
+    element: LectureAssignTeacherModal,
+  },
+  {
+    name: "studentAssignLecture",
+    element: StudentAssignLectureModal,
+  },
+  {
+    name: "teacherAssignLecture",
+    element: TeacherAssignLectureModal,
   },
 ];
 

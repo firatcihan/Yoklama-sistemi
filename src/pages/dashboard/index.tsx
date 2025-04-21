@@ -52,9 +52,12 @@ export default function Dashboard() {
           />
         </div>
       )}
-      <div>derslere öğrenci ataması kaldırması işlerini hallet, dersler hangi günlerde işlencek
-        veritabanını ayarla, backendde fonksiyonlara ayır derse ata, dersten
-        çıkar vb...
+      <div>
+        öğrencileri derslere atarken tıklayınca atama tamamlansa bile çarpı
+        değişmiyor onu useEffectle falan bi şekilde validate etme yolunu bul,
+        öğretmen ve derslere atama yapma kayıt silme işlerini hallet dersler
+        hangi günlerde işlencek veritabanını ayarla, backendde fonksiyonlara
+        ayır derse ata, dersten çıkar vb...
       </div>
     </div>
   );
