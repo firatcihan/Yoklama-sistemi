@@ -35,7 +35,7 @@ export interface CreateLectureInterface {
 }
 
 export interface EditLectureInterface {
-  id: string;
+  id?: string;
   name: string;
   lectureCode: string;
   instructor?: {

@@ -54,8 +54,7 @@ export default function Dashboard() {
       )}
       <div>
         edit formlarında öğrenci ismi değişince tüm katıldığı derslerden
-        değiştir vesaire, lecture edit formunda öğretmen atanmadığı zaman
-        göndermeye izin vermiyor onu çöz dersler hangi günlerde işlencek
+        değiştir vesaire, dersler hangi günlerde işlencek
         veritabanını ayarla, backendde fonksiyonlara ayır derse ata, dersten
         çıkar vb...
       </div>

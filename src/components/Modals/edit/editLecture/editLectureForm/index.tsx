@@ -22,10 +22,12 @@ import {
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Check, UserPlus } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { PulseLoader } from "react-spinners";
 import { ModalProps } from "@/components/Modals/allModals.ts";
 import useModalStore from "@/stores/modal";
+import XSeparator from "@/components/XSeparator";
+import toast from "react-hot-toast";
 
 export default function EditLectureForm({ close }: ModalProps) {
   const { modal } = useModalStore();
@@ -41,10 +43,24 @@ export default function EditLectureForm({ close }: ModalProps) {
   const popoverRef2 = React.useRef<HTMLDivElement>(null);
 
   function onSubmit(values: z.infer<typeof EditLectureSchema>) {
-    values.id = modal[0].data;
-    console.log(values);
-    //editLecture(values);
+    if (!lectureData) {
+      toast.error("Ders bilgileri alınamadı.");
+      return;
+    }
+    values.id = lectureData.id;
+    values.instructor = selectedTeacher;
+    editLecture(values);
   }
+
+  interface selectedTeacher {
+    id: string;
+    name: string;
+    email: string;
+  }
+
+  const [selectedTeacher, setSelectedTeacher] = React.useState<selectedTeacher>(
+    { id: "", name: "", email: "" },
+  );
 
   const editLectureForm = useForm<z.infer<typeof EditLectureSchema>>({
     resolver: zodResolver(EditLectureSchema),
@@ -54,18 +70,14 @@ export default function EditLectureForm({ close }: ModalProps) {
     },
   });
 
-  if (lectureData?.instructor) {
-    editLectureForm.setValue("instructor", {
-      id: lectureData.instructor.id,
-      name: lectureData.instructor.name,
-      email: lectureData.instructor.email,
-    });
-  }
+  useEffect(() => {
+    if (isSuccess) setSelectedTeacher(lectureData.instructor);
+  }, [isSuccess, lectureData]);
 
   if (pending2) {
     return (
       <div className="flex items-center justify-center h-full">
-        <PulseLoader color="#000000" />
+        <PulseLoader className="p-10" size={30} color="#1e376d" />
       </div>
     );
   }
@@ -112,67 +124,68 @@ export default function EditLectureForm({ close }: ModalProps) {
               </FormItem>
             )}
           />
-          <FormField
-            defaultValue={lectureData?.instructor}
-            control={editLectureForm.control}
-            name="instructor"
-            render={({ field }) => (
-              <FormItem className="!dontClose">
-                <FormLabel className="text-[16px] font-semibold">
-                  Dersi bir öğretmene atayın.
-                </FormLabel>
-                <FormControl>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline">Öğretmen seçiniz</Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      ref={popoverRef2}
-                      className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
-                    >
-                      {teachers?.length
-                        ? teachers.map((t) => (
-                            <div
-                              key={t.id}
-                              onClick={() => {
-                                // aynı hoca seçilmişse temizle, değilse ata
-                                if (field.value?.id === t.id) {
-                                  field.onChange(undefined);
-                                } else {
-                                  field.onChange({
-                                    id: t.id,
-                                    name: t.name,
-                                    email: t.email,
-                                  });
-                                }
-                              }}
-                              className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              <div className="w-6">
-                                {field.value?.id === t.id && <Check />}
-                              </div>
-                              <div className="ml-2">
-                                <div className="text-sm font-medium">
-                                  {t.name}
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  {t.email}
-                                </div>
-                              </div>
-                            </div>
-                          ))
-                        : "Öğretmen bulunamadı."}
-                    </PopoverContent>
-                  </Popover>
-                </FormControl>
-                <FormDescription>
-                  Seçtiğiniz öğretmen:{" "}
-                  {field.value?.name ?? "Derse atanmış öğretmen yok."}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <Popover>
+            <div className="!mb-2 font-semibold">Derse öğretmen atayın</div>
+            <PopoverTrigger asChild className="!mb-2">
+              <Button variant="outline" className="w-full text-[#71717b]">
+                Öğretmen seçiniz
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              ref={popoverRef2}
+              className="dontClose w-80 flex flex-col !p-1 max-h-[300px] overflow-auto"
+            >
+              {teachers && teachers.length > 0
+                ? teachers?.map((teacher) => (
+                    <div key={teacher.id}>
+                      <div
+                        onClick={() => {
+                          if (selectedTeacher.id === teacher.id) {
+                            setSelectedTeacher({
+                              id: "",
+                              name: "",
+                              email: "",
+                            });
+                          } else {
+                            setSelectedTeacher({
+                              id: teacher.id,
+                              name: teacher.name,
+                              email: teacher.email,
+                            });
+                          }
+                        }}
+                        className="hover:bg-[#f7f8f9] p-2 text-[14px] items-center flex"
+                      >
+                        <div className="w-[15%] flex items-center justify-center">
+                          {selectedTeacher.id === teacher.id && <Check />}
+                        </div>
+                        <div className="flex flex-col space-x-2">
+                          <div className="text-sm font-medium">
+                            {teacher.name}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {teacher.email}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-center">
+                        <XSeparator extraClasses="!mt-0" />
+                      </div>
+                    </div>
+                  ))
+                : "Öğretmen bulunamadı."}
+            </PopoverContent>
+            <div className="text-[#71717b] text-[14px] font-normal">
+              <div>
+                {selectedTeacher.id ? (
+                  <div> Derse atanan öğretmen: {selectedTeacher.name}</div>
+                ) : (
+                  <div>Derse atanmış öğretmen bulunmuyor</div>
+                )}
+              </div>
+            </div>
+          </Popover>
           <div className="flex justify-end ">
             <Button
               variant="destructive"
