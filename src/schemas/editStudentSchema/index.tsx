@@ -9,7 +9,7 @@ export const editStudentSchema = z.object({
     .max(30, "İsim en fazla 50 karakter olabilir."),
   studentNumber: z
     .string()
-    .length(11, "Öğrenci numarası 11 karakter olmalıdır.")
+    .length(7, "Öğrenci numarası 7 karakter olmalıdır.")
     .regex(/^\d+$/, "Öğrenci numarası sadece rakamlardan oluşmalıdır.")
     .optional(),
 });

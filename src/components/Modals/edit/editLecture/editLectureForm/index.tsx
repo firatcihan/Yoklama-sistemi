@@ -204,7 +204,7 @@ export default function EditLectureForm({ close }: ModalProps) {
                 <PulseLoader color="#ffffff" />
               ) : (
                 <p className="flex items-center justify-center">
-                  <UserPlus size={20} className="mr-2" /> Ders Oluştur
+                  <UserPlus size={20} className="mr-2" /> Dersi güncelle
                 </p>
               )}
             </Button>

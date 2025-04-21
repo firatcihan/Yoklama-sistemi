@@ -37,7 +37,7 @@ export default function EditStudentForm({ close }: { close: () => void }) {
     defaultValues: {
       email: studentData?.email,
       name: studentData?.name,
-      studentNumber: studentData?.studentNumber,
+      studentNumber: studentData?.studentNumber?.slice(-7),
     },
   });
 
@@ -90,7 +90,7 @@ export default function EditStudentForm({ close }: { close: () => void }) {
           />
           <FormField
             control={editStudentForm.control}
-            defaultValue={studentData?.studentNumber}
+            defaultValue={studentData?.studentNumber?.slice(-7)}
             name="studentNumber"
             render={({ field }) => (
               <FormItem>

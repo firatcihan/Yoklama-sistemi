@@ -10,7 +10,7 @@ const useEditLecture = () => {
   const queryClient = useQueryClient();
   const editLecture = async (lectureData: EditLectureInterface) => {
     const response = await axios.patch(
-      `${API_URL}/api/users/lectures`,
+      `${API_URL}/api/lectures`,
       lectureData,
     );
     return response.data;

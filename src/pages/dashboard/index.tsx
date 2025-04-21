@@ -52,9 +52,7 @@ export default function Dashboard() {
           />
         </div>
       )}
-      <div>
-        edit formlarında öğrenci ismi değişince tüm katıldığı derslerden
-        değiştir vesaire, dersler hangi günlerde işlencek
+      <div>derslere öğrenci ataması kaldırması işlerini hallet, dersler hangi günlerde işlencek
         veritabanını ayarla, backendde fonksiyonlara ayır derse ata, dersten
         çıkar vb...
       </div>
