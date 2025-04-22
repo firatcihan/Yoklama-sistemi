@@ -1,8 +1,126 @@
-export default function TeacherAssignLectureModal() {
-  return (
-    <div>
-      <h1> teacher Assign Lecture</h1>
-      {/* Add your modal content here */}
-    </div>
-  );
+import AssignHeader from "@/components/Modals/assign/components/assignHeader";
+import { ModalProps } from "@/components/Modals/allModals.ts";
+import XSeparator from "@/components/XSeparator";
+import { Button } from "@/components/ui/button.tsx";
+import { UserPlus } from "lucide-react";
+import AssignTable from "@/components/Modals/assign/components/assignTable";
+import UserInfoColumn from "@/components/Modals/assign/components/userInfoColumn";
+import useGetTeacherById from "@/api/dashboard/teachers/GetTeacherById.ts";
+import useChangeTeacherLectures from "@/api/dashboard/teachers/changeTeacherLectures.ts";
+import useModalStore from "@/stores/modal";
+import { PulseLoader } from "react-spinners";
+import React from "react";
+import ModalLoader from "@/components/Modals/components/modalLoader";
+
+export default function TeacherAssignLectureModal({ close }: ModalProps) {
+  const { modal } = useModalStore();
+  const { mutate: changeTeacherLecture, isPending: assignPending } =
+    useChangeTeacherLectures();
+  const {
+    data: teacherData,
+    isPending,
+    isSuccess,
+    isError,
+  } = useGetTeacherById({
+    id: modal[0] && modal[0].data ? modal[0].data : "",
+  });
+
+  React.useEffect(() => {
+    if (teacherData?.classes) {
+      setSelectedLectures(teacherData.classes);
+    }
+  }, [teacherData]);
+
+  interface selectedLecturesInterface {
+    id: string;
+    lectureCode: string;
+  }
+
+  const [selectedLectures, setSelectedLectures] = React.useState<
+    selectedLecturesInterface[]
+  >([]);
+
+  const handleToggleLecture = (lecture: selectedLecturesInterface) => {
+    setSelectedLectures((prev) => {
+      const exists = prev.some((l) => l.id === lecture.id);
+      if (exists) {
+        return prev.filter((l) => l.id !== lecture.id);
+      } else {
+        return [...prev, lecture];
+      }
+    });
+  };
+
+  const handleSubmit = () => {
+    if (teacherData) {
+      const data = {
+        teacherId: teacherData.id,
+        lectures: selectedLectures,
+      };
+      console.log(data);
+      changeTeacherLecture(data);
+    }
+  };
+
+  if (isPending) {
+    return (
+      <div className="w-[340px] sm:w-[500px] md:w-[600px] p-2.5">
+        <AssignHeader close={close} />
+        <XSeparator extraClasses="!w-[100%] !mt-0 !mb-4" />
+        <ModalLoader />
+      </div>
+    );
+  }
+  if (!teacherData) return null;
+
+  if (isError) {
+    return (
+      <div className="w-[340px] sm:w-[500px] md:w-[600px] p-2.5">
+        <AssignHeader close={close} />
+        <XSeparator extraClasses="!w-[100%] !mt-0 !mb-4" />
+        <div className="flex items-center justify-center h-full">
+          <p>Teacher not found</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isSuccess && teacherData) {
+    return (
+      <div className="w-[340px] sm:w-[500px] md:w-[600px] p-2.5">
+        <AssignHeader close={close} />
+        <XSeparator extraClasses="!w-[100%] !mt-0 !mb-4" />
+        <UserInfoColumn name={teacherData.name} email={teacherData.email} />
+
+        <XSeparator extraClasses="!w-[100%] !mt-0 !mb-2" />
+        <AssignTable
+          selectedLectures={selectedLectures}
+          onLectureToggle={handleToggleLecture}
+        />
+        <div className="flex justify-end ">
+          <Button
+            variant="destructive"
+            className="!bg-[#dc2625] hover:!bg-[#dc2625]/90"
+            type="button"
+            onClick={close}
+          >
+            Vazgeç
+          </Button>
+          <Button
+            variant="destructive"
+            className="bg-primary hover:!bg-[#1e376d]/90 ml-3"
+            onClick={() => handleSubmit()}
+          >
+            {assignPending ? (
+              <PulseLoader color="#ffffff" />
+            ) : (
+              <p className="flex items-center justify-center">
+                <UserPlus size={20} className="mr-2" /> Seçimleri Kaydet
+              </p>
+            )}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 }

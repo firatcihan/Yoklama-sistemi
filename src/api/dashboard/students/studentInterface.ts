@@ -34,7 +34,7 @@ export interface EditStudentInterface {
   email?: string;
 }
 
-export interface AssignStudentToLectureInterface {
+export interface ChangeStudentLecturesInterface {
   studentId: string;
   lectures: {
     id: string;

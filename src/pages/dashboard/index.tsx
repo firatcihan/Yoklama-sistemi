@@ -53,9 +53,8 @@ export default function Dashboard() {
         </div>
       )}
       <div>
-        öğrencileri derslere atarken tıklayınca atama tamamlansa bile çarpı
-        değişmiyor onu useEffectle falan bi şekilde validate etme yolunu bul,
-        öğretmen ve derslere atama yapma kayıt silme işlerini hallet dersler
+        derslere atama yapma kayıt silme işlerini hallet,derslere eğer öğretmen
+        atanmışsa o dersi atamak için gösterme veya atandığını belirt ,dersler
         hangi günlerde işlencek veritabanını ayarla, backendde fonksiyonlara
         ayır derse ata, dersten çıkar vb...
       </div>

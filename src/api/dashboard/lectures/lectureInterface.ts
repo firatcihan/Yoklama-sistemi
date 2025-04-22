@@ -44,3 +44,20 @@ export interface EditLectureInterface {
     email: string;
   };
 }
+
+export interface AssignStudentsToLectureInterface {
+  lectureId: string;
+  students: {
+    studentNumber: string;
+    name: string;
+  }[];
+}
+
+export interface AssignTeacherToLectureInterface {
+  lectureId: string;
+  instructor: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}

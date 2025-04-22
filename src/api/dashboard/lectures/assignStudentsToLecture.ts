@@ -3,26 +3,27 @@ import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
-import { AssignStudentToLectureInterface } from "@/api/dashboard/students/studentInterface.ts";
 import useModalStore from "@/stores/modal";
+import { AssignStudentsToLectureInterface } from "@/api/dashboard/lectures/lectureInterface.ts";
 
-const useAssignStudentToLecture = () => {
+const useAssignStudentsToLecture = () => {
   const { closeModal } = useModalStore();
-
   const queryClient = useQueryClient();
-  const assignStudent = async (data: AssignStudentToLectureInterface) => {
+  const assignStudents = async (
+    studentsToAssignData: AssignStudentsToLectureInterface,
+  ) => {
     const response = await axios.post(
-      `${API_URL}/api/users/students/assign`,
-      data,
+      `${API_URL}/api/lectures/assign/student`,
+      studentsToAssignData,
     );
     return response.data;
   };
 
   return useMutation({
-    mutationFn: assignStudent,
+    mutationFn: assignStudents,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["students"] });
-      toast.success("Öğrenci dersleri başarıyla güncellendi.");
+      queryClient.invalidateQueries({ queryKey: ["lectures"] });
+      toast.success("Derse kayıt edilmiş öğrenciler başarıyla güncellendi.");
       closeModal();
     },
     onError: (error) => {
@@ -35,4 +36,4 @@ const useAssignStudentToLecture = () => {
   });
 };
 
-export default useAssignStudentToLecture;
+export default useAssignStudentsToLecture;

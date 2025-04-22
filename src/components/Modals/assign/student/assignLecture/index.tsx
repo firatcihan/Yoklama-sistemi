@@ -1,13 +1,12 @@
 import AssignHeader from "@/components/Modals/assign/components/assignHeader";
 import { ModalProps } from "@/components/Modals/allModals.ts";
 import XSeparator from "@/components/XSeparator";
-import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { UserPlus } from "lucide-react";
 import AssignTable from "@/components/Modals/assign/components/assignTable";
 import UserInfoColumn from "@/components/Modals/assign/components/userInfoColumn";
 import useGetStudentById from "@/api/dashboard/students/getStudentById.ts";
-import useAssignStudentToLecture from "@/api/dashboard/students/assignStudentToLecture.ts";
+import useChangeStudentLectures from "@/api/dashboard/students/changeStudentLectures.ts";
 import useModalStore from "@/stores/modal";
 import { PulseLoader } from "react-spinners";
 import React from "react";
@@ -16,7 +15,7 @@ import ModalLoader from "@/components/Modals/components/modalLoader";
 export default function StudentAssignLectureModal({ close }: ModalProps) {
   const { modal } = useModalStore();
   const { mutate: assignUserToLecture, isPending: assignPending } =
-    useAssignStudentToLecture();
+    useChangeStudentLectures();
   const {
     data: studentData,
     isPending,
@@ -25,6 +24,7 @@ export default function StudentAssignLectureModal({ close }: ModalProps) {
   } = useGetStudentById({
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
+
 
   React.useEffect(() => {
     if (studentData?.assignedClasses) {
@@ -96,23 +96,7 @@ export default function StudentAssignLectureModal({ close }: ModalProps) {
           email={studentData.email}
           studentNumber={studentData.studentNumber}
         />
-        <div className="mb-4">
-          <label
-            htmlFor="searchLectures"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Search Lectures
-          </label>
-          <Input
-            type="text"
-            id="searchLectures"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            placeholder="Search by name, code or instructor..."
-          />
-        </div>
-        <XSeparator extraClasses="!w-[100%] !mt-0 !mb-2" />
         <AssignTable
-          studentData={studentData}
           selectedLectures={selectedLectures}
           onLectureToggle={handleToggleLecture}
         />

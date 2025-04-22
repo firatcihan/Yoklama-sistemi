@@ -29,3 +29,11 @@ export interface EditTeacherInterface {
   name?: string;
   email?: string;
 }
+
+export interface ChangeTeacherLecturesInterface {
+  teacherId: string;
+  lectures: {
+    id: string;
+    lectureCode: string;
+  }[];
+}
