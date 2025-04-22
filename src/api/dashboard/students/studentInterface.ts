@@ -36,5 +36,8 @@ export interface EditStudentInterface {
 
 export interface AssignStudentToLectureInterface {
   studentId: string;
-  lectureCode: string;
+  lectures: {
+    id: string;
+    lectureCode: string;
+  }[],
 }
