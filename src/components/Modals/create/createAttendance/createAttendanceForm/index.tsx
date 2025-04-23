@@ -23,24 +23,30 @@ export default function CreateAttendanceForm({ close }: { close: () => void }) {
   if (!user) return;
 
   const handleCreateAttendance = async () => {
-    if (user.role !== "teacher") return;
-    if (user.classes?.some((lecture) => lecture.id === "asd")) return;
+    if (user.role !== "teacher") {
+      toast.error("Bu işlemi sadece öğretmenler yapabilir.");
+      return;
+    }
+
     if (distanceRange === 0 || expirationTime === 0 || !selectedLecture) {
       toast.error("Lütfen tüm alanları doldurun.");
       return;
     }
-    const attendanceData = {
-      lectureId: selectedLecture?.id || "", // Replace with actual selected lecture ID
-      createdBy: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-      distanceRange: distanceRange, // Replace with actual distance range
-      expirationTime: expirationTime, // Replace with actual expiration time
-    };
-    console.log(attendanceData);
-    createAttendance(attendanceData);
+
+    if (user.classes?.some((lecture) => lecture.id === selectedLecture?.id)) {
+      const attendanceData = {
+        lectureId: selectedLecture?.id || "", // Replace with actual selected lecture ID
+        createdBy: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+        distanceRange: distanceRange, // Replace with actual distance range
+        expirationTime: expirationTime, // Replace with actual expiration time
+      };
+      console.log(attendanceData);
+      createAttendance(attendanceData);
+    }
   };
 
   return (

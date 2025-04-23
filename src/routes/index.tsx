@@ -21,6 +21,7 @@ const baseRoutes = [
     auth: true,
     children: [
       {
+        path: "",
         index: true,
         element: <Home />,
       },
@@ -32,6 +33,7 @@ const baseRoutes = [
     teacher: true,
     children: [
       {
+        path: "",
         index: true,
         element: <Dashboard />,
       },
@@ -103,6 +105,5 @@ const authCheck = (routes: Route[]): Route[] =>
     return route;
   });
 
-// @ts-ignore
 const routes = authCheck(baseRoutes);
 export default routes;
