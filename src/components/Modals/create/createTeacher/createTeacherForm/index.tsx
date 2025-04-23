@@ -38,7 +38,7 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
   >([]);
 
   function onSubmit(values: z.infer<typeof createTeacherSchema>) {
-      console.log(values)
+    console.log(values);
     createTeacher(values);
   }
 
@@ -50,6 +50,10 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
       name: "",
       classes: [],
     },
+  });
+
+  const avaliableClasses = classes?.filter((lecture) => {
+    return !lecture.instructor?.id;
   });
 
   return (
@@ -121,7 +125,7 @@ export default function CreateTeacherForm({ close }: { close: () => void }) {
                       ref={popoverRef}
                       className="dontClose w-80 flex flex-col !p-1"
                     >
-                      {classes?.map((lecture) => (
+                      {avaliableClasses?.map((lecture) => (
                         <div
                           onClick={() => {
                             let updatedClasses;

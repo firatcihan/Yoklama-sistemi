@@ -53,10 +53,7 @@ export default function Dashboard() {
         </div>
       )}
       <div>
-        derslere atama yapma kayıt silme işlerini hallet,derslere eğer öğretmen
-        atanmışsa o dersi atamak için gösterme veya atandığını belirt ,dersler
-        hangi günlerde işlencek veritabanını ayarla, backendde fonksiyonlara
-        ayır derse ata, dersten çıkar vb...
+        düzgün loading işlerini hallet, dersler hangi günlerde işlencek veritabanını ayarla,
       </div>
     </div>
   );
