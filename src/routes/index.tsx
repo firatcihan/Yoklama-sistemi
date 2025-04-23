@@ -10,6 +10,9 @@ import ManageLectures from "../pages/dashboard/lectures";
 import ManageStudents from "@/pages/dashboard/students";
 import ManageTeachers from "@/pages/dashboard/teachers";
 import TeacherRoute from "@/components/TeacherRoute";
+import ShowQr from "@/pages/dashboard/attendance/showQr";
+import AttendanceLayout from "@/pages/dashboard/attendance/attendanceLayout";
+import JoinAttendance from "@/pages/dashboard/attendance/joinAttendance";
 
 const baseRoutes = [
   {
@@ -33,8 +36,7 @@ const baseRoutes = [
         element: <Dashboard />,
       },
       {
-        //hala daha lecturesda id ye gönderiyorsun bunu düzelt admin ise lectureste herşeyi görecek deleteTeacher ise sadece kendi derslerini görebilecek
-        path: "lectures/:id",
+        path: "lectures",
         element: <ManageLectures />,
       },
       {
@@ -45,6 +47,21 @@ const baseRoutes = [
         path: "teachers",
         admin: true,
         element: <ManageTeachers />,
+      },
+    ],
+  },
+  {
+    path: "/attendance",
+    element: <AttendanceLayout />,
+    auth: true,
+    children: [
+      {
+        path: "qr/:lectureCode/:sessionId",
+        element: <ShowQr />,
+      },
+      {
+        path: ":lectureCode/:sessionId",
+        element: <JoinAttendance />,
       },
     ],
   },

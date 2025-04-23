@@ -1,51 +1,47 @@
 import { useState, useEffect } from "react";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth";
 import ColumnInput from "../../../components/columnInput";
 import SubmitButton from "../../../components/submitButton";
 import { Mail, Lock } from "lucide-react";
 import { useLogin } from "@/api/auth";
 import { loginSchema } from "@/schemas/loginSchema";
 import { BeatLoader } from "react-spinners";
-import {images} from "@/mock/images.tsx";
+import { images } from "@/mock/images.tsx";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Login() {
-  const { user } = useAuthStore();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  // ?redirectTo=/foo barındırıyorsa onu al, yoksa "/"
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const { mutate, isPending } = useLogin();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+  const { mutate: loginMut, isPending } = useLogin();
 
   const handleSubmit = () => {
-    const formData = { email, password };
-
-    const result = loginSchema.safeParse(formData);
-
+    const form = { email, password };
+    const result = loginSchema.safeParse(form);
     if (!result.success) {
-      const newErrors: { email?: string; password?: string } = {};
-      result.error.issues.forEach((issue) => {
-        if (issue.path[0] === "email") newErrors.email = issue.message;
-        if (issue.path[0] === "password") newErrors.password = issue.message;
+      const errs: typeof errors = {};
+      result.error.issues.forEach((i) => {
+        if (i.path[0] === "email") errs.email = i.message;
+        if (i.path[0] === "password") errs.password = i.message;
       });
-      setErrors(newErrors);
+      return setErrors(errs);
     }
-
-    if (result.success) {
-      setErrors({});
-      mutate({ email, password });
-    }
+    setErrors({});
+    loginMut(form, {
+      onSuccess: () => {
+        // login başarılı → redirectTo’ya git
+        navigate(redirectTo, { replace: true });
+      },
+    });
   };
-
-  useEffect(() => {
-    if (user) {
-      user.role === "admin" ? navigate("/dashboard") : navigate("/");
-    }
-  }, [user, navigate]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,8 +64,8 @@ export default function Login() {
           },
         )}
       >
-        <div className="hidden sm:block" style={{maxWidth: "835px"}}>
-          <img src={images.loginPageImg} alt="logo"/>
+        <div className="hidden sm:block" style={{ maxWidth: "835px" }}>
+          <img src={images.loginPageImg} alt="logo" />
         </div>
         <div className="flex flex-col items-center w-[290px] h-full">
           <span className="text-[#333] font-bold text-[28px] leading-[28.8px] mb-[54px]">

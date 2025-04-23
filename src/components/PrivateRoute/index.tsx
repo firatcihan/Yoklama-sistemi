@@ -10,13 +10,8 @@ export default function PrivateRoute({
   const location = useLocation();
 
   if (!user) {
-    return (
-      <Navigate
-        to="/auth/login"
-        replace={true}
-        state={{ return_url: location.pathname }}
-      />
-    );
+    const redirectTo = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/auth/login?redirectTo=${redirectTo}`} replace />;
   }
 
   return <div>{children}</div>;

@@ -15,6 +15,7 @@ import LectureAssignStudentModal from "@/components/Modals/assign/lecture/assign
 import LectureAssignTeacherModal from "@/components/Modals/assign/lecture/assignTeacher";
 import StudentAssignLectureModal from "@/components/Modals/assign/student/assignLecture";
 import TeacherAssignLectureModal from "@/components/Modals/assign/teacher/assignLecture";
+import CreateAttendanceModal from "@/components/Modals/create/createAttendance";
 
 export interface ModalProps {
   close: () => void;
@@ -89,6 +90,10 @@ const Modals = [
   {
     name: "teacherAssignLecture",
     element: TeacherAssignLectureModal,
+  },
+  {
+    name: "createAttendance",
+    element: CreateAttendanceModal,
   },
 ];
 

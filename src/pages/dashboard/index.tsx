@@ -2,15 +2,17 @@ import SubmitButton from "../../components/submitButton";
 import { CalendarCheck2, PenLine, UserRoundPen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/auth";
+import useModalStore from "@/stores/modal";
 
 export default function Dashboard() {
   const { user } = useAuthStore();
-  console.log(user);
+  const { setModal } = useModalStore();
   const navigate = useNavigate();
   return (
     <div className="flex flex-col px-2">
       <div className="w-full h-[100px] bg-[#f7f8f9] rounded-full flex items-center justify-center py-5 px-7 mb-7">
         <SubmitButton
+          onClick={() => setModal({ name: "createAttendance", data: user?.id })}
           text={"Yoklama Oluştur"}
           textIcon={<PenLine size={24} />}
           bgColor="#1e376d"
@@ -20,7 +22,7 @@ export default function Dashboard() {
       <div className="w-full h-[100px] bg-[#f7f8f9] rounded-full flex items-center justify-center py-5 px-7 mb-7">
         <SubmitButton
           onClick={() => {
-            navigate(`/dashboard/lectures/${user?.id}`);
+            navigate(`/dashboard/lectures`);
           }}
           text={`Dersleri Yönet`}
           textIcon={<CalendarCheck2 size={24} />}
@@ -53,7 +55,8 @@ export default function Dashboard() {
         </div>
       )}
       <div>
-        düzgün loading işlerini hallet, dersler hangi günlerde işlencek veritabanını ayarla,
+        düzgün loading işlerini hallet, dersler hangi günlerde işlencek
+        veritabanını ayarla,
       </div>
     </div>
   );
