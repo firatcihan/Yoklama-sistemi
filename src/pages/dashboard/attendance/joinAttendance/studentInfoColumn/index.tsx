@@ -1,33 +1,35 @@
 import { useState } from "react";
-import {
-  Award,
-  BookOpen,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Mail,
-} from "lucide-react";
+import { Award, ChevronDown, ChevronUp, Mail } from "lucide-react";
+import useGetUserAttendancesOnLecture from "@/api/dashboard/attendance/getUserAttendancesOnLecture.ts";
+import useAuthStore from "@/stores/auth";
 
-export default function StudentInfoColumn() {
-  const user = {
-    id: "user-1",
-    name: "Alex Johnson",
-    email: "alex.johnson@university.edu",
-    studentId: "S10042023",
-    program: "Computer Science",
-    year: 2,
-    attendanceStats: {
-      present: 24,
-      absent: 4,
-      total: 28,
-    },
-  };
-
+export default function StudentInfoColumn({
+  lectureCode,
+}: {
+  lectureCode: string;
+}) {
+  const { user } = useAuthStore();
+  const { data: attendanceStats, isLoading } = useGetUserAttendancesOnLecture({
+    studentId: user?.id || "",
+    lectureCode: lectureCode,
+  });
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const attendancePercentage = Math.round(
-    (user.attendanceStats.present / user.attendanceStats.total) * 100,
-  );
+  if (isLoading) {
+    return <div className="bg-white rounded-lg shadow-md p-4">loading</div>;
+  }
+
+  if (!user || !attendanceStats) return null;
+
+  const attendancePercentage =
+    attendanceStats.numberOfLessons > 0
+      ? Math.round(
+          (attendanceStats.numberOfAttendances /
+            attendanceStats.numberOfLessons) *
+            100,
+        )
+      : 0;
+  console.log(attendancePercentage);
 
   const initials = user.name
     .split(" ")
@@ -48,7 +50,7 @@ export default function StudentInfoColumn() {
         </div>
         <div className="ml-3 flex-1">
           <h3 className="font-medium text-gray-900">{user.name}</h3>
-          <p className="text-sm text-gray-500">{user.studentId}</p>
+          <p className="text-sm text-gray-500">{user.studentNumber || ""}</p>
         </div>
         <div className="flex items-center">
           <div className="mr-4">
@@ -84,18 +86,10 @@ export default function StudentInfoColumn() {
             <span className="ml-2 text-sm text-gray-700">{user.email}</span>
           </div>
           <div className="flex items-center">
-            <BookOpen size={16} className="text-blue-500" />
-            <span className="ml-2 text-sm text-gray-700">{user.program}</span>
-          </div>
-          <div className="flex items-center">
-            <Calendar size={16} className="text-blue-500" />
-            <span className="ml-2 text-sm text-gray-700">Year {user.year}</span>
-          </div>
-          <div className="flex items-center">
             <Award size={16} className="text-blue-500" />
             <span className="ml-2 text-sm text-gray-700">
-              {user.attendanceStats.present} / {user.attendanceStats.total}{" "}
-              classes attended
+              {attendanceStats.numberOfAttendances} /{" "}
+              {attendanceStats.numberOfLessons} classes attended
             </span>
           </div>
         </div>

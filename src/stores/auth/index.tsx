@@ -10,10 +10,19 @@ type userType = {
     id: string;
     lectureCode: string;
   }[];
+  assignedClasses?: [
+    {
+      id: string;
+      lectureCode: string;
+    },
+  ];
+  createTime: string;
+  lastUpdateTime: string;
   email: string;
   id: string;
   name: string;
   role: string;
+  studentNumber?: string;
 };
 
 const useAuthStore = create<store>()((set) => ({

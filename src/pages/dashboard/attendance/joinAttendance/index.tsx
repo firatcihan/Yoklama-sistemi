@@ -1,49 +1,45 @@
-//import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { BookOpen, CheckCircle2, Clock } from "lucide-react";
 import RecentClasses from "@/pages/dashboard/attendance/joinAttendance/recentClasses";
 import StudentInfoColumn from "@/pages/dashboard/attendance/joinAttendance/studentInfoColumn";
+import useGetAttendanceSessionById from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
+import toast from "react-hot-toast";
+import CurrentClass from "@/pages/dashboard/attendance/joinAttendance/currentClass";
 
 export default function JoinAttendance() {
-  //const { lectureCode, sessionId } = useParams<{
-  //lectureCode: string;
-  //sessionId: string;
-  //}>();
+  const { lectureCode, sessionId } = useParams<{
+    lectureCode: string;
+    sessionId: string;
+  }>();
 
-  return (
-    <div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="mb-6">
-          <StudentInfoColumn />
-        </div>
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Current Class
-          </h2>
-          <div className="flex items-start space-x-4 mb-3">
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <BookOpen className="w-6 h-6 text-blue-600" />
-            </div>
-            <div>
-              <h3 className="text-base font-medium text-gray-900">
-                Web Development Fundamentals
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">CS301 - Room 201</p>
-              <div className="flex items-center mt-2 text-sm text-gray-500">
-                <Clock className="w-4 h-4 mr-1" />
-                09:00 AM - 10:30 AM
-              </div>
-            </div>
-          </div>
-          <div className="px-6 py-4 border-t">
-            <div className="w-full flex items-center cursor-pointer justify-center py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-              <CheckCircle2 className="w-5 h-5 mr-2" />
-              Join Attendance
-            </div>
-          </div>
-        </div>
-        <RecentClasses />
+  const { data, isError, isLoading } = useGetAttendanceSessionById({
+    id: sessionId || "",
+    lectureCode: lectureCode || "",
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="loader"></div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (isError) {
+    toast.error("Error fetching attendance data");
+    return null;
+  }
+  if (data) {
+    return (
+      <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="mb-6">
+            <StudentInfoColumn lectureCode={lectureCode || ""}/>
+          </div>
+          <CurrentClass attendanceData={data} />
+          <RecentClasses lectureCode={lectureCode || ""} />
+        </div>
+      </div>
+    );
+  }
 }
