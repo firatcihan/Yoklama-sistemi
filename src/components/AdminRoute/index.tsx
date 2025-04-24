@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuthStore from "../../stores/auth";
+import toast from "react-hot-toast";
 
 export default function AdminRoute({
   children,
@@ -19,6 +20,7 @@ export default function AdminRoute({
     );
   }
   if (user.role !== "admin") {
+    toast.error("You are not authorized to access this page.");
     return (
       <Navigate
         to="/dashboard"

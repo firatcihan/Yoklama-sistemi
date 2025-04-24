@@ -9,7 +9,7 @@ export default function DashboardLayout() {
   return (
     <div className="w-safe h-safe flex flex-col !bg-[#F9FAFB]">
       {modal && <Modal />}
-      <Header />
+      <Header variant="teacher" />
       <Outlet />
     </div>
   );
