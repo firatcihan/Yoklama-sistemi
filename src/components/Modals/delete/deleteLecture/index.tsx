@@ -17,7 +17,9 @@ export default function DeleteLectureModal({ close }: { close: () => void }) {
     data: lectureToDelete,
     isPending,
     isSuccess,
-  } = useGetLectureById({ id: !modal[0] ? "" : modal[0].data ? modal[0].data : "" });
+  } = useGetLectureById({
+    id: !modal[0] ? "" : modal[0].data ? modal[0].data : "",
+  });
 
   console.log(lectureToDelete);
   return (

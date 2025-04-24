@@ -21,7 +21,7 @@ export default function AdminRoute({
   if (user.role !== "admin") {
     return (
       <Navigate
-        to="/"
+        to="/dashboard"
         replace={true}
         state={{ return_url: location.pathname }}
       />

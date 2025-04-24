@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
 import { DeleteLectureInterface } from "@/api/dashboard/lectures/lectureInterface.ts";
 
-
 const useDeleteLecture = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();

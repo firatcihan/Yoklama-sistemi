@@ -10,10 +10,7 @@ const useEditTeacher = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const editTeacher = async (teacherData: EditTeacherInterface) => {
-    const response = await axios.patch(
-      `${API_URL}/api/users`,
-      teacherData,
-    );
+    const response = await axios.patch(`${API_URL}/api/users`, teacherData);
     return response.data;
   };
 

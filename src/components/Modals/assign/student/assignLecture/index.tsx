@@ -25,7 +25,6 @@ export default function StudentAssignLectureModal({ close }: ModalProps) {
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
 
-
   React.useEffect(() => {
     if (studentData?.assignedClasses) {
       setSelectedLectures(studentData.assignedClasses);

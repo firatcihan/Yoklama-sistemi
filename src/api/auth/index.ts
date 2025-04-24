@@ -16,7 +16,7 @@ const login = async (email: string, password: string) => {
 export const useLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as { from?: Location })?.from?.pathname || "/";
+  const from = (location.state as { from?: Location })?.from?.pathname || "/dashboard";
 
   const { setUser } = useAuthStore();
   return useMutation({

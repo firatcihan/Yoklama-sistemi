@@ -2,9 +2,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import Login from "../pages/auth/login";
 import AuthLayout from "../pages/auth";
 import AdminRoute from "../components/AdminRoute";
-import MainLayout from "../components/MainLayout";
 import DashboardLayout from "../pages/dashboard/DashboardLayout";
-import Home from "../pages/Home";
 import Dashboard from "../pages/dashboard";
 import ManageLectures from "../pages/dashboard/lectures";
 import ManageStudents from "@/pages/dashboard/students";
@@ -13,20 +11,9 @@ import TeacherRoute from "@/components/TeacherRoute";
 import ShowQr from "@/pages/dashboard/attendance/showQr";
 import AttendanceLayout from "@/pages/dashboard/attendance/attendanceLayout";
 import JoinAttendance from "@/pages/dashboard/attendance/joinAttendance";
+import { Navigate } from "react-router-dom";
 
 const baseRoutes = [
-  {
-    path: "/",
-    element: <MainLayout />,
-    auth: true,
-    children: [
-      {
-        path: "",
-        index: true,
-        element: <Home />,
-      },
-    ],
-  },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
@@ -76,6 +63,10 @@ const baseRoutes = [
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/auth/login" replace />,
   },
 ];
 

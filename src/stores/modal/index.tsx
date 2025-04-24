@@ -14,8 +14,7 @@ interface ModalStore {
 
 const useModalStore = create<ModalStore>((set) => ({
   modal: [],
-  setModal: (modal) =>
-    set((state) => ({ modal: [...state.modal, modal] })),
+  setModal: (modal) => set((state) => ({ modal: [...state.modal, modal] })),
   closeModal: () =>
     set((state) => ({
       modal: state.modal.slice(0, -1),

@@ -4,14 +4,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 import useModalStore from "@/stores/modal";
 import { ModalProps } from "@/components/Modals/allModals.ts";
-import {
-  X,
-  Hash,
-  Users,
-  Clock,
-  CalendarDays,
-  UserPen,
-} from "lucide-react";
+import { X, Hash, Users, Clock, CalendarDays, UserPen } from "lucide-react";
 import XSeparator from "@/components/XSeparator";
 import TimeLine from "@/components/Modals/view/components/timeLine";
 

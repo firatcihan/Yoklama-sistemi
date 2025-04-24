@@ -33,9 +33,7 @@ const ViewButton: React.FC<ViewButtonProps> = ({
         <div>
           <Eye className="h-4 w-4 mr-2 " />
         </div>
-        <p>
-          View {teacherId ? "Teacher" : studentId ? "Student" : "Lecture"}
-        </p>
+        <p>View {teacherId ? "Teacher" : studentId ? "Student" : "Lecture"}</p>
       </div>
     </DropdownMenuItem>
   );

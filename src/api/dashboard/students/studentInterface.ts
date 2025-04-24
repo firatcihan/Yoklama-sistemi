@@ -39,5 +39,5 @@ export interface ChangeStudentLecturesInterface {
   lectures: {
     id: string;
     lectureCode: string;
-  }[],
+  }[];
 }

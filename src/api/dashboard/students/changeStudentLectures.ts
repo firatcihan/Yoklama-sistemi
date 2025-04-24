@@ -10,7 +10,9 @@ const useChangeStudentLectures = () => {
   const { closeModal } = useModalStore();
 
   const queryClient = useQueryClient();
-  const changeStudentLectures = async (data: ChangeStudentLecturesInterface) => {
+  const changeStudentLectures = async (
+    data: ChangeStudentLecturesInterface,
+  ) => {
     const response = await axios.post(
       `${API_URL}/api/users/students/assign`,
       data,

@@ -21,7 +21,7 @@ export const createStudentSchema = z.object({
     .regex(/^\d+$/, "Öğrenci numarası sadece rakamlardan oluşmalıdır.")
     .nonempty("Öğrenci Numarası alanı boş bırakılamaz."),
   assignedClasses: z.array(
-    z.object({ lectureCode: z.string(), id: z.string() })
+    z.object({ lectureCode: z.string(), id: z.string() }),
   ),
 });
 

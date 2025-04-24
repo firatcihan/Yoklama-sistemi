@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
-import {DeleteTeacherInterface} from "@/api/dashboard/teachers/teacherInterface.ts";
+import { DeleteTeacherInterface } from "@/api/dashboard/teachers/teacherInterface.ts";
 
 const useDeleteTeacher = () => {
   const { closeModal } = useModalStore();

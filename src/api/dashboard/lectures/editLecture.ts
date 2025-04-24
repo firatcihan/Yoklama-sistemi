@@ -9,10 +9,7 @@ const useEditLecture = () => {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const editLecture = async (lectureData: EditLectureInterface) => {
-    const response = await axios.patch(
-      `${API_URL}/api/lectures`,
-      lectureData,
-    );
+    const response = await axios.patch(`${API_URL}/api/lectures`, lectureData);
     return response.data;
   };
 

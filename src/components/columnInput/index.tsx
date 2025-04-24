@@ -17,13 +17,13 @@ export default function ColumnInput({
   const [clicked, setClicked] = useState(false);
 
   return (
-    <div className="w-[290px] h-[50px] z-0 relative">
+    <div className="w-full h-[50px] z-0 relative">
       <input
         {...props}
         onClick={() => setClicked(true)}
         onFocus={() => setClicked(true)}
         onBlur={() => setClicked(false)}
-        className="w-full h-full pr-[30px] pl-[68px] outline-none bg-[#e6e6e6] text-[#666666] rounded-full placeholder:font-semibold "
+        className="w-full h-full pr-[30px] pl-[68px] outline-none bg-white border text-[#666666] rounded-full placeholder:font-semibold "
         placeholder={clicked ? "" : placeholder}
       />
       <div

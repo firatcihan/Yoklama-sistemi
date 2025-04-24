@@ -1,3 +1,5 @@
+import React from "react";
+
 interface SubmitButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string | JSX.Element;
@@ -29,7 +31,7 @@ export default function SubmitButton({
       }
       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = bgColor)}
     >
-      <p className="text-[15px] sm:text-[18px] flex leading-[22.5px] font-semibold text-center">
+      <div className="text-[15px] sm:text-[18px] flex leading-[22.5px] font-semibold text-center">
         {textIcon && textIconPosition === "left" && (
           <span className="mr-2 sm:mr-3">{textIcon}</span>
         )}
@@ -37,7 +39,7 @@ export default function SubmitButton({
         {textIcon && textIconPosition === "right" && (
           <span className="ml-2 sm:ml-3">{textIcon}</span>
         )}
-      </p>
+      </div>
     </button>
   );
 }
