@@ -2,6 +2,7 @@
 
 import { BookOpen, CheckCircle2, Clock } from "lucide-react";
 import RecentClasses from "@/pages/dashboard/attendance/joinAttendance/recentClasses";
+import StudentInfoColumn from "@/pages/dashboard/attendance/joinAttendance/studentInfoColumn";
 
 export default function JoinAttendance() {
   //const { lectureCode, sessionId } = useParams<{
@@ -12,6 +13,9 @@ export default function JoinAttendance() {
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="mb-6">
+          <StudentInfoColumn />
+        </div>
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Current Class

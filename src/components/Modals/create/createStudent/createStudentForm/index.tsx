@@ -183,10 +183,10 @@ export default function CreateStudentForm({ close }: { close: () => void }) {
                     </PopoverContent>
                   </Popover>
                 </FormControl>
-                <div className="flex gap-2">
+                <div className="flex gap-2 shrink-0 flex-wrap mt-1">
                   {selectedClasses.length > 0
                     ? selectedClasses.map((lec) => (
-                        <div key={lec.id}>{lec.lectureCode}</div>
+                        <div className="leading-2.5" key={lec.id}>{lec.lectureCode}</div>
                       ))
                     : ""}
                 </div>

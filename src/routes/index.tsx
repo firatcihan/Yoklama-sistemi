@@ -12,6 +12,7 @@ import ShowQr from "@/pages/dashboard/attendance/showQr";
 import AttendanceLayout from "@/pages/dashboard/attendance/attendanceLayout";
 import JoinAttendance from "@/pages/dashboard/attendance/joinAttendance";
 import { Navigate } from "react-router-dom";
+import StudentRoute from "@/components/studentRoute";
 
 const baseRoutes = [
   {
@@ -51,6 +52,7 @@ const baseRoutes = [
       {
         path: ":lectureCode/:sessionId",
         element: <JoinAttendance />,
+        student: true,
       },
     ],
   },
@@ -77,6 +79,7 @@ interface Route {
   children?: Route[];
   admin?: boolean;
   teacher?: boolean;
+  student?: boolean;
 }
 
 const authCheck = (routes: Route[]): Route[] =>
@@ -89,6 +92,9 @@ const authCheck = (routes: Route[]): Route[] =>
     }
     if (route?.teacher) {
       route.element = <TeacherRoute>{route.element}</TeacherRoute>;
+    }
+    if (route?.student) {
+      route.element = <StudentRoute>{route.element}</StudentRoute>;
     }
     if (route?.children) {
       route.children = authCheck(route.children);
