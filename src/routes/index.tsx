@@ -13,6 +13,7 @@ import AttendanceLayout from "@/pages/dashboard/attendance/attendanceLayout";
 import JoinAttendance from "@/pages/dashboard/attendance/joinAttendance";
 import { Navigate } from "react-router-dom";
 import StudentRoute from "@/components/studentRoute";
+import QrLayout from "@/pages/dashboard/components/qrLayout";
 
 const baseRoutes = [
   {
@@ -46,13 +47,19 @@ const baseRoutes = [
     auth: true,
     children: [
       {
-        path: "qr/:lectureCode/:sessionId",
-        element: <ShowQr />,
-      },
-      {
         path: ":lectureCode/:sessionId",
         element: <JoinAttendance />,
         student: true,
+      },
+    ],
+  },
+  {
+    path: "/qr",
+    element: <QrLayout />,
+    children: [
+      {
+        path: ":lectureCode/:sessionId",
+        element: <ShowQr />,
       },
     ],
   },
