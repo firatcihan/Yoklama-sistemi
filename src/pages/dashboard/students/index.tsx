@@ -1,6 +1,7 @@
 import { studentColumns, Student } from "@/components/Table/StudentColumns.tsx";
 import { DataTable } from "@/components/Table/dataTable.tsx";
 import useGetStudents from "@/api/dashboard/students/getStudents.ts";
+import useGetStudentsCreateInfo from "@/api/dashboard/students/getStudentsCreateInfo.ts";
 import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button.tsx";
@@ -21,6 +22,8 @@ export default function ManageStudents() {
           studentNumber: student.studentNumber,
         }))
       : [];
+  const { data: createInfo, isLoading: createInfoLoading } =
+    useGetStudentsCreateInfo();
 
   console.log(students);
   if (isLoading) {
@@ -30,6 +33,33 @@ export default function ManageStudents() {
   if (isError) {
     return <div>error...</div>;
   }
+
+  function calculateWeeklyPercentage({
+    currentWeek,
+    previousWeek,
+  }: {
+    currentWeek: number;
+    previousWeek: number;
+  }) {
+    if (previousWeek === 0) {
+      return currentWeek === 0 ? "0" : "+100%"; // Eğer önceki hafta 0 ise, bu hafta 0 ise %0, değilse %100
+    }
+    const percentage = ((currentWeek - previousWeek) / previousWeek) * 100;
+
+    if (percentage > 0) {
+      return `+${percentage.toFixed(1)}%`;
+    }
+    if (percentage === 0) {
+      return "0%";
+    } else {
+      return `-${percentage.toFixed(1)}%`;
+    }
+  }
+
+  const studentPercentage=calculateWeeklyPercentage({
+    currentWeek: createInfo?.createdThisWeek || 0,
+    previousWeek: createInfo?.createdLastWeek || 0,
+  })
 
   return (
     <div className="container mx-auto py-6 space-y-6 px-4 md:px-6">
@@ -58,14 +88,18 @@ export default function ManageStudents() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StudentStats
+          isLoading={createInfoLoading}
+          variant="week"
           title="Total Students"
-          value="128"
+          value={data?.length.toString() || "unknown"}
           description="Active enrollment"
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
-          trend="+2.5%"
-          trendDirection="up"
+          trend={studentPercentage}
+          trendDirection={studentPercentage[0] === "+" ? "up" : studentPercentage[0] === "-" ? "down" : "neutral"}
         />
         <StudentStats
+          isLoading={createInfoLoading}
+          variant="week"
           title="Average Attendance"
           value="94.2%"
           description="Last 30 days"
@@ -74,9 +108,11 @@ export default function ManageStudents() {
           trendDirection="up"
         />
         <StudentStats
+          isLoading={createInfoLoading}
           title="Absent Today"
+          variant="day"
           value="7"
-          description="Out of 128 students"
+          description={`Out of ${data?.length?.toString() || "unknown"} students`}
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
           trend="-3"
           trendDirection="down"

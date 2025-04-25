@@ -41,3 +41,8 @@ export interface ChangeStudentLecturesInterface {
     lectureCode: string;
   }[];
 }
+
+export interface StudentCreateInfo {
+  createdThisWeek: number;
+  createdLastWeek: number;
+}

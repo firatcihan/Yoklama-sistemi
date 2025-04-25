@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
+import { ArrowUpIcon, ArrowDownIcon, Equal } from "lucide-react";
+import ModalLoader from "@/components/Modals/components/modalLoader";
 
 interface StudentStatsProps {
   title: string;
@@ -7,17 +8,30 @@ interface StudentStatsProps {
   description: string;
   icon: ReactNode;
   trend: string;
-  trendDirection: "up" | "down";
+  trendDirection: "up" | "down" | "neutral";
+  variant?: string;
+  isLoading?: boolean;
 }
 
 export function StudentStats({
   title,
+  variant,
   value,
   description,
   icon,
   trend,
   trendDirection,
+  isLoading,
 }: StudentStatsProps) {
+  if (isLoading) {
+    return (
+      <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
+        <div className="p-6">
+          <ModalLoader color="#155dfc" extraClasses="mt-9 mb-9.5" />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
       <div className="p-6">
@@ -42,15 +56,19 @@ export function StudentStats({
             className={`text-xs flex items-center ${
               trendDirection === "up"
                 ? "text-green-600 dark:text-green-400"
-                : "text-red-600 dark:text-red-400"
+                : trendDirection === "down"
+                  ? "text-red-600 dark:text-red-400"
+                  : "text-gray-500 dark:text-gray-400"
             }`}
           >
             {trendDirection === "up" ? (
               <ArrowUpIcon className="h-3 w-3 mr-1" />
-            ) : (
+            ) : trendDirection === "down" ? (
               <ArrowDownIcon className="h-3 w-3 mr-1" />
+            ) : (
+              <Equal className="h-3 w-3 mr-1" />
             )}
-            {trend} from last period
+            {trend} from last {variant}
           </div>
         </div>
       </div>
