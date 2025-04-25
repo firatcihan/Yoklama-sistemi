@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
-//import NavbarPhone from "../../../components/navbar-phone";
 import Modal from "@/components/Modals";
 import useModalStore from "@/stores/modal";
-import Header from "@/pages/dashboard/components/header";
+import Header from "@/components/header";
 
 export default function DashboardLayout() {
   const { modal } = useModalStore();

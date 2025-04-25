@@ -3,6 +3,7 @@ import { create } from "zustand";
 type store = {
   user: null | userType;
   setUser: (user: userType) => void;
+  logoutUser: () => void;
 };
 
 type userType = {
@@ -28,6 +29,10 @@ type userType = {
 const useAuthStore = create<store>()((set) => ({
   user: null,
   setUser: (user: userType) => set({ user }),
+  logoutUser: () =>
+    set({
+      user: null,
+    }),
 }));
 
 export default useAuthStore;

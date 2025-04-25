@@ -40,3 +40,8 @@ export interface userAttendanceRecordsInterface {
   numberOfLessons: number;
   numberOfAttendances: number;
 }
+
+export interface useJoinAttendanceInterface {
+  lectureCode: string;
+  sessionId: string;
+}

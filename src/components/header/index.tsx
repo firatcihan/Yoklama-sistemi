@@ -2,6 +2,7 @@ import {
   BookOpen,
   CalendarClock,
   GraduationCap,
+  LogOut,
   Menu,
   PlusCircle,
   Users,
@@ -13,7 +14,7 @@ import { useState } from "react";
 import CloseButton from "@/components/closeButton";
 
 export default function Header({ variant = "teacher" }: { variant?: string }) {
-  const { user } = useAuthStore();
+  const { user, logoutUser } = useAuthStore();
   const { setModal } = useModalStore();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -78,7 +79,7 @@ export default function Header({ variant = "teacher" }: { variant?: string }) {
 
           <div
             className={`
-            absolute inset-y-0 left-0 w-64 bg-white shadow-lg
+            flex flex-col absolute inset-y-0 left-0 w-64 bg-white shadow-lg
             transform transition-transform duration-300 ease-out
             ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
           `}
@@ -91,7 +92,7 @@ export default function Header({ variant = "teacher" }: { variant?: string }) {
                 </div>
               </div>
             </div>
-            <nav className="p-4 space-y-2">
+            <nav className="p-4 space-y-2 flex flex-col">
               <div
                 onClick={() => navigateToPage("teacher")}
                 className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-blue-700 rounded-lg hover:bg-blue-50 transition-colors "
@@ -121,6 +122,15 @@ export default function Header({ variant = "teacher" }: { variant?: string }) {
                 <span>Manage Lectures</span>
               </div>
             </nav>
+            <div className="mt-auto p-4">
+              <div
+                onClick={() => logoutUser()}
+                className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
+              >
+                <LogOut className="w-5 h-5 text-gray-500" />
+                <span>Sign Out</span>
+              </div>
+            </div>
           </div>
         </div>
       )}

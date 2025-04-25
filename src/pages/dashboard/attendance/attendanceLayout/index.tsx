@@ -1,6 +1,6 @@
 import { Outlet} from "react-router-dom";
-import Header from "@/pages/dashboard/components/header";
 import useAuthStore from "@/stores/auth";
+import Header from "@/components/header";
 
 export default function AttendanceLayout() {
   const { user } = useAuthStore();
