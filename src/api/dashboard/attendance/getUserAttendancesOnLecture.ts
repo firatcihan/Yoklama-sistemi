@@ -19,7 +19,7 @@ const useGetUserAttendancesOnLecture = ({
     };
 
   return useQuery<userAttendanceRecordsInterface>({
-    queryKey: ["attendances", "user", lectureCode, studentId],
+    queryKey: ["attendances", "user", lectureCode],
     queryFn: getUserAttendancesOnLecture,
   });
 };

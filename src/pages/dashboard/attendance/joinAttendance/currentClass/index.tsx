@@ -3,13 +3,16 @@ import { AttendanceInterface } from "@/api/dashboard/attendance/attendanceInterf
 import useJoinAttendanceByUserId from "@/api/dashboard/attendance/joinAttendanceByUserId.ts";
 import ModalLoader from "@/components/Modals/components/modalLoader";
 import classNames from "classnames";
+import { useState } from "react";
 
 export default function CurrentClass({
   attendanceData,
+  isExpired,
   userId,
 }: {
   attendanceData: AttendanceInterface;
   userId: string;
+  isExpired: boolean;
 }) {
   const {
     mutate: joinAttendance,
@@ -20,14 +23,13 @@ export default function CurrentClass({
     lectureCode: attendanceData.lectureCode,
   });
   const handleJoinAttendance = () => {
+    setIsClicked(true);
     joinAttendance({
       studentId: userId,
     });
   };
 
-  const formattedTime = new Date(attendanceData.expiresAt._seconds * 1000);
-
-  const isExpired = formattedTime.getTime() < Date.now();
+  const [isClicked, setIsClicked] = useState<boolean>(false);
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
@@ -53,7 +55,7 @@ export default function CurrentClass({
       </div>
       <div className="px-6 py-4 border-t">
         <button
-          disabled={isError || isExpired || isPending}
+          disabled={isError || isExpired || isPending || isClicked}
           onClick={handleJoinAttendance}
           className={classNames(
             "w-full flex items-center justify-center py-3 px-4 text-white font-medium rounded-lg !border-none focus:!outline-none disabled:!opacity-50 disabled:!cursor-not-allowed !transition-colors",
@@ -65,7 +67,7 @@ export default function CurrentClass({
         >
           {isPending ? (
             <ModalLoader color={"fff"} />
-          ) : isError ? (
+          ) : isError || isClicked ? (
             "You already joined this attendance"
           ) : isExpired ? (
             <p className="flex items-center justify-center">

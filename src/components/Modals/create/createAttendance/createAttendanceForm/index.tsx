@@ -42,7 +42,7 @@ export default function CreateAttendanceForm({ close }: { close: () => void }) {
           email: user.email,
         },
         distanceRange: distanceRange,
-        expirationTime: 99,
+        expirationTime: expirationTime,
       };
       console.log(attendanceData);
       createAttendance(attendanceData);

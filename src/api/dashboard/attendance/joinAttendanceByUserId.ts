@@ -32,7 +32,10 @@ const useJoinAttendanceByUserId = ({
     onSuccess: () => {
       toast.success("Yoklama başarıyla katıldınız.");
       queryClient.invalidateQueries({
-        queryKey: ["attendances", lectureCode, sessionId],
+        queryKey: ["attendances", lectureCode],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["attendances", "user", lectureCode],
       });
     },
     onError: (error) => {

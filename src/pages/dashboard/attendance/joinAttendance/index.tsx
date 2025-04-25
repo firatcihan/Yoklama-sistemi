@@ -50,13 +50,20 @@ export default function JoinAttendance() {
   }
 
   if (data) {
+    const formattedTime = new Date(data.expiresAt._seconds * 1000);
+    const isExpired = formattedTime.getTime() < new Date().getTime();
+
     return (
       <div>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="mb-6">
             <StudentInfoColumn lectureCode={lectureCode || ""} />
           </div>
-          <CurrentClass userId={user.id} attendanceData={data} />
+          <CurrentClass
+            isExpired={isExpired}
+            userId={user.id}
+            attendanceData={data}
+          />
           <RecentClasses lectureCode={lectureCode || ""} />
         </div>
       </div>
