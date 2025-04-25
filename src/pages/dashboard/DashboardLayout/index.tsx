@@ -7,7 +7,7 @@ import Header from "@/pages/dashboard/components/header";
 export default function DashboardLayout() {
   const { modal } = useModalStore();
   return (
-    <div className="w-safe h-safe flex flex-col !bg-[#F9FAFB]">
+    <div className="min-w-screen h-safe flex flex-col !bg-[#fff]">
       {modal && <Modal />}
       <Header variant="teacher" />
       <Outlet />

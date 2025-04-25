@@ -73,15 +73,15 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center pb-4">
-        <div className="max-w-sm flex gap-1">
+      <div className="sm:flex sm:items-center sm:pb-4">
+        <div className="max-w-sm max-sm:px-2 max-sm:mb-2 flex gap-1">
           <Input
             placeholder={`Filter ${filter}...`}
             value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn(filter)?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className="sm:max-w-sm"
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto ">
+            <Button variant="outline" className="max-sm:mb-3 max-sm:ml-2 ml-auto ">
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -162,7 +162,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="max-sm:w-[340px] rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

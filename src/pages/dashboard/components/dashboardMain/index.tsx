@@ -15,7 +15,7 @@ export default function DashboardMain() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
         <div
           onClick={() => navigate("students")}
-          className="w-full bg-white rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full bg-white border !border-[#e5e7eb] rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           <div className="flex items-start space-x-3 sm:space-x-4">
             <div className="flex-shrink-0 p-2 sm:p-3 bg-blue-50 rounded-lg">
@@ -34,7 +34,7 @@ export default function DashboardMain() {
         </div>
         <div
           onClick={() => navigate("lectures")}
-          className="w-full bg-white rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full border !border-[#e5e7eb] bg-white rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           <div className="flex items-start space-x-3 sm:space-x-4">
             <div className="flex-shrink-0 p-2 sm:p-3 bg-blue-50 rounded-lg">
@@ -53,7 +53,7 @@ export default function DashboardMain() {
         </div>
         <div
           onClick={() => navigate("teachers")}
-          className="w-full bg-white rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full bg-white border !border-[#e5e7eb] rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           <div className="flex items-start space-x-3 sm:space-x-4">
             <div className="flex-shrink-0 p-2 sm:p-3 bg-blue-50 rounded-lg">
@@ -72,7 +72,7 @@ export default function DashboardMain() {
         </div>
         <div
           onClick={() => setModal({ name: "createAttendance", data: user?.id })}
-          className="w-full bg-white rounded-xl cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full bg-white rounded-xl border !border-[#e5e7eb] cursor-pointer !shadow-xs p-4 sm:p-6 text-left transition-all duration-200 hover:!shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           <div className="flex items-start space-x-3 sm:space-x-4">
             <div className="flex-shrink-0 p-2 sm:p-3 bg-blue-50 rounded-lg">

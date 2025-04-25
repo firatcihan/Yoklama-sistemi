@@ -14,7 +14,7 @@ export default function ViewStudent({ close }: ModalProps) {
   if (!studentData) return null;
 
   return (
-    <div className="w-[320px] bg-white rounded-sm">
+    <div className="w-[320px] md:w-[600px] bg-white rounded-sm">
       <div className="flex items-center justify-between px-4 py-6">
         <div>
           <p className="text-[24px] font-semibold leading-6">

@@ -1,9 +1,10 @@
 import { Lecture, lectureColumns } from "@/components/Table/LectureColumns.tsx";
 import { DataTable } from "@/components/Table/dataTable.tsx";
-import SubmitButton from "@/components/submitButton";
-import { ClipboardPlus } from "lucide-react";
+import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
+import { Button } from "@/components/ui/button.tsx";
+import { StudentStats } from "@/pages/dashboard/students/studentStats";
 
 export default function ManageLectures() {
   const { setModal } = useModalStore();
@@ -29,27 +30,73 @@ export default function ManageLectures() {
   }
 
   return (
-    <>
-      <div className="container mx-auto py-10 px-3 rounded-xl bg-[#f7f8f9]">
-        <div className="mb-4 flex justify-between items-center">
-          <p className="text-xl sm:text-2xl font-semibold w-[50%]">
-            Lectures Information
+    <div className="container mx-auto py-6 space-y-6 px-4 md:px-6 overflow-x-hidden">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+        <div>
+          <p className="text-3xl font-bold tracking-tight">
+            Lecture Management
           </p>
-          <div className="flex justify-center items-center">
-            <SubmitButton
-              text="Create Lecture"
-              bgColor="#1e376d"
-              onHoverColor="#2e4d8f"
-              textIconPosition="left"
-              textIcon={<ClipboardPlus className="w-5 h-5" />}
-              onClick={() =>
-                setModal({ name: "createLecture", data: "lecture" })
-              }
-            />
-          </div>
+          <p className="text-muted-foreground mt-1 font-medium">
+            Manage lecture schedules, instructors, and attendance records
+          </p>
         </div>
-        <DataTable variant="lecture" columns={lectureColumns} data={lectures} />
+        <div className="flex items-center gap-2">
+          <Button variant="outline" className="hidden md:flex">
+            <FileSpreadsheet className="mr-2 h-4 w-4" />
+            Export
+          </Button>
+          <Button
+            onClick={() => setModal({ name: "createLecture", data: "lecture" })}
+            className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
+          >
+            <UserPlus className="mr-1 h-5 w-5" />
+            Create Lecture
+          </Button>
+        </div>
       </div>
-    </>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <StudentStats
+          title="Total Students"
+          value="128"
+          description="Active enrollment"
+          icon={<Users className="h-4 w-4 text-muted-foreground" />}
+          trend="+2.5%"
+          trendDirection="up"
+        />
+        <StudentStats
+          title="Average Attendance"
+          value="94.2%"
+          description="Last 30 days"
+          icon={<School className="h-4 w-4 text-muted-foreground" />}
+          trend="+1.2%"
+          trendDirection="up"
+        />
+        <StudentStats
+          title="Absent Today"
+          value="7"
+          description="Out of 128 students"
+          icon={<Users className="h-4 w-4 text-muted-foreground" />}
+          trend="-3"
+          trendDirection="down"
+        />
+      </div>
+      <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">
+        <div className="mb-3 px-10">
+          <p className="text-[19px] font-semibold leading-none tracking-tight">
+            Lectures Directory
+          </p>
+          <p className="text-sm font-semibold text-muted-foreground">
+            View and manage all lecture information and schedules
+          </p>
+        </div>
+        <div className="sm:px-10 max-sm:flex max-sm:items-center max-sm:justify-center max-sm:w-full">
+          <DataTable
+            columns={lectureColumns}
+            data={lectures}
+            variant="lecture"
+          />
+        </div>
+      </div>
+    </div>
   );
 }

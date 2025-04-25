@@ -9,7 +9,7 @@ export default function DashboardInfo() {
   const { data: lectures, isLoading: lectureLoading } = useGetAllClasses();
   return (
     <div className="sm:mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-      <div className="bg-white rounded-xl shadow-xs p-4 sm:p-6">
+      <div className="bg-white border !border-[#e5e7eb] rounded-xl shadow-xs p-4 sm:p-6">
         <p className="text-xs sm:text-sm font-medium text-gray-500">
           Total Students
         </p>
@@ -23,7 +23,7 @@ export default function DashboardInfo() {
           )}
         </p>
       </div>
-      <div className="bg-white rounded-xl shadow-xs p-4 sm:p-6">
+      <div className="bg-white border !border-[#e5e7eb] rounded-xl shadow-xs p-4 sm:p-6">
         <p className="text-xs sm:text-sm font-medium text-gray-500">
           Active Lectures
         </p>
@@ -37,7 +37,7 @@ export default function DashboardInfo() {
           )}
         </p>
       </div>
-      <div className="bg-white rounded-xl shadow-xs p-4 sm:p-6">
+      <div className="bg-white border !border-[#e5e7eb] rounded-xl shadow-xs p-4 sm:p-6">
         <p className="text-xs sm:text-sm font-medium text-gray-500">Teachers</p>
         <p className="mt-1 sm:mt-2 text-xl sm:text-3xl font-semibold text-gray-900">
           {teacherLoading ? (
@@ -49,7 +49,7 @@ export default function DashboardInfo() {
           )}
         </p>
       </div>
-      <div className="bg-white rounded-xl shadow-xs p-4 sm:p-6">
+      <div className="bg-white border !border-[#e5e7eb] rounded-xl shadow-xs p-4 sm:p-6">
         <p className="text-xs sm:text-sm font-medium text-gray-500">
           Today's Sessions
         </p>
