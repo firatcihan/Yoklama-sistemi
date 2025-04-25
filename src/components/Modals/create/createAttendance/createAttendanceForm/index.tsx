@@ -41,8 +41,8 @@ export default function CreateAttendanceForm({ close }: { close: () => void }) {
           name: user.name,
           email: user.email,
         },
-        distanceRange: distanceRange, // Replace with actual distance range
-        expirationTime: expirationTime, // Replace with actual expiration time
+        distanceRange: distanceRange,
+        expirationTime: 99,
       };
       console.log(attendanceData);
       createAttendance(attendanceData);
