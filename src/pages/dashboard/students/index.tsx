@@ -6,9 +6,12 @@ import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button.tsx";
 import { StatsCard } from "@/pages/dashboard/students/studentStats";
+import useGetLast2WeeksAttendances from "@/api/dashboard/info/geLast2WeekAttendances.ts";
+import useAuthStore from "@/stores/auth";
 
 export default function ManageStudents() {
   const { setModal } = useModalStore();
+  const { user } = useAuthStore();
   const { data, isLoading, isError } = useGetStudents();
   const students: Student[] =
     data && data.length > 0
@@ -25,7 +28,9 @@ export default function ManageStudents() {
   const { data: createInfo, isLoading: createInfoLoading } =
     useGetStudentsCreateInfo();
 
-  console.log(students);
+  const { data: attendanceData, isLoading: attendanceLoading } =
+    useGetLast2WeeksAttendances({ teacherId: user?.id || "" });
+
   if (isLoading) {
     return <div>loading...</div>;
   }
@@ -34,33 +39,29 @@ export default function ManageStudents() {
     return <div>error...</div>;
   }
 
-  function calculateWeeklyPercentage({
-    currentWeek,
-    previousWeek,
-  }: {
-    currentWeek: number;
-    previousWeek: number;
-  }) {
-    if (previousWeek === 0) {
-      return currentWeek === 0 ? "0" : "+100%"; // Eğer önceki hafta 0 ise, bu hafta 0 ise %0, değilse %100
+  function calculateAttendancePercentage(
+    currentWeekCount: number,
+    previousWeekCount: number,
+  ) {
+    if (previousWeekCount === 0) {
+      return currentWeekCount === 0 ? 0 : 100;
     }
-    const percentage = ((currentWeek - previousWeek) / previousWeek) * 100;
-
-    if (percentage > 0) {
-      return `+${percentage.toFixed(1)}%`;
-    }
-    if (percentage === 0) {
-      return "0%";
-    } else {
-      return `-${percentage.toFixed(1)}%`;
-    }
+    const percentageChange =
+      ((currentWeekCount - previousWeekCount) / previousWeekCount) * 100;
+    return percentageChange;
   }
 
-  const studentPercentage=calculateWeeklyPercentage({
-    currentWeek: createInfo?.createdThisWeek || 0,
-    previousWeek: createInfo?.createdLastWeek || 0,
-  })
+  const attendancePercentage = calculateAttendancePercentage(
+    attendanceData?[0]?.totalAttendancesCount,
+    attendanceData?[1]?.totalAttendancesCount
+  );
 
+  const studentPercentage = calculateAttendancePercentage(
+    createInfo?.createdThisWeek || 0,
+    createInfo?.createdLastWeek || 0,
+  );
+  console.log(studentPercentage);
+  console.log(attendancePercentage);
   return (
     <div className="container mx-auto py-6 space-y-6 px-4 md:px-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -95,16 +96,22 @@ export default function ManageStudents() {
           description="Active enrollment"
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
           trend={studentPercentage}
-          trendDirection={studentPercentage[0] === "+" ? "up" : studentPercentage[0] === "-" ? "down" : "neutral"}
+          trendDirection={
+            studentPercentage[0] === "+"
+              ? "up"
+              : studentPercentage[0] === "-"
+                ? "down"
+                : "neutral"
+          }
         />
         <StatsCard
-          isLoading={createInfoLoading}
+          isLoading={attendanceLoading}
           variant="week"
           title="Average Attendance"
-          value="94.2%"
-          description="Last 30 days"
+          value={`${attendanceData?.[0]?.totalAttendanceRate || "0"}%`}
+          description="Last 7 days"
           icon={<School className="h-4 w-4 text-muted-foreground" />}
-          trend="+1.2%"
+          trend={attendancePercentage}
           trendDirection="up"
         />
         <StatsCard
