@@ -4,7 +4,7 @@ import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import useGetTeachers from "@/api/dashboard/teachers/GetTeachers.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { StudentStats } from "@/pages/dashboard/students/studentStats";
+import { StatsCard } from "@/pages/dashboard/students/studentStats";
 
 export default function ManageStudents() {
   const { setModal } = useModalStore();
@@ -54,7 +54,7 @@ export default function ManageStudents() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StudentStats
+        <StatsCard
           title="Total Students"
           value="128"
           description="Active enrollment"
@@ -62,7 +62,7 @@ export default function ManageStudents() {
           trend="+2.5%"
           trendDirection="up"
         />
-        <StudentStats
+        <StatsCard
           title="Average Attendance"
           value="94.2%"
           description="Last 30 days"
@@ -70,7 +70,7 @@ export default function ManageStudents() {
           trend="+1.2%"
           trendDirection="up"
         />
-        <StudentStats
+        <StatsCard
           title="Absent Today"
           value="7"
           description="Out of 128 students"

@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
-import { ArrowLeft, Calendar, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import useGetAttendancesGroupByWeekByLectureCode from "@/api/dashboard/attendance/getAttendancesGroupByWeekByLectureCode.ts";
 import useGetLectureByLectureCode from "@/api/dashboard/lectures/GetLectureByLectureCode.ts";
+import PageLoader from "@/components/pageLoader";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageLectureAttendance() {
   const { lectureCode } = useParams<{
@@ -24,16 +26,20 @@ export default function ManageLectureAttendance() {
     lectureCode: lectureCode || "",
   });
 
-  if (isLoading || isLoadingLecture) return <div>Loading...</div>;
+  const navigate = useNavigate();
+
+  if (isLoading || isLoadingLecture) return <PageLoader />;
   if (isError || isErrorLecture) return <div>Error loading lectures data</div>;
   if (!lecturesData || lecturesData.length === 0 || !selectedLecture)
     return <div>No attendance has been created yet for this lecture.</div>;
 
-  console.log(selectedLecture);
   return (
-    <div className="container mx-auto bg-white rounded-xl overflow-hidden mt-10">
-      <div className="mb-8">
-        <button className="flex items-center text-gray-600 !border-none !outline-none !bg-white hover:text-gray-900 mb-4">
+    <div className="container mx-auto bg-white rounded-xl overflow-hidden mt-3">
+      <div className="mb-8 pl-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-gray-600 !pl-0 !border-none !outline-none !bg-white hover:text-gray-900 mb-4"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Lectures
         </button>
@@ -55,7 +61,7 @@ export default function ManageLectureAttendance() {
           </p>
         </div>
         <div className="p-6">
-          {lecturesData.map((week) => (
+          {[...lecturesData].reverse().map((week) => (
             <div key={week.week} className="mb-6 last:mb-0">
               <p className="text-sm font-medium text-gray-500 mb-3">
                 Week {week.week}
@@ -79,6 +85,9 @@ export default function ManageLectureAttendance() {
 
                   return (
                     <div
+                      onClick={() =>
+                        navigate(`${day.attendanceId}`)
+                      }
                       key={day.attendanceId}
                       className="flex items-center p-4 rounded-lg border transition-all cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all"
                     >

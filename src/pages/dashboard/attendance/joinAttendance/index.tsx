@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import RecentClasses from "@/pages/dashboard/attendance/joinAttendance/recentClasses";
 import StudentInfoColumn from "@/pages/dashboard/attendance/joinAttendance/studentInfoColumn";
-import useGetAttendanceSessionById from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
+import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
 import toast from "react-hot-toast";
 import CurrentClass from "@/pages/dashboard/attendance/joinAttendance/currentClass";
 import useAuthStore from "@/stores/auth";

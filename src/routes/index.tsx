@@ -17,6 +17,8 @@ import QrLayout from "@/pages/dashboard/components/qrLayout";
 import ManageAttendance from "@/pages/dashboard/attendance/manageAttendance";
 import ManageLectureAttendance from "@/pages/dashboard/attendance/manageAttendance/manageLectureAttendance";
 import ManageAttendanceLayout from "@/pages/dashboard/attendance/manageAttendance/manageAttendanceLayout";
+import ShowSelectedLecture
+  from "@/pages/dashboard/attendance/manageAttendance/manageLectureAttendance/showSelectedLecture";
 
 const baseRoutes = [
   {
@@ -51,6 +53,11 @@ const baseRoutes = [
             teacher: true,
             path: ":lectureCode",
             element: <ManageLectureAttendance />,
+          },
+          {
+            teacher: true,
+            path: ":lectureCode/:sessionId",
+            element: <ShowSelectedLecture />,
           },
         ],
       },

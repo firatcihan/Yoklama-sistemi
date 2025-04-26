@@ -13,7 +13,7 @@ interface StudentStatsProps {
   isLoading?: boolean;
 }
 
-export function StudentStats({
+export function StatsCard({
   title,
   variant,
   value,

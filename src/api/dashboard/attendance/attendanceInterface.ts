@@ -14,7 +14,7 @@ export interface CreateAttendance {
   expirationTime: number;
 }
 
-interface studentInAttendanceRecord {
+export interface studentInAttendanceRecord {
   id: string;
   name: string;
   email: string;

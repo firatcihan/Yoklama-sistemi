@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
 import { useNavigate } from "react-router-dom";
+import PageLoader from "@/components/pageLoader";
 
 export default function ManageAttendance() {
   const { data: lecturesData, isLoading, isError } = useGetAllClasses();
@@ -9,7 +10,7 @@ export default function ManageAttendance() {
   const navigate = useNavigate();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <PageLoader />;
   }
 
   if (isError) {

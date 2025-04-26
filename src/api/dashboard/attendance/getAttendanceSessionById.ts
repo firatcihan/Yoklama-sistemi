@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { API_URL } from "../../getBackendUrl";
 import { AttendanceInterface } from "@/api/dashboard/attendance/attendanceInterface.ts";
+import axios from "axios";
+import { API_URL } from "@/api/getBackendUrl.ts";
+import { useQuery } from "@tanstack/react-query";
 
-const useGetAttendanceSessionById = ({
+export const useGetAttendanceSessionById = ({
   id,
   lectureCode,
 }: {
@@ -14,7 +14,7 @@ const useGetAttendanceSessionById = ({
     const response = await axios.get(
       `${API_URL}/api/attendance/session/${lectureCode}/${id}`,
     );
-    return response.data;
+    return response.data as AttendanceInterface;
   };
 
   return useQuery<AttendanceInterface>({
@@ -22,5 +22,3 @@ const useGetAttendanceSessionById = ({
     queryFn: getAttendanceSessionById,
   });
 };
-
-export default useGetAttendanceSessionById;

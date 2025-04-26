@@ -101,12 +101,12 @@ export function DataTable<TData, TValue>({
                 <DropdownMenuRadioItem value="name">
                   {variant === "lecture" ? "Lecture Name" : "Name"}
                 </DropdownMenuRadioItem>
-                {variant === "student" && (
+                {variant === "student" || variant === "attendanceStudent" &&  (
                   <DropdownMenuRadioItem value="studentNumber">
                     Student Number
                   </DropdownMenuRadioItem>
                 )}
-                {variant === "student" && (
+                {variant === "student"  && (
                   <DropdownMenuRadioItem value="assignedClasses">
                     Assigned Classes
                   </DropdownMenuRadioItem>
