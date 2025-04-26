@@ -6,7 +6,7 @@ export default function AttendanceLayout() {
   const { user } = useAuthStore();
   if (!user) return;
   return (
-    <div className="w-safe h-safe flex flex-col !bg-[#F9FAFB]">
+    <div className="w-safe h-safe flex flex-col">
       <div>
         <Header variant={user.role === "student" ? "student" : "teacher"} />
         <Outlet />

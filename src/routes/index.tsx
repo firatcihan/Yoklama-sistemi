@@ -14,6 +14,9 @@ import JoinAttendance from "@/pages/dashboard/attendance/joinAttendance";
 import { Navigate } from "react-router-dom";
 import StudentRoute from "@/components/studentRoute";
 import QrLayout from "@/pages/dashboard/components/qrLayout";
+import ManageAttendance from "@/pages/dashboard/attendance/manageAttendance";
+import ManageLectureAttendance from "@/pages/dashboard/attendance/manageAttendance/manageLectureAttendance";
+import ManageAttendanceLayout from "@/pages/dashboard/attendance/manageAttendance/manageAttendanceLayout";
 
 const baseRoutes = [
   {
@@ -33,6 +36,23 @@ const baseRoutes = [
       {
         path: "students",
         element: <ManageStudents />,
+      },
+      {
+        path: "attendances",
+        element: <ManageAttendanceLayout />,
+        admin: true,
+        children: [
+          {
+            path: "",
+            index: true,
+            element: <ManageAttendance />,
+          },
+          {
+            teacher: true,
+            path: ":lectureCode",
+            element: <ManageLectureAttendance />,
+          },
+        ],
       },
       {
         path: "teachers",

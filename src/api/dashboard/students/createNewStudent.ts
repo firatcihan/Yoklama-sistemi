@@ -21,6 +21,7 @@ const useCreateStudent = () => {
     mutationFn: createStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
+      queryClient.invalidateQueries({ queryKey: ["students", "info"] });
       toast.success("Öğrenci başarıyla oluşturuldu.");
       closeModal();
     },

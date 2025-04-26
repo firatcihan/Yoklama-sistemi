@@ -1,3 +1,8 @@
+interface FirestoreTimestamp {
+  _seconds: number;
+  _nanoseconds: number;
+}
+
 export interface CreateAttendance {
   lectureId: string;
   createdBy: {
@@ -44,4 +49,16 @@ export interface userAttendanceRecordsInterface {
 export interface useJoinAttendanceInterface {
   lectureCode: string;
   sessionId: string;
+}
+
+interface groupByReturnLectureInterface {
+  attendanceId: string;
+  lectureCode: string;
+  expiresAt: FirestoreTimestamp;
+  createdAt: FirestoreTimestamp;
+}
+
+export interface groupByWeekReturnInterface {
+  week: string;
+  happendLectures: groupByReturnLectureInterface[];
 }
