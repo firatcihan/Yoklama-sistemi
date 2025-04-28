@@ -4,10 +4,12 @@ import PageLoader from "@/components/pageLoader";
 import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "@/components/Table/dataTable.tsx";
+import useModalStore from "@/stores/modal";
 import { attendanceStudentsColumns } from "@/components/Table/attendanceStudentsColumns.tsx";
-import {StatsCard} from "@/components/statsCard";
+import { StatsCard } from "@/components/statsCard";
 
 export default function ShowSelectedLecture() {
+  const { setModal } = useModalStore();
   const { lectureCode, sessionId } = useParams<{
     lectureCode: string;
     sessionId: string;
@@ -95,9 +97,21 @@ export default function ShowSelectedLecture() {
                 View and manage all students who joined the attendance
               </p>
             </div>
-            <div className="sm:ml-auto max-sm:w-[150px] max-sm:my-2 flex items-center cursor-pointer items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+            <div
+              onClick={() =>
+                setModal({
+                  name: "manageAttendanceParticipants",
+                  data: {
+                    lectureName: sessionData.lectureName,
+                    participants: sessionData.attendanceRecords,
+                    lectureCode: lectureCode,
+                    sessionId: sessionId,
+                  },
+                })
+              }
+              className="sm:ml-auto max-sm:w-[150px] max-sm:my-2 flex items-center cursor-pointer items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
               <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-1.5" />
-
               <span className="inline">Add student</span>
             </div>
           </div>

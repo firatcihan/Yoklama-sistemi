@@ -1,11 +1,15 @@
 import { useParams } from "react-router-dom";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, ClipboardList, PlusCircle } from "lucide-react";
 import useGetAttendancesGroupByWeekByLectureCode from "@/api/dashboard/attendance/getAttendancesGroupByWeekByLectureCode.ts";
 import useGetLectureByLectureCode from "@/api/dashboard/lectures/GetLectureByLectureCode.ts";
 import PageLoader from "@/components/pageLoader";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/stores/auth";
+import useModalStore from "@/stores/modal";
 
 export default function ManageLectureAttendance() {
+  const { user } = useAuthStore();
+  const { setModal } = useModalStore();
   const { lectureCode } = useParams<{
     lectureCode: string;
     lectureId: string;
@@ -31,7 +35,41 @@ export default function ManageLectureAttendance() {
   if (isLoading || isLoadingLecture) return <PageLoader />;
   if (isError || isErrorLecture) return <div>Error loading lectures data</div>;
   if (!lecturesData || lecturesData.length === 0 || !selectedLecture)
-    return <div>No attendance has been created yet for this lecture.</div>;
+    return (
+      <div className="bg-white rounded-xl overflow-hidden">
+        <div className="ml-4 mt-2">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center text-gray-600 !pl-0 !border-none !outline-none !bg-white hover:text-gray-900 mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Lectures
+          </button>
+        </div>
+        <div className="p-12 flex flex-col items-center justify-center text-center">
+          <div className="w-50 h-50 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+            <ClipboardList className="w-25 h-25 text-blue-500" />
+          </div>
+          <p className="text-2xl font-semibold text-gray-900 mb-2">
+            No attendance recorded yet
+          </p>
+          <p className="text-gray-600 text-md mb-8 max-w-md">
+            There are no attendance records for this session. Start by recording
+            attendance for the students in this class.
+          </p>
+          <div
+            onClick={() =>
+              setModal({ name: "createAttendance", data: user?.id || "" })
+            }
+            className="inline-flex cursor-pointer items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          >
+            <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-1.5" />
+
+            <span>Create Attendance</span>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="container mx-auto bg-white rounded-xl overflow-hidden mt-3">
@@ -85,9 +123,7 @@ export default function ManageLectureAttendance() {
 
                   return (
                     <div
-                      onClick={() =>
-                        navigate(`${day.attendanceId}`)
-                      }
+                      onClick={() => navigate(`${day.attendanceId}`)}
                       key={day.attendanceId}
                       className="flex items-center p-4 rounded-lg border transition-all cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all"
                     >

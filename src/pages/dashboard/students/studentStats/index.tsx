@@ -145,9 +145,9 @@ export default function StudentStats({
               }
               trendDirection={
                 totalAttendancesCount - lastAttendancesCount > 0
-                  ? "up"
+                  ? "down"
                   : totalAttendancesCount - lastAttendancesCount < 0
-                    ? "down"
+                    ? "up"
                     : "neutral"
               }
             />

@@ -3,40 +3,45 @@ import axios from "axios";
 import { API_URL } from "../../getBackendUrl";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import useModalStore from "@/stores/modal";
 import { useJoinAttendanceInterface } from "@/api/dashboard/attendance/attendanceInterface.ts";
 
-const useJoinAttendanceByUserId = ({
+interface selectedStudentsInterface {
+  name: string;
+  studentNumber: string;
+}
+
+const useManageAttendanceParticipants = ({
   sessionId,
   lectureCode,
 }: useJoinAttendanceInterface) => {
+  const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-  const joinAttendanceByUserId = async ({
-    studentId,
+  const manageAttendanceParticipants = async ({
+    studentsToChange,
   }: {
-    studentId: string;
+    studentsToChange: selectedStudentsInterface[];
   }) => {
-    if (!studentId || !sessionId || !lectureCode) {
-      throw new Error("studentId, sessionId and lectureCode is required");
+    if (!sessionId || !lectureCode) {
+      throw new Error("sessionId and lectureCode is required");
     }
     const response = await axios.post(
-      `${API_URL}/api/attendance/session/student/${lectureCode}/${sessionId}`,
+      `${API_URL}/api/attendance/session/manage/${lectureCode}/${sessionId}`,
       {
-        studentId: studentId,
+        studentsInAttendance: studentsToChange,
       },
     );
     return response.data;
   };
 
   return useMutation({
-    mutationFn: joinAttendanceByUserId,
+    mutationFn: manageAttendanceParticipants,
     onSuccess: () => {
-      toast.success("Yoklama başarıyla katıldınız.");
+      toast.success("Yoklama başarıyla güncellendi.");
       queryClient.invalidateQueries({
-        queryKey: ["attendances", lectureCode],
+        queryKey: ["attendances", lectureCode, sessionId],
       });
-      queryClient.invalidateQueries({
-        queryKey: ["attendances", "user", lectureCode],
-      });
+      closeModal();
     },
     onError: (error) => {
       if (axios.isAxiosError(error) && error.response) {
@@ -53,4 +58,4 @@ const useJoinAttendanceByUserId = ({
   });
 };
 
-export default useJoinAttendanceByUserId;
+export default useManageAttendanceParticipants;
