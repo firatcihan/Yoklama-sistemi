@@ -18,6 +18,7 @@ import ManageAttendance from "@/pages/dashboard/attendance/manageAttendance";
 import ManageLectureAttendance from "@/pages/dashboard/attendance/manageAttendance/manageLectureAttendance";
 import ManageAttendanceLayout from "@/pages/dashboard/attendance/manageAttendance/manageAttendanceLayout";
 import ShowSelectedLecture from "@/pages/dashboard/attendance/manageAttendance/manageLectureAttendance/showSelectedLecture";
+import UnauthorizedPage from "@/pages/unauthorized";
 
 const baseRoutes = [
   {
@@ -98,6 +99,10 @@ const baseRoutes = [
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
   },
   {
     path: "*",

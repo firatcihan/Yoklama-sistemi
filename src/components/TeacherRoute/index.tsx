@@ -23,7 +23,7 @@ export default function TeacherRoute({
     toast.error("You are not authorized to access this page.");
     return (
       <Navigate
-        to="/dashboard"
+        to="/unauthorized"
         replace={true}
         state={{ return_url: location.pathname }}
       />
