@@ -1,6 +1,7 @@
 import {
   BookOpen,
   CalendarClock,
+  FilePen,
   GraduationCap,
   LogOut,
   Menu,
@@ -101,13 +102,6 @@ export default function Header({ variant = "teacher" }: { variant?: string }) {
                 <span>Create Attendance</span>
               </div>
               <div
-                onClick={() => navigateToPage("teachers")}
-                className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
-              >
-                <GraduationCap className="w-5 h-5 text-gray-500" />
-                <span>Manage Teachers</span>
-              </div>
-              <div
                 onClick={() => navigateToPage("students")}
                 className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
               >
@@ -115,11 +109,25 @@ export default function Header({ variant = "teacher" }: { variant?: string }) {
                 <span>Manage Students</span>
               </div>
               <div
+                onClick={() => navigateToPage("teachers")}
+                className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
+              >
+                <GraduationCap className="w-5 h-5 text-gray-500" />
+                <span>Manage Teachers</span>
+              </div>
+              <div
                 onClick={() => navigateToPage("lectures")}
                 className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
               >
                 <BookOpen className="w-5 h-5 text-gray-500" />
                 <span>Manage Lectures</span>
+              </div>
+              <div
+                onClick={() => navigateToPage("attendances")}
+                className="w-full flex cursor-pointer items-center space-x-3 px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors "
+              >
+                <FilePen className="w-5 h-5 text-gray-500" />
+                <span>Manage Attendances</span>
               </div>
             </nav>
             <div className="mt-auto p-4">

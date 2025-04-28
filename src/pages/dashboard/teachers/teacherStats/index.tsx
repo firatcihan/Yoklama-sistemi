@@ -1,14 +1,14 @@
 import { StatsCard } from "@/components/statsCard";
 import { School, Users } from "lucide-react";
 import useGetLast2WeeksAttendances from "@/api/dashboard/info/geLast2WeekAttendances.ts";
-import useGetStudentsCreateInfo from "@/api/dashboard/info/getStudentsCreateInfo.ts";
 import useAuthStore from "@/stores/auth";
 import ModalLoader from "@/components/Modals/components/modalLoader";
+import useGetTeachersCreateInfo from "@/api/dashboard/info/getTeachersCreateInfo.ts";
 
-export default function StudentStats({
-  studentsLength,
+export default function TeacherStats({
+  teachersLength,
 }: {
-  studentsLength: number;
+  teachersLength: number;
 }) {
   function getAttendanceRateChange(weeks: [number, number]): string {
     const [thisWeek, lastWeek] = weeks;
@@ -16,7 +16,7 @@ export default function StudentStats({
     const prev = lastWeek;
 
     if (prev === 0) {
-      if (curr === 0) return "+0.0%";
+      if (curr === 0) return "0.0%";
       return "+100.0%";
     }
 
@@ -37,7 +37,7 @@ export default function StudentStats({
     data: createInfo,
     isLoading: createInfoLoading,
     isError: createInfoError,
-  } = useGetStudentsCreateInfo();
+  } = useGetTeachersCreateInfo();
 
   if (createInfoError || attendanceError) {
     return <div>error...</div>;
@@ -56,7 +56,7 @@ export default function StudentStats({
           isLoading={createInfoLoading}
           variant="week"
           title="Total Teachers"
-          value={studentsLength.toString()}
+          value={teachersLength.toString()}
           description="Active teachers"
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
           trend={(createInfo?.createdThisWeek.toString() || "0") + " more"}
@@ -119,7 +119,7 @@ export default function StudentStats({
       ) : (
         (() => {
           const [thisWeek, lastWeek] = attendanceData || [];
-
+          console.log(thisWeek, lastWeek);
           const { totalParticipantsCount } = thisWeek;
           const { totalAttendancesCount } = thisWeek;
 
@@ -129,24 +129,18 @@ export default function StudentStats({
               isLoading={createInfoLoading}
               title="Absent this week"
               variant="week"
-              value={
-                (totalParticipantsCount - totalAttendancesCount).toString() ===
-                "NaN"
-                  ? "0"
-                  : (totalParticipantsCount - totalAttendancesCount).toString()
-              }
-              description={`Out of ${totalParticipantsCount} students`}
+              value={(
+                totalAttendancesCount - lastAttendancesCount || 0
+              ).toString()}
+              description={`Out of ${totalParticipantsCount || 0} students`}
               icon={<Users className="h-4 w-4 text-muted-foreground" />}
-              trend={
-                (totalAttendancesCount - lastAttendancesCount).toString() ===
-                "NaN"
-                  ? "0"
-                  : (totalAttendancesCount - lastAttendancesCount).toString()
-              }
+              trend={(
+                totalAttendancesCount - lastAttendancesCount || 0
+              ).toString()}
               trendDirection={
-                totalAttendancesCount - lastAttendancesCount > 0
+                (totalAttendancesCount - lastAttendancesCount || 0) > 0
                   ? "up"
-                  : totalAttendancesCount - lastAttendancesCount < 0
+                  : (totalAttendancesCount - lastAttendancesCount || 0) < 0
                     ? "down"
                     : "neutral"
               }

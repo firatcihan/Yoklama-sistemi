@@ -1,14 +1,14 @@
 import { StatsCard } from "@/components/statsCard";
 import { School, Users } from "lucide-react";
 import useGetLast2WeeksAttendances from "@/api/dashboard/info/geLast2WeekAttendances.ts";
-import useGetStudentsCreateInfo from "@/api/dashboard/info/getStudentsCreateInfo.ts";
 import useAuthStore from "@/stores/auth";
 import ModalLoader from "@/components/Modals/components/modalLoader";
+import useGetLecturesCreateInfo from "@/api/dashboard/info/getLecturesCreateInfo.ts";
 
-export default function StudentStats({
-  studentsLength,
+export default function LectureStats({
+  lecturesLength,
 }: {
-  studentsLength: number;
+  lecturesLength: number;
 }) {
   function getAttendanceRateChange(weeks: [number, number]): string {
     const [thisWeek, lastWeek] = weeks;
@@ -37,7 +37,7 @@ export default function StudentStats({
     data: createInfo,
     isLoading: createInfoLoading,
     isError: createInfoError,
-  } = useGetStudentsCreateInfo();
+  } = useGetLecturesCreateInfo();
 
   if (createInfoError || attendanceError) {
     return <div>error...</div>;
@@ -55,9 +55,9 @@ export default function StudentStats({
         <StatsCard
           isLoading={createInfoLoading}
           variant="week"
-          title="Total Teachers"
-          value={studentsLength.toString()}
-          description="Active teachers"
+          title="Total Lectures"
+          value={lecturesLength.toString()}
+          description="Active lectures"
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
           trend={(createInfo?.createdThisWeek.toString() || "0") + " more"}
           trendDirection={

@@ -1,10 +1,10 @@
 import { Lecture, lectureColumns } from "@/components/Table/LectureColumns.tsx";
 import { DataTable } from "@/components/Table/dataTable.tsx";
-import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
+import { FileSpreadsheet, UserPlus } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
 import { Button } from "@/components/ui/button.tsx";
-import {StatsCard} from "@/components/statsCard";
+import LectureStats from "@/pages/dashboard/lectures/lectureStats";
 
 export default function ManageLectures() {
   const { setModal } = useModalStore();
@@ -54,32 +54,7 @@ export default function ManageLectures() {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatsCard
-          title="Total Students"
-          value="128"
-          description="Active enrollment"
-          icon={<Users className="h-4 w-4 text-muted-foreground" />}
-          trend="+2.5%"
-          trendDirection="up"
-        />
-        <StatsCard
-          title="Average Attendance"
-          value="94.2%"
-          description="Last 30 days"
-          icon={<School className="h-4 w-4 text-muted-foreground" />}
-          trend="+1.2%"
-          trendDirection="up"
-        />
-        <StatsCard
-          title="Absent Today"
-          value="7"
-          description="Out of 128 students"
-          icon={<Users className="h-4 w-4 text-muted-foreground" />}
-          trend="-3"
-          trendDirection="down"
-        />
-      </div>
+      <LectureStats lecturesLength={lectures.length} />
       <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">
         <div className="mb-3 px-10">
           <p className="text-[19px] font-semibold leading-none tracking-tight">

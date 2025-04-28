@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { API_URL } from "../../getBackendUrl";
+import { API_URL } from "../../getBackendUrl.ts";
 import { StudentCreateInfo } from "@/api/dashboard/students/studentInterface.ts";
 
 const useGetStudentsCreateInfo = () => {
