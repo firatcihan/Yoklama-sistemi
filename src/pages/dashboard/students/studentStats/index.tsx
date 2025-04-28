@@ -1,77 +1,145 @@
-import { ReactNode } from "react";
-import { ArrowUpIcon, ArrowDownIcon, Equal } from "lucide-react";
+import { StatsCard } from "@/components/statsCard";
+import { School, Users } from "lucide-react";
+import useGetLast2WeeksAttendances from "@/api/dashboard/info/geLast2WeekAttendances.ts";
+import useGetStudentsCreateInfo from "@/api/dashboard/students/getStudentsCreateInfo.ts";
+import useAuthStore from "@/stores/auth";
 import ModalLoader from "@/components/Modals/components/modalLoader";
 
-interface StudentStatsProps {
-  title: string;
-  value: string;
-  description: string;
-  icon: ReactNode;
-  trend: string;
-  trendDirection: "up" | "down" | "neutral";
-  variant?: string;
-  isLoading?: boolean;
-}
+export default function StudentStats({
+  studentsLength,
+}: {
+  studentsLength: number;
+}) {
+  function getAttendanceRateChange(weeks: [number, number]): string {
+    const [thisWeek, lastWeek] = weeks;
+    const curr = thisWeek;
+    const prev = lastWeek;
 
-export function StatsCard({
-  title,
-  variant,
-  value,
-  description,
-  icon,
-  trend,
-  trendDirection,
-  isLoading,
-}: StudentStatsProps) {
-  if (isLoading) {
-    return (
-      <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
-        <div className="p-6">
-          <ModalLoader color="#155dfc" extraClasses="mt-9 mb-9.5" />
-        </div>
-      </div>
-    );
+    if (prev === 0) {
+      if (curr === 0) return "+0.0%";
+      return "+100.0%";
+    }
+
+    const change = ((curr - prev) / prev) * 100;
+    const sign = change >= 0 ? "+" : "";
+    return `${sign}${change.toFixed(1)}%`;
   }
+
+  const { user } = useAuthStore();
+
+  const {
+    data: attendanceData,
+    isLoading: attendanceLoading,
+    isError: attendanceError,
+  } = useGetLast2WeeksAttendances({ teacherId: user?.id || "" });
+
+  const {
+    data: createInfo,
+    isLoading: createInfoLoading,
+    isError: createInfoError,
+  } = useGetStudentsCreateInfo();
+
+  if (createInfoError || attendanceError) {
+    return <div>error...</div>;
+  }
+
   return (
-    <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
-      <div className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
-              {title}
-            </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              {value}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              {description}
-            </div>
-          </div>
-          <div className="h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-            {icon}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {createInfoLoading ? (
+        <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
+          <div className="p-6">
+            <ModalLoader color="#155dfc" extraClasses="mt-9 mb-9.5" />
           </div>
         </div>
-        <div className="mt-4">
-          <div
-            className={`text-xs flex items-center ${
-              trendDirection === "up"
-                ? "text-green-600 dark:text-green-400"
-                : trendDirection === "down"
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-gray-500 dark:text-gray-400"
-            }`}
-          >
-            {trendDirection === "up" ? (
-              <ArrowUpIcon className="h-3 w-3 mr-1" />
-            ) : trendDirection === "down" ? (
-              <ArrowDownIcon className="h-3 w-3 mr-1" />
-            ) : (
-              <Equal className="h-3 w-3 mr-1" />
-            )}
-            {trend} from last {variant}
+      ) : (
+        <StatsCard
+          isLoading={createInfoLoading}
+          variant="week"
+          title="Total Students"
+          value={studentsLength.toString()}
+          description="Active enrollment"
+          icon={<Users className="h-4 w-4 text-muted-foreground" />}
+          trend={(createInfo?.createdThisWeek.toString() || "0") + " more"}
+          trendDirection={
+            (createInfo?.createdThisWeek || 0) > 0
+              ? "up"
+              : (createInfo?.createdThisWeek || 0) < 0
+                ? "down"
+                : "neutral"
+          }
+        />
+      )}
+      {attendanceLoading ? (
+        <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
+          <div className="p-6">
+            <ModalLoader color="#155dfc" extraClasses="mt-9 mb-9.5" />
           </div>
         </div>
-      </div>
+      ) : (
+        (() => {
+          const [thisWeek, lastWeek] = attendanceData || [];
+
+          const attendanceRateChange = getAttendanceRateChange([
+            thisWeek.totalAttendanceRate,
+            lastWeek.totalAttendanceRate,
+          ]);
+
+          return (
+            <StatsCard
+              isLoading={attendanceLoading}
+              variant="week"
+              title="Average Attendance"
+              value={thisWeek.totalAttendanceRate.toString() + "%"}
+              description="Last 7 days"
+              icon={<School className="h-4 w-4 text-muted-foreground" />}
+              trend={attendanceRateChange}
+              trendDirection={
+                attendanceRateChange[0] === "+"
+                  ? "up"
+                  : attendanceRateChange[0] === "-"
+                    ? "down"
+                    : "neutral"
+              }
+            />
+          );
+        })()
+      )}
+      {createInfoLoading || attendanceLoading ? (
+        <div className="rounded-lg border bg-white shadow-sm dark:bg-gray-900">
+          <div className="p-6">
+            <ModalLoader color="#155dfc" extraClasses="mt-9 mb-9.5" />
+          </div>
+        </div>
+      ) : (
+        (() => {
+          const [thisWeek, lastWeek] = attendanceData || [];
+
+          const { totalParticipantsCount } = thisWeek;
+          const { totalAttendancesCount } = thisWeek;
+
+          const { totalAttendancesCount: lastAttendancesCount } = lastWeek;
+          return (
+            <StatsCard
+              isLoading={createInfoLoading}
+              title="Absent this week"
+              variant="week"
+              value={(
+                totalParticipantsCount - totalAttendancesCount
+              ).toString()}
+              description={`Out of ${totalParticipantsCount} students`}
+              icon={<Users className="h-4 w-4 text-muted-foreground" />}
+              trend={(totalAttendancesCount - lastAttendancesCount).toString()}
+              trendDirection={
+                totalAttendancesCount - lastAttendancesCount > 0
+                  ? "up"
+                  : totalAttendancesCount - lastAttendancesCount < 0
+                    ? "down"
+                    : "neutral"
+              }
+            />
+          );
+        })()
+      )}
     </div>
   );
 }

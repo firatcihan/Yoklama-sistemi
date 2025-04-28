@@ -4,7 +4,7 @@ import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import useGetTeachers from "@/api/dashboard/teachers/GetTeachers.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { StatsCard } from "@/pages/dashboard/students/studentStats";
+import {StatsCard} from "@/components/statsCard";
 
 export default function ManageStudents() {
   const { setModal } = useModalStore();

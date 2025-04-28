@@ -5,7 +5,7 @@ import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAtten
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "@/components/Table/dataTable.tsx";
 import { attendanceStudentsColumns } from "@/components/Table/attendanceStudentsColumns.tsx";
-import { StatsCard } from "@/pages/dashboard/students/studentStats";
+import {StatsCard} from "@/components/statsCard";
 
 export default function ShowSelectedLecture() {
   const { lectureCode, sessionId } = useParams<{

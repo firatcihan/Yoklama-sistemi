@@ -1,17 +1,14 @@
 import { studentColumns, Student } from "@/components/Table/StudentColumns.tsx";
 import { DataTable } from "@/components/Table/dataTable.tsx";
 import useGetStudents from "@/api/dashboard/students/getStudents.ts";
-import useGetStudentsCreateInfo from "@/api/dashboard/students/getStudentsCreateInfo.ts";
-import { FileSpreadsheet, School, UserPlus, Users } from "lucide-react";
+import { FileSpreadsheet, UserPlus } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button.tsx";
-import { StatsCard } from "@/pages/dashboard/students/studentStats";
-import useGetLast2WeeksAttendances from "@/api/dashboard/info/geLast2WeekAttendances.ts";
-import useAuthStore from "@/stores/auth";
+import PageLoader from "@/components/pageLoader";
+import StudentStats from "@/pages/dashboard/students/studentStats";
 
 export default function ManageStudents() {
   const { setModal } = useModalStore();
-  const { user } = useAuthStore();
   const { data, isLoading, isError } = useGetStudents();
   const students: Student[] =
     data && data.length > 0
@@ -25,43 +22,15 @@ export default function ManageStudents() {
           studentNumber: student.studentNumber,
         }))
       : [];
-  const { data: createInfo, isLoading: createInfoLoading } =
-    useGetStudentsCreateInfo();
-
-  const { data: attendanceData, isLoading: attendanceLoading } =
-    useGetLast2WeeksAttendances({ teacherId: user?.id || "" });
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <PageLoader />;
   }
 
   if (isError) {
     return <div>error...</div>;
   }
 
-  function calculateAttendancePercentage(
-    currentWeekCount: number,
-    previousWeekCount: number,
-  ) {
-    if (previousWeekCount === 0) {
-      return currentWeekCount === 0 ? 0 : 100;
-    }
-    const percentageChange =
-      ((currentWeekCount - previousWeekCount) / previousWeekCount) * 100;
-    return percentageChange;
-  }
-
-  const attendancePercentage = calculateAttendancePercentage(
-    attendanceData?[0]?.totalAttendancesCount,
-    attendanceData?[1]?.totalAttendancesCount
-  );
-
-  const studentPercentage = calculateAttendancePercentage(
-    createInfo?.createdThisWeek || 0,
-    createInfo?.createdLastWeek || 0,
-  );
-  console.log(studentPercentage);
-  console.log(attendancePercentage);
   return (
     <div className="container mx-auto py-6 space-y-6 px-4 md:px-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -87,44 +56,7 @@ export default function ManageStudents() {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatsCard
-          isLoading={createInfoLoading}
-          variant="week"
-          title="Total Students"
-          value={data?.length.toString() || "unknown"}
-          description="Active enrollment"
-          icon={<Users className="h-4 w-4 text-muted-foreground" />}
-          trend={studentPercentage}
-          trendDirection={
-            studentPercentage[0] === "+"
-              ? "up"
-              : studentPercentage[0] === "-"
-                ? "down"
-                : "neutral"
-          }
-        />
-        <StatsCard
-          isLoading={attendanceLoading}
-          variant="week"
-          title="Average Attendance"
-          value={`${attendanceData?.[0]?.totalAttendanceRate || "0"}%`}
-          description="Last 7 days"
-          icon={<School className="h-4 w-4 text-muted-foreground" />}
-          trend={attendancePercentage}
-          trendDirection="up"
-        />
-        <StatsCard
-          isLoading={createInfoLoading}
-          title="Absent Today"
-          variant="day"
-          value="7"
-          description={`Out of ${data?.length?.toString() || "unknown"} students`}
-          icon={<Users className="h-4 w-4 text-muted-foreground" />}
-          trend="-3"
-          trendDirection="down"
-        />
-      </div>
+      <StudentStats studentsLength={students.length} />
       <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">
         <div className="mb-3 px-10">
           <p className="text-[19px] font-semibold leading-none tracking-tight">
