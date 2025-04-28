@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ClipboardPlus, MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import useAuthStore from "@/stores/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,6 +68,7 @@ export const studentColumns: ColumnDef<Student>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const { user } = useAuthStore();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -78,16 +80,20 @@ export const studentColumns: ColumnDef<Student>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <ViewButton studentId={row.original.id} />
-            <DropdownMenuSeparator />
-            <ActionsButton
-              icon={<ClipboardPlus />}
-              text="Assign Lecture"
-              studentId={row.original.id}
-              modalName="studentAssignLecture"
-            />
-            <DropdownMenuSeparator />
-            <EditButton studentId={row.original.id} />
-            <DeleteButton studentId={row.original.id} />
+            {user?.role === "admin" && (
+              <>
+                <DropdownMenuSeparator />
+                <ActionsButton
+                  icon={<ClipboardPlus />}
+                  text="Assign Lecture"
+                  studentId={row.original.id}
+                  modalName="studentAssignLecture"
+                />
+                <DropdownMenuSeparator />
+                <EditButton studentId={row.original.id} />
+                <DeleteButton studentId={row.original.id} />
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

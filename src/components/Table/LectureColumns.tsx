@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, UserPlus } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
+import useAuthStore from "@/stores/auth";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -119,6 +120,7 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const { user } = useAuthStore();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -130,22 +132,26 @@ export const lectureColumns: ColumnDef<Lecture>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <ViewButton lectureId={row.original.id} />
-            <DropdownMenuSeparator />
-            <ActionsButton
-              icon={<UserPlus />}
-              text="Assign Student"
-              lectureId={row.original.id}
-              modalName="lectureAssignStudent"
-            />
-            <ActionsButton
-              icon={<UserPlus />}
-              text="Assign Teacher"
-              lectureId={row.original.id}
-              modalName="lectureAssignTeacher"
-            />
-            <DropdownMenuSeparator />
-            <EditButton lectureId={row.original.id} />
-            <DeleteButton lectureId={row.original.id} />
+            {user?.role === "admin" && (
+              <>
+                <DropdownMenuSeparator />
+                <ActionsButton
+                  icon={<UserPlus />}
+                  text="Assign Student"
+                  lectureId={row.original.id}
+                  modalName="lectureAssignStudent"
+                />
+                <ActionsButton
+                  icon={<UserPlus />}
+                  text="Assign Teacher"
+                  lectureId={row.original.id}
+                  modalName="lectureAssignTeacher"
+                />
+                <DropdownMenuSeparator />
+                <EditButton lectureId={row.original.id} />
+                <DeleteButton lectureId={row.original.id} />
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -55,9 +55,9 @@ export default function StudentStats({
         <StatsCard
           isLoading={createInfoLoading}
           variant="week"
-          title="Total Teachers"
+          title="Total Students"
           value={studentsLength.toString()}
-          description="Active teachers"
+          description="Active enrollment"
           icon={<Users className="h-4 w-4 text-muted-foreground" />}
           trend={(createInfo?.createdThisWeek.toString() || "0") + " more"}
           trendDirection={

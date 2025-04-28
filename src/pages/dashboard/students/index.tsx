@@ -5,9 +5,11 @@ import { FileSpreadsheet, UserPlus } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import { Button } from "@/components/ui/button.tsx";
 import PageLoader from "@/components/pageLoader";
+import useAuthStore from "@/stores/auth";
 import StudentStats from "@/pages/dashboard/students/studentStats";
 
 export default function ManageStudents() {
+  const { user } = useAuthStore();
   const { setModal } = useModalStore();
   const { data, isLoading, isError } = useGetStudents();
   const students: Student[] =
@@ -42,19 +44,23 @@ export default function ManageStudents() {
             Manage student information, enrollment, and attendance records
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="hidden md:flex">
-            <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export
-          </Button>
-          <Button
-            onClick={() => setModal({ name: "createStudent", data: "student" })}
-            className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
-          >
-            <UserPlus className="mr-1 h-5 w-5" />
-            Add Student
-          </Button>
-        </div>
+        {user?.role === "admin" && (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" className="hidden md:flex">
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
+              Export
+            </Button>
+            <Button
+              onClick={() =>
+                setModal({ name: "createStudent", data: "student" })
+              }
+              className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
+            >
+              <UserPlus className="mr-1 h-5 w-5" />
+              Add Student
+            </Button>
+          </div>
+        )}
       </div>
       <StudentStats studentsLength={students.length} />
       <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">

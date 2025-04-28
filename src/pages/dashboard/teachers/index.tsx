@@ -3,10 +3,12 @@ import { DataTable } from "@/components/Table/dataTable.tsx";
 import { FileSpreadsheet, UserPlus } from "lucide-react";
 import useModalStore from "@/stores/modal";
 import useGetTeachers from "@/api/dashboard/teachers/GetTeachers.ts";
+import useAuthStore from "@/stores/auth";
 import { Button } from "@/components/ui/button.tsx";
 import TeacherStats from "@/pages/dashboard/teachers/teacherStats";
 
 export default function ManageStudents() {
+  const { user } = useAuthStore();
   const { setModal } = useModalStore();
   const { data, isLoading, isError } = useGetTeachers();
   const teachers: Teacher[] =
@@ -39,19 +41,23 @@ export default function ManageStudents() {
             Manage teacher information, enrollment, and attendance records
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="hidden md:flex">
-            <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export
-          </Button>
-          <Button
-            onClick={() => setModal({ name: "createTeacher", data: "teacher" })}
-            className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
-          >
-            <UserPlus className="mr-1 h-5 w-5" />
-            Create Teacher
-          </Button>
-        </div>
+        {user?.role === "admin" && (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" className="hidden md:flex">
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
+              Export
+            </Button>
+            <Button
+              onClick={() =>
+                setModal({ name: "createTeacher", data: "teacher" })
+              }
+              className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
+            >
+              <UserPlus className="mr-1 h-5 w-5" />
+              Create Teacher
+            </Button>
+          </div>
+        )}
       </div>
       <TeacherStats teachersLength={teachers.length} />
       <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">

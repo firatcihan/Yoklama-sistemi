@@ -2,11 +2,13 @@ import { Lecture, lectureColumns } from "@/components/Table/LectureColumns.tsx";
 import { DataTable } from "@/components/Table/dataTable.tsx";
 import { FileSpreadsheet, UserPlus } from "lucide-react";
 import useModalStore from "@/stores/modal";
+import useAuthStore from "@/stores/auth";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
 import { Button } from "@/components/ui/button.tsx";
 import LectureStats from "@/pages/dashboard/lectures/lectureStats";
 
 export default function ManageLectures() {
+  const { user } = useAuthStore();
   const { setModal } = useModalStore();
   const { data, isLoading, isError } = useGetAllClasses();
   const lectures: Lecture[] =
@@ -40,19 +42,23 @@ export default function ManageLectures() {
             Manage lecture schedules, instructors, and attendance records
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="hidden md:flex">
-            <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export
-          </Button>
-          <Button
-            onClick={() => setModal({ name: "createLecture", data: "lecture" })}
-            className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
-          >
-            <UserPlus className="mr-1 h-5 w-5" />
-            Create Lecture
-          </Button>
-        </div>
+        {user?.role === "admin" && (
+          <div className="flex items-center gap-2">
+            <Button variant="outline" className="hidden md:flex">
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
+              Export
+            </Button>
+            <Button
+              onClick={() =>
+                setModal({ name: "createLecture", data: "lecture" })
+              }
+              className="hover:!bg-[#1447e6] !transition-colors !bg-[#155dfc] !outline-none "
+            >
+              <UserPlus className="mr-1 h-5 w-5" />
+              Create Lecture
+            </Button>
+          </div>
+        )}
       </div>
       <LectureStats lecturesLength={lectures.length} />
       <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">
