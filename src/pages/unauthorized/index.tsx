@@ -1,10 +1,4 @@
-import {
-  AlertCircle,
-  ArrowLeft,
-  HomeIcon,
-  LifeBuoy,
-  Shield,
-} from "lucide-react";
+import { AlertCircle, Shield } from "lucide-react";
 
 export default function UnauthorizedPage() {
   return (

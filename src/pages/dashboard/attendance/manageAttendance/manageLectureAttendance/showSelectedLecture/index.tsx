@@ -112,7 +112,7 @@ export default function ShowSelectedLecture() {
               className="sm:ml-auto max-sm:w-[150px] max-sm:my-2 flex items-center cursor-pointer items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
             >
               <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-1.5" />
-              <span className="inline">Add student</span>
+              <span className="inline">Manage student</span>
             </div>
           </div>
           <div className="sm:px-10 max-sm:flex max-sm:items-center max-sm:justify-center max-sm:w-full">

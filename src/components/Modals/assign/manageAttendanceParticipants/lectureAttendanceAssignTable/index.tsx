@@ -1,10 +1,10 @@
-import useGetStudents from "@/api/dashboard/students/getStudents.ts";
 import ModalLoader from "@/components/Modals/components/modalLoader";
 import { useState } from "react";
 import classNames from "classnames";
 import { Input } from "@/components/ui/input.tsx";
 import XSeparator from "@/components/XSeparator";
 import LectureAssignStudentTableColumn from "@/components/Modals/assign/components/lectureAssignStudentTableColumn";
+import useGetLectureAssignedStudents from "@/api/dashboard/students/getLectureAssignedStudents.ts";
 
 interface selectedStudentInterface {
   name: string;
@@ -14,14 +14,17 @@ interface selectedStudentInterface {
 interface AssignTableProps {
   selectedStudents: selectedStudentInterface[];
   onStudentToggle: (lec: selectedStudentInterface) => void;
-  variant?: string;
+  lectureCode: string;
 }
 
-export default function LectureAssignStudentTable({
+export default function LectureAttendanceAssignTable({
   selectedStudents,
   onStudentToggle,
+  lectureCode,
 }: AssignTableProps) {
-  const { data: allStudents } = useGetStudents();
+  const { data: allStudents } = useGetLectureAssignedStudents({
+    lectureCode: lectureCode,
+  });
 
   const [searchTerm, setSearchTerm] = useState<string>("");
 

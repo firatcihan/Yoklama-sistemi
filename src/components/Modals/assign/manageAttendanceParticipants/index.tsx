@@ -1,6 +1,5 @@
 import useModalStore from "@/stores/modal";
 import XSeparator from "@/components/XSeparator";
-import LectureAssignStudentTable from "@/components/Modals/assign/components/lectureAssignStudentTable";
 import { Button } from "@/components/ui/button.tsx";
 import { UserPlus } from "lucide-react";
 import LectureInfoColumn from "@/components/Modals/assign/components/lectureInfoColumn";
@@ -9,6 +8,7 @@ import { PulseLoader } from "react-spinners";
 import CloseButton from "@/components/closeButton";
 import React from "react";
 import useManageAttendanceParticipants from "@/api/dashboard/attendance/manageAttendanceParticipants.ts";
+import LectureAttendanceAssignTable from "@/components/Modals/assign/manageAttendanceParticipants/lectureAttendanceAssignTable";
 
 export default function ManageAttendanceParticipants({ close }: ModalProps) {
   const { modal } = useModalStore();
@@ -49,7 +49,7 @@ export default function ManageAttendanceParticipants({ close }: ModalProps) {
   };
 
   const handleSubmit = () => {
-      console.log(selectedStudents);
+    console.log(selectedStudents);
     assignMutate({
       studentsToChange: selectedStudents,
     });
@@ -72,9 +72,10 @@ export default function ManageAttendanceParticipants({ close }: ModalProps) {
         lectureName={modal[0].data.lectureName}
         lectureCode={modal[0].data.lectureCode}
       />
-      <LectureAssignStudentTable
+      <LectureAttendanceAssignTable
         selectedStudents={selectedStudents}
         onStudentToggle={handleToggleLecture}
+        lectureCode={modal[0] && modal[0].data ? modal[0].data.lectureCode : ""}
       />
       <div className="flex justify-end ">
         <Button
