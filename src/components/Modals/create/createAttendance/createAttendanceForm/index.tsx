@@ -33,6 +33,11 @@ export default function CreateAttendanceForm({ close }: { close: () => void }) {
       return;
     }
 
+    if (!location) {
+      toast.error("Konum bilgisi alınamadı.");
+      return;
+    }
+
     if (user.classes?.some((lecture) => lecture.id === selectedLecture?.id)) {
       const attendanceData = {
         lectureId: selectedLecture?.id || "", // Replace with actual selected lecture ID
@@ -44,7 +49,6 @@ export default function CreateAttendanceForm({ close }: { close: () => void }) {
         distanceRange: distanceRange,
         expirationTime: expirationTime,
       };
-      console.log(attendanceData);
       createAttendance(attendanceData);
     }
   };

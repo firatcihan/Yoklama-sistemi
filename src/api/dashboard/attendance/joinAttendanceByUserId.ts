@@ -4,6 +4,7 @@ import { API_URL } from "../../getBackendUrl";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useJoinAttendanceInterface } from "@/api/dashboard/attendance/attendanceInterface.ts";
+import { getUserLocation } from "@/utils/getUserLocation.ts";
 
 const useJoinAttendanceByUserId = ({
   sessionId,
@@ -18,11 +19,15 @@ const useJoinAttendanceByUserId = ({
     if (!studentId || !sessionId || !lectureCode) {
       throw new Error("studentId, sessionId and lectureCode is required");
     }
+    const { latitude, longitude } = await getUserLocation();
+    const submitData = {
+      studentId: studentId,
+      location: { latitude, longitude },
+    };
+
     const response = await axios.post(
       `${API_URL}/api/attendance/session/student/${lectureCode}/${sessionId}`,
-      {
-        studentId: studentId,
-      },
+      submitData,
     );
     return response.data;
   };

@@ -4,6 +4,7 @@ import { API_URL } from "../../getBackendUrl";
 import toast from "react-hot-toast";
 import useModalStore from "@/stores/modal";
 import { CreateAttendance } from "@/api/dashboard/attendance/attendanceInterface.ts";
+import { getUserLocation } from "@/utils/getUserLocation.ts";
 
 interface createAttendancePromise {
   sessionId: string;
@@ -20,10 +21,14 @@ const useCreateAttendance = () => {
     if (!attendanceData) {
       throw new Error("Attendance data is required");
     }
-    const response = await axios.post(
-      `${API_URL}/api/attendance`,
-      attendanceData,
-    );
+
+    const location = await getUserLocation();
+
+    const submitData = { ...attendanceData, location };
+
+    console.log(submitData);
+
+    const response = await axios.post(`${API_URL}/api/attendance`, submitData);
     return response.data;
   };
 
@@ -36,7 +41,8 @@ const useCreateAttendance = () => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data);
+        const err = error.response.data as { message?: string };
+        toast.error(err.message ?? "Bilinmeyen bir hata oluştu");
       } else {
         toast.error("An unexpected error occurred");
       }
