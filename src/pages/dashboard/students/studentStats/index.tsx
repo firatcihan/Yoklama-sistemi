@@ -91,7 +91,7 @@ export default function StudentStats({
               title="Average Attendance"
               value={
                 thisWeek?.totalAttendanceRate === undefined
-                  ? "No attendance created yet"
+                  ? "No attendances"
                   : `${thisWeek?.totalAttendanceRate}%`
               }
               description="Last 7 days"

@@ -61,7 +61,10 @@ export default function AttendanceStats({
                 "from " + (allStudents?.length.toString() || "0") + " students"
               }
               icon={<Users className="h-4 w-4 text-muted-foreground" />}
-              trend={((firstLecture?.participantsCount || 0) - (secondLecture?.participantsCount || 0)).toString()}
+              trend={(
+                (firstLecture?.participantsCount || 0) -
+                (secondLecture?.participantsCount || 0)
+              ).toString()}
               trendDirection={
                 studentsLength / allStudents.length > 0.5
                   ? "up"
@@ -95,7 +98,7 @@ export default function AttendanceStats({
               title="Average Attendance"
               value={
                 thisWeek?.participateRate === undefined
-                  ? "No attendance created yet"
+                  ? "No attendances"
                   : `${thisWeek?.participateRate}%`
               }
               description="This attendance"

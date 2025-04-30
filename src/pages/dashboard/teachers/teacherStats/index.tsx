@@ -91,7 +91,7 @@ export default function TeacherStats({
               title="Average Attendance"
               value={
                 thisWeek?.totalAttendanceRate === undefined
-                  ? "No attendance created yet"
+                  ? "No attendances"
                   : `${thisWeek?.totalAttendanceRate}%`
               }
               description="Last 7 days"
@@ -119,7 +119,6 @@ export default function TeacherStats({
       ) : (
         (() => {
           const [thisWeek, lastWeek] = attendanceData || [];
-          console.log(thisWeek, lastWeek);
           const { totalParticipantsCount } = thisWeek;
           const { totalAttendancesCount } = thisWeek;
 
@@ -130,7 +129,7 @@ export default function TeacherStats({
               title="Absent this week"
               variant="week"
               value={(
-                totalAttendancesCount - lastAttendancesCount || 0
+                lastAttendancesCount - totalAttendancesCount || 0
               ).toString()}
               description={`Out of ${totalParticipantsCount || 0} students`}
               icon={<Users className="h-4 w-4 text-muted-foreground" />}

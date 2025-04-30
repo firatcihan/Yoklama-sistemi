@@ -3,6 +3,7 @@ import { useState } from "react";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
 import { useNavigate } from "react-router-dom";
 import PageLoader from "@/components/pageLoader";
+import NoAssignedClasses from "@/pages/dashboard/components/noAssignedClasses";
 
 export default function ManageAttendance() {
   const { data: lecturesData, isLoading, isError } = useGetAllClasses();
@@ -17,8 +18,7 @@ export default function ManageAttendance() {
     return <div>Error loading lectures data</div>;
   }
 
-  if (!lecturesData || lecturesData.length === 0)
-    return <div>Error loading lectures data</div>;
+  if (!lecturesData || lecturesData.length === 0) return <NoAssignedClasses />;
 
   const filteredLectures = lecturesData.filter(
     (lecture) =>

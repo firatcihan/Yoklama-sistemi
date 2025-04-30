@@ -38,7 +38,7 @@ export default function DashboardInfo() {
         </p>
       </div>
       <div className="bg-white border !border-[#e5e7eb] rounded-xl shadow-xs p-4 sm:p-6">
-        <p className="text-xs sm:text-sm font-medium text-gray-500">Teachers</p>
+        <p className="text-xs sm:text-sm font-medium text-gray-500">Total Teachers</p>
         <p className="mt-1 sm:mt-2 text-xl sm:text-3xl font-semibold text-gray-900">
           {teacherLoading ? (
             <BeatLoader color="#3b82f6" size={11} />

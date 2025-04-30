@@ -91,7 +91,7 @@ export default function LectureStats({
               title="Average Attendance"
               value={
                 thisWeek?.totalAttendanceRate === undefined
-                  ? "No attendance created yet"
+                  ? "No attendances"
                   : `${thisWeek?.totalAttendanceRate}%`
               }
               description="Last 7 days"
@@ -122,6 +122,7 @@ export default function LectureStats({
 
           const { totalParticipantsCount } = thisWeek;
           const { totalAttendancesCount } = thisWeek;
+          console.log(thisWeek, lastWeek);
 
           const { totalAttendancesCount: lastAttendancesCount } = lastWeek;
           return (
