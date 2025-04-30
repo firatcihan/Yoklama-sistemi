@@ -41,6 +41,9 @@ const useManageAttendanceParticipants = ({
       queryClient.invalidateQueries({
         queryKey: ["attendances", lectureCode, sessionId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["attendances", lectureCode, "last2session", sessionId],
+      });
       closeModal();
     },
     onError: (error) => {

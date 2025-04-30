@@ -26,6 +26,40 @@ interface FirestoreTimestamp {
   _nanoseconds: number;
 }
 
+export interface GetLast2lectureAttendanceResponse {
+  lecture: {
+    attendanceId: string;
+    lectureId: string;
+    lectureName: string;
+    lectureCode: string;
+    createdBy: {
+      id: string;
+      name: string;
+      email: string;
+    };
+    createdAt: FirestoreTimestamp;
+    distanceRange: number;
+    expiresAt: FirestoreTimestamp;
+    attendanceRecords: AttendanceRecord[];
+  };
+  participantsCount: number;
+  assignedCount: number;
+  participateRate: number;
+}
+
+interface FirestoreTimestamp {
+  _seconds: number;
+  _nanoseconds: number;
+}
+
+interface AttendanceRecord {
+  id: string;
+  name: string;
+  email: string;
+  studentNumber: string;
+  attendanceTime: FirestoreTimestamp;
+}
+
 export interface AttendanceInterface {
   attendanceId: string;
   attendanceRecords: studentInAttendanceRecord[];

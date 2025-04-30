@@ -49,7 +49,6 @@ export default function ManageAttendanceParticipants({ close }: ModalProps) {
   };
 
   const handleSubmit = () => {
-    console.log(selectedStudents);
     assignMutate({
       studentsToChange: selectedStudents,
     });

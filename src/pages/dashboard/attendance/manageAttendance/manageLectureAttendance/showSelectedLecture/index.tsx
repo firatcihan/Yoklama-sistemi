@@ -1,4 +1,4 @@
-import { ArrowLeft, PlusCircle, School, Users } from "lucide-react";
+import { ArrowLeft, PlusCircle } from "lucide-react";
 import { useParams } from "react-router-dom";
 import PageLoader from "@/components/pageLoader";
 import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { DataTable } from "@/components/Table/dataTable.tsx";
 import useModalStore from "@/stores/modal";
 import { attendanceStudentsColumns } from "@/components/Table/attendanceStudentsColumns.tsx";
-import { StatsCard } from "@/components/statsCard";
+import AttendanceStats from "@/pages/dashboard/attendance/manageAttendance/components/AttendanceStats";
 
 export default function ShowSelectedLecture() {
   const { setModal } = useModalStore();
@@ -28,7 +28,6 @@ export default function ShowSelectedLecture() {
   if (isError) return <div>Error loading lecture data</div>;
   if (!sessionData) return <div>No lecture data available</div>;
 
-  // Type assertion to ensure sessionData is typed correctly
   const formattedDate = new Date(
     sessionData.createdAt._seconds * 1000,
   ).toLocaleDateString("en-US", {
@@ -55,38 +54,11 @@ export default function ShowSelectedLecture() {
             <p className="mt-2 text-lg text-gray-600">{formattedDate}</p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-2 mb-6">
-          <StatsCard
-            isLoading={isLoading}
-            variant="week"
-            title="Total Students"
-            value="0%"
-            description="Active enrollment"
-            icon={<Users className="h-4 w-4 text-muted-foreground" />}
-            trend="+1.2%"
-            trendDirection="down"
-          />
-          <StatsCard
-            isLoading={isLoading}
-            variant="week"
-            title="Average Attendance"
-            value="94.2%"
-            description="Last 30 days"
-            icon={<School className="h-4 w-4 text-muted-foreground" />}
-            trend="+1.2%"
-            trendDirection="up"
-          />
-          <StatsCard
-            isLoading={isLoading}
-            title="Absent Today"
-            variant="day"
-            value="7"
-            description={`Out of students`}
-            icon={<Users className="h-4 w-4 text-muted-foreground" />}
-            trend="-3"
-            trendDirection="down"
-          />
-        </div>
+        <AttendanceStats
+          sessionId={sessionId || sessionData.attendanceId}
+          lectureCode={sessionData.lectureCode}
+          studentsLength={sessionData.attendanceRecords.length}
+        />
         <div className="py-10 flex flex-col border border-[#e5e5e5] rounded-lg shadow">
           <div className="mb-3 px-10 sm:flex">
             <div>
