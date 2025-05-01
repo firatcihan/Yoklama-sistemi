@@ -7,15 +7,25 @@ import { ModalProps } from "@/components/Modals/allModals.ts";
 import { X, Hash, Users, Clock, CalendarDays, UserPen } from "lucide-react";
 import XSeparator from "@/components/XSeparator";
 import TimeLine from "@/components/Modals/view/components/timeLine";
+import ModalLoader from "@/components/Modals/components/modalLoader";
 
 export default function ViewLecture({ close }: ModalProps) {
   const { modal, setModal } = useModalStore();
-  const { data: lectureData } = useGetLectureById({
+  const { data: lectureData, isLoading } = useGetLectureById({
     id: modal[0] && modal[0].data ? modal[0].data : "",
   });
 
-  if (!lectureData) return <div>Ders ile ilgili veri bulunamadı...</div>;
+  if (isLoading) {
+    return (
+      <div className="w-[350px] h-[350px] sm:w-[500px] sm:h-[400px] md:w-[620px] bg-white">
+        <ModalLoader />
+      </div>
+    );
+  }
 
+  if (!lectureData) {
+    return <div>Dersle ilgili veri bulunamadı</div>;
+  }
   return (
     <div className="w-[350px] sm:w-[500px] md:w-[620px] bg-white flex flex-col relative">
       <div className="flex items-center justify-between p-4">

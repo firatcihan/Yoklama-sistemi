@@ -14,6 +14,7 @@ import {
 import ViewButton from "@/components/Table/components/viewButton";
 import EditButton from "@/components/Table/components/editButton";
 import ActionsButton from "@/components/Table/components/actionsButton";
+import { AssignedClassesCell } from "@/components/assignedClasssesCell";
 
 export type Teacher = {
   id: string;
@@ -48,6 +49,12 @@ export const teacherColumns: ColumnDef<Teacher>[] = [
   {
     accessorKey: "classes",
     header: "Classes",
+    cell: ({ row }) => {
+      const classes: string | string[] = row.getValue("classes") as
+        | string
+        | string[];
+      return <AssignedClassesCell value={classes} maxVisible={3} />;
+    },
   },
   {
     id: "actions",

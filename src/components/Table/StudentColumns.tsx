@@ -14,6 +14,7 @@ import DeleteButton from "@/components/Table/components/deleteButton";
 import ViewButton from "@/components/Table/components/viewButton";
 import EditButton from "@/components/Table/components/editButton";
 import ActionsButton from "@/components/Table/components/actionsButton";
+import { AssignedClassesCell } from "@/components/assignedClasssesCell";
 
 export type Student = {
   id: string;
@@ -64,6 +65,12 @@ export const studentColumns: ColumnDef<Student>[] = [
   {
     accessorKey: "assignedClasses",
     header: "Assigned Classes",
+    cell: ({ row }) => {
+      const assignedClasses: string | string[] = row.getValue(
+        "assignedClasses",
+      ) as string | string[];
+      return <AssignedClassesCell value={assignedClasses} maxVisible={3} />;
+    },
   },
   {
     id: "actions",
