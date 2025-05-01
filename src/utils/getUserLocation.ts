@@ -13,8 +13,7 @@ export async function getUserLocation(): Promise<LatLon> {
   const ua = navigator.userAgent || "";
   const isMobile = /Mobi|Android|iPhone|iPad|iPod/.test(ua);
 
-  if (!isMobile) {
-    // Mobil cihazda: Geolocation API kullan
+  if (isMobile) {
     const pos = await getCurrentPosition({
       enableHighAccuracy: true,
       maximumAge: 0,
@@ -25,7 +24,6 @@ export async function getUserLocation(): Promise<LatLon> {
       longitude: pos.coords.longitude,
     };
   } else {
-    // Masaüstü: iPhone’dan backend üzerinden GPS oku
     const { data } = await axios.get<LatLon>(`${API_URL}/api/attendance/gps`);
     return {
       latitude: data.latitude,

@@ -1,9 +1,9 @@
 import { BookOpen, CheckCircle2, Clock, X } from "lucide-react";
 import { AttendanceInterface } from "@/api/dashboard/attendance/attendanceInterface.ts";
 import useJoinAttendanceByUserId from "@/api/dashboard/attendance/joinAttendanceByUserId.ts";
-import ModalLoader from "@/components/Modals/components/modalLoader";
 import classNames from "classnames";
-import { useState } from "react";
+import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAttendanceSessionById.ts";
+import { BeatLoader } from "react-spinners";
 
 export default function CurrentClass({
   attendanceData,
@@ -14,22 +14,20 @@ export default function CurrentClass({
   userId: string;
   isExpired: boolean;
 }) {
-  const {
-    mutate: joinAttendance,
-    isPending,
-    isError,
-  } = useJoinAttendanceByUserId({
+  const { data: pariticpateData, isLoading: pariticapteLoading } =
+    useGetAttendanceSessionById({
+      id: attendanceData.attendanceId,
+      lectureCode: attendanceData.lectureCode,
+    });
+  const { mutate: joinAttendance, isPending } = useJoinAttendanceByUserId({
     sessionId: attendanceData.attendanceId,
     lectureCode: attendanceData.lectureCode,
   });
   const handleJoinAttendance = () => {
-    setIsClicked(true);
     joinAttendance({
       studentId: userId,
     });
   };
-
-  const [isClicked, setIsClicked] = useState<boolean>(false);
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
@@ -55,7 +53,13 @@ export default function CurrentClass({
       </div>
       <div className="px-6 py-4 border-t">
         <button
-          disabled={isError || isExpired || isPending || isClicked}
+          disabled={
+            isExpired ||
+            isPending ||
+            pariticpateData?.attendanceRecords.some(
+              (user) => user.id === userId,
+            )
+          }
           onClick={handleJoinAttendance}
           className={classNames(
             "w-full flex items-center justify-center py-3 px-4 text-white font-medium rounded-lg !border-none focus:!outline-none disabled:!opacity-50 disabled:!cursor-not-allowed !transition-colors",
@@ -65,9 +69,13 @@ export default function CurrentClass({
             },
           )}
         >
-          {isPending ? (
-            <ModalLoader color={"fff"} />
-          ) : isError || isClicked ? (
+          {isPending || pariticapteLoading ? (
+            <div>
+              <BeatLoader color="#fff" />
+            </div>
+          ) : pariticpateData?.attendanceRecords.some(
+              (user) => user.id === userId,
+            ) ? (
             "You already joined this attendance"
           ) : isExpired ? (
             <p className="flex items-center justify-center">

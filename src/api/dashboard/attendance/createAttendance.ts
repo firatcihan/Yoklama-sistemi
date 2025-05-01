@@ -23,7 +23,6 @@ const useCreateAttendance = () => {
     }
 
     const location = await getUserLocation();
-
     const submitData = { ...attendanceData, location };
 
     console.log(submitData);
