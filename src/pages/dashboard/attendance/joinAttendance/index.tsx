@@ -5,6 +5,7 @@ import { useGetAttendanceSessionById } from "@/api/dashboard/attendance/getAtten
 import toast from "react-hot-toast";
 import CurrentClass from "@/pages/dashboard/attendance/joinAttendance/currentClass";
 import useAuthStore from "@/stores/auth";
+import PageLoader from "@/components/pageLoader";
 
 export default function JoinAttendance() {
   const { lectureCode, sessionId } = useParams<{
@@ -41,7 +42,7 @@ export default function JoinAttendance() {
   }
 
   if (isLoading) {
-    return <div className="">loading...</div>;
+    return <PageLoader />;
   }
 
   if (isError) {

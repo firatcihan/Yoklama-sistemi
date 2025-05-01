@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Award, ChevronDown, ChevronUp, Mail } from "lucide-react";
 import useGetUserAttendancesOnLecture from "@/api/dashboard/attendance/getUserAttendancesOnLecture.ts";
 import useAuthStore from "@/stores/auth";
+import PageLoader from "@/components/pageLoader";
 
 export default function StudentInfoColumn({
   lectureCode,
@@ -16,7 +17,7 @@ export default function StudentInfoColumn({
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (isLoading) {
-    return <div className="bg-white rounded-lg shadow-md p-4">loading</div>;
+    return <PageLoader />;
   }
 
   if (!user || !attendanceStats) return null;

@@ -6,6 +6,7 @@ import useAuthStore from "@/stores/auth";
 import useGetAllClasses from "@/api/dashboard/lectures/getAllClasses.ts";
 import { Button } from "@/components/ui/button.tsx";
 import LectureStats from "@/pages/dashboard/lectures/lectureStats";
+import PageLoader from "@/components/pageLoader";
 
 export default function ManageLectures() {
   const { user } = useAuthStore();
@@ -24,7 +25,7 @@ export default function ManageLectures() {
       : [];
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <PageLoader />
   }
 
   if (isError) {

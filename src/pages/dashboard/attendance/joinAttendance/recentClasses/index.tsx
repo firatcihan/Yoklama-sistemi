@@ -4,6 +4,7 @@ import useAuthStore from "@/stores/auth";
 
 import { CheckCircle2, XCircle } from "lucide-react";
 import classNames from "classnames";
+import PageLoader from "@/components/pageLoader";
 
 export default function RecentClasses({
   lectureCode,
@@ -28,11 +29,7 @@ export default function RecentClasses({
   );
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="loader"></div>
-      </div>
-    );
+    return <PageLoader />;
   }
 
   if (allAttendancesInLecture || sortedAllAttendancesInLecture.length > 0) {
@@ -47,13 +44,17 @@ export default function RecentClasses({
               (student) => student.id === user?.id,
             );
 
-            const dbCreationDate = new Date(attendance.createdAt._seconds * 1000);
+            const dbCreationDate = new Date(
+              attendance.createdAt._seconds * 1000,
+            );
             const formatted = dbCreationDate.toLocaleString();
 
-            const dbExpirationDate = new Date(attendance.expiresAt._seconds * 1000);
+            const dbExpirationDate = new Date(
+              attendance.expiresAt._seconds * 1000,
+            );
             const isActive = dbExpirationDate.getTime() > new Date().getTime();
 
-            if(isActive) console.log("Active");
+            if (isActive) console.log("Active");
             return (
               <div className="space-y-4" key={attendance.attendanceId}>
                 <div className="flex items-center justify-between py-3 !border-b last:border-0">

@@ -6,6 +6,7 @@ import useGetTeachers from "@/api/dashboard/teachers/GetTeachers.ts";
 import useAuthStore from "@/stores/auth";
 import { Button } from "@/components/ui/button.tsx";
 import TeacherStats from "@/pages/dashboard/teachers/teacherStats";
+import PageLoader from "@/components/pageLoader";
 
 export default function ManageStudents() {
   const { user } = useAuthStore();
@@ -23,7 +24,7 @@ export default function ManageStudents() {
       : [];
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <PageLoader />;
   }
 
   if (isError) {
